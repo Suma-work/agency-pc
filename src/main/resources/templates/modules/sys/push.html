@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>发送通知</title>
+<#include "/header.html">
+<style type="text/css">
+	li{list-style:none;display:inline-block;}
+	li.band{ padding: 0px 20px; }
+	@font-face {font-family: "iconfont";}
+
+    .iconfont {
+      font-family:"iconfont" !important;
+      font-size:50px;
+      color:#D9DADA;
+      font-style:normal;
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-stroke-width: 0.2px;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    div.name{ width:50px;text-align:center;color:#E1E1E1;}
+	div.sub-header-title{text-align: center;margin: 20px auto 30px;position: relative;}
+	span.horizontal-line{display: block;border-bottom: 1px dashed #e1e1e1;width: 100%;margin-bottom: -10px;" class="horizontal-line}
+	span.text{font-size: 14px;font-weight: 700;color: #3a3a3a;width: 100px;background-color: #fff;display: inline-block;}
+	div.target-header{ font-size: 14px;color: #3a3a3a;padding-bottom: 10px;}
+	div.target-plattform{margin: 10px 0 28px -15px;}
+	div.content-item{ padding-top: 30px; }
+	
+	.push-time-tab li {width:100px;border: 1px solid #c4c5c5;line-height: 32px;text-align: center;font-size: 12px;color: #3a3a3a;}
+	.push-time-tab .cur {color: #fff;background-color: #1b75bb;}
+	
+	.select-option {padding: 0 0 0 10px;height: 30px;margin: 10px 0 19px;width: 290px;background-color: transparent;border-radius: 2px;border: 1px solid #c4c5c5;}
+	.wrap-post {text-align: center;width: 100%;}
+	.wrap-post .push-btn {margin: 48px auto;width: 200px;height: 40px;font-size: 14px;color: #fff;background-color: #1b75bb;border-radius: 4px;text-align: center;line-height: 40px;border: none;outline: none;}
+	
+	i.active{ color:#1b75bb;}
+	div.active{ color: #333;}
+</style>
+</head>
+
+<body>
+	<div v-show="!showList" class="panel panel-default" >
+        <div class="panel-heading">发送通知</div>
+        <form class="form-horizontal" style="width:100%;padding:20px 0;">
+			<div class="content-inner" style="width:80%;border:1px solid #c4c5c5;padding: 0 30px 30px;margin-left:10%;>
+				<div class="content-item" style="padding-top:21px;">
+					<div class="sub-header-title"> 
+						<span class="horizontal-line"></span> 
+						<span class="text">推送标题</span> 
+					</div>
+					<div class="content-input">
+	                   <select id="pushTitle" name="pushTitle"  data-live-search="true" class="form-control" data-max-options="1" >
+	                   		<option label="默认(通知)" value="通知" selected="selected">通知</option>
+							<option label="0 - 不保留" value="0">0 - 不保留</option>
+	                   </select>
+	                   <input type="text" hidden value="1" id="pushTitle"/>
+	            	</div>
+	            	<div class="sub-header-title"> 
+						<span class="horizontal-line"></span> 
+						<span class="text">文章标题</span> 
+					</div>
+					<div class="content-input">
+	                   <input type="text" id="pushAtitle" name="pushAtitle"  class="form-control" placeholder="请输入文章标题">
+	            	</div>
+					<div class="sub-header-title"> 
+						<span class="horizontal-line"></span> 
+						<span class="text">推送内容</span> 
+					</div>
+					<div class="content-input">
+						<textarea id="pushMsg" placeholder="请在这里输入推送内容!" style="height: 268px;border: 1px solid #c4c5c5;background-color: #fcfcfd;border-radius: 4px;width: 100%;margin: 0 auto;font-size: 12px;color: #777;padding: 10px;resize: none;" rows="" cols=""></textarea>
+					</div>
+					<div class="content-item push-object">
+						<div class="sub-header-title"> 
+							<span class="horizontal-line"></span> 
+							<span class="text">推送对象</span> 
+						</div>
+						<div class="push-object-main">
+							<div>
+								<div class="target-header">目标平台（必选）</div>
+								<div class="target-plattform clear">
+									<ul>
+										<li class="band apple" onclick="SeleItem(1, this);">
+											<i class="icon iconfont">&#xe60c;</i>
+							                <div class="name">IOS</div>
+							                <input type="hidden" value="0"  >
+						                </li>
+						                <span style="display:inline-block;width:1px;height:70px;background:#B4B5B5;margin-top:10px;over-flow:hidden;"></span>
+						                <li class="band android" onclick="SeleItem(2, this);">
+						                	<i class="icon iconfont">&#xe64d;</i>
+						                    <div class="name">安卓</div>
+						                    <input type="hidden" value="1" >
+						                </li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="content-item push-time">
+						<div class="sub-header-title"> 
+							<span class="horizontal-line"></span> 
+							<span class="text">发送时间</span>
+						</div>
+						<div class="push-time-tab">
+							<ul> 
+								<li class="cur" style="">立即</li>
+								<li class="" style="">定时</li> 
+							</ul>
+						</div>
+					</div>
+					<div class="content-item option-settings">
+						<div class="sub-header-title"> 
+							<span class="horizontal-line"></span> 
+							<span class="text">可选设置</span>
+						</div>
+						<div class="set-reserve">
+							<div>
+								<span>离线消息保留时长</span>
+							</div>
+							<div class="wrap-select-option"> 
+								<select class="select-option"  style="">
+									<option label="默认(1天)" value="86400" selected="selected">默认(1天)</option>
+									<option label="0 - 不保留" value="0">0 - 不保留</option>
+									<option label="1分钟" value="60">1分钟</option>
+									<option label="10分钟" value="600">10分钟</option>
+									<option label="1小时" value="3600">1小时</option>
+									<option label="3小时" value="10800">3小时</option>
+									<option label="12小时" value="43200">12小时</option>
+									<option label="3天" value="259200">3天</option>
+									<option label="10天" value="864000">10天</option>
+								</select>
+						</div>
+					</div>	
+				</div>
+			</div>
+			<div class="wrap-post"> 
+				<div class="push-btn" onclick="send()">立即发送</div> 
+			</div>
+        </form>
+    </div>
+
+<script src="${request.contextPath}/statics/js/modules/sys/push.js?_${.now?long}"></script>
+</body>
+</html>

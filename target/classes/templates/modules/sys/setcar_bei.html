@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>销售统计</title> <#include "/header.html">
+</head>
+<body>
+	<form enctype="multipart/form-data" id="uploadForm">  
+          <input type="file" name="uploadFile" id="upload_file" style="margin-bottom:10px;">  
+            <input type="button" id="uploadPicButton" value="上传" onclick="uploadImage()">  
+         </form>  
+            <!--<input type="file" onchange="uploadImgTest();" id="uploadImg" name="uploadImg" />  
+            <button id="uploadImage" onclick="uploadImage();">上传</button>-->  
+	
+<script src="${request.contextPath}/statics/js/modules/sys/setcar.js?_${.now?long}"></script>
+</body>
+<script>
+	function uploadImage(){  
+	var pic = $('#upload_file')[0].files[0];  
+	var fd = new FormData();  
+	console.log(pic);
+	fd.append('file', pic);  
+	$.ajax({  
+	    url:baseURL +"uplo/uploadImage",  
+	    type:"post",  
+	    // Form数据  
+	    data: fd,  
+	    cache: false,  
+	    contentType: false,  
+	    processData: false,  
+	    success:function(data){  
+	        console.log("the data is : {}",data);  
+	          
+	    }  
+	});  
+	}  
+</script>
+</html>

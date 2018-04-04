@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sumainfo.modules.sys.dao.StatisticsMapper">
+	
+	<select id="getStatiList" resultType="java.util.Map">
+	SELECT count(1)cout,sex FROM `customer` GROUP BY sex
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="sex !=null">
+				and sex=#{sex}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getShopSta" resultType="java.util.Map">
+		select p.pname name,s.`value` from province p LEFT join 
+		(select prvncnm name,count(1) value from shop GROUP BY  prvncnm)s on p.pname=s.`name`
+	</select>
+	
+	<select id="getShopStaCout" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT count(1) FROM `shop` where delfg=0
+	</select>
+	
+</mapper>

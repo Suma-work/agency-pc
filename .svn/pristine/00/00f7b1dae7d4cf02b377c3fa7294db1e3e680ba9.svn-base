@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>统计</title>
+<#include "/header.html">
+
+</head>
+<body style="width:100%; background:#ECF0F5;">
+	<div id="container_box" style="width:50%; float:left;">
+	
+		<div id="container-cake" style="width:90%;height:300px;margin:10px 5%;-webkit-box-shadow:inset 0 0 10px #0CC;-moz-box-shadow:inset 0 0 10px #D8D8D8;  box-shadow:inset 0 0 10px #D8D8D8;background:#fffff;">
+			
+		</div>
+		<div id="container-strip" style="width:90%;height:500px;margin:10px 5%;-webkit-box-shadow:inset 0 0 10px #0CC;-moz-box-shadow:inset 0 0 10px #D8D8D8;  box-shadow:inset 0 0 10px #D8D8D8;">
+		</div>
+	</div>
+	<div id="map" style="width:50%;float:left;">
+		<div id="container-map" style="width:98%;height:810px;margin:10px 2%;-webkit-box-shadow:inset 0 0 10px #0CC;-moz-box-shadow:inset 0 0 10px #D8D8D8;  box-shadow:inset 0 0 10px #D8D8D8;position:relative;">
+			
+		</div>
+		<p style="width:50%;height:30px;line-height:30px;text-align:center;font-size:18px;font-weight:800;position:absolute;top:20px;z-index:99999;">入驻商家地区分布图</p>
+	</div>
+	<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+	<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+	<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+	<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+	<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+	<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+	<script src="${request.contextPath}/statics/js/modules/sys/statistics.js?_${.now?long}"></script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sumainfo.modules.sys.dao.VehicledetMapper">
+	
+	<select id="getVehiList" resultType="java.util.Map">
+		SELECT `user`.dept_id,vedet.shopId,vedet.carId,vedet.bandName,vedet.carName,vedet.carDetName,vedet.sellPrice,vedet.orginPrice,
+		vedet.carEngine,vedet.gearbox,vedet.carType,vedet.isLicence,vedet.createTime FROM `sys_user` 
+		user left join vehicledet vedet on `user`.shopid=vedet.shopId
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="deptidList !=null and deptidList.size>0 ">
+				and `user`.dept_id in 
+				<foreach collection="deptidList" index="index" item="item" open="(" separator="," close=")">
+               		#{item}
+          		</foreach>
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				and `user`.bandName like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				and `user`.carName like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or `user`.carDetName like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or `user`.gearbox like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or `user`.carType like '%${keyword}%'
+			</if>
+		</trim>
+		<if test="sidx != null and sidx != '' and order!='' and order != null ">
+			ORDER BY ${sidx} ${order}
+		</if>
+		<if test="start != null and limit != '' ">
+				limit #{start},#{limit}
+		</if>
+	</select>
+	
+	<select id="getShop" resultType="java.util.Map">
+		SELECT shopId,shopName FROM `shop`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="shopId !=null and shopId !='' ">
+				and shopId=#{shopId}
+			</if>
+		</trim>
+		LIMIT 1
+	</select>
+	
+	<select id="getVehiCout" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT count(1) FROM `sys_user` 
+		user left join vehicledet vedet on `user`.shopid=vedet.shopId
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="deptidList !=null and deptidList.size>0 ">
+				and `user`.dept_id in 
+				<foreach collection="deptidList" index="index" item="item" open="(" separator="," close=")">
+               		#{item}
+          		</foreach>
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				and `user`.bandName like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				and `user`.carName like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or `user`.carDetName like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or `user`.gearbox like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or `user`.carType like '%${keyword}%'
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getVehiMap" resultType="java.util.Map">
+	select shopId,carId,bandName,carName,carDetName,sellPrice,orginPrice,
+		carEngine,gearbox,carType,isLicence,createTime from vehicledet
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="carId !=null and carId !=''">
+				and carId=#{carId}
+			</if>
+		</trim>
+		LIMIT 1
+	</select>
+	
+	<select id="getVePic" resultType="java.util.Map">
+	select ve.vehId,ve.carName,vep.isShow,vep.picAddress from (SELECT vehId,carName,shopId FROM 
+	vehiclebanner 
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="carName !=null and carName !='' ">
+				and carName=#{carName}
+			</if>
+			<if test="shopId !=null and shopId !='' ">
+				and shopId=#{shopId}
+			</if>
+		</trim>
+		)ve LEFT JOIN vehbannerpic vep on ve.vehId=vep.vehId
+	</select>
+	
+	<select id="getFcv" resultType="java.util.Map">
+		SELECT id,`name` FROM `fcvtable`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="bandName !=null and bandName !='' ">
+				and name=#{bandName}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getSec" resultType="java.util.Map">
+		SELECT id,`name` FROM `seclvltable`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="carName !=null and carName !='' ">
+				and name=#{carName}
+			</if>
+		</trim>
+	</select>
+	
+	<update id="updateVehi" parameterType="java.util.Map">
+		UPDATE vehicledet
+		<trim prefix="set" suffixOverrides=","> 
+			<if test="bandName !=null">bandName=#{bandName},</if>
+			<if test="carName !=null">carName=#{carName},</if>
+			<if test="carDetName !=null">carDetName=#{carDetName},</if>
+			<if test="sellPrice !=null">sellPrice=#{sellPrice},</if>
+			<if test="orginPrice !=null">orginPrice=#{orginPrice},</if>
+			<if test="carEngine !=null">carEngine=#{carEngine},</if>
+			<if test="gearbox !=null">gearbox=#{gearbox},</if>
+			<if test="carType !=null">carType=#{carType},</if>
+			<if test="isLicence !=null">isLicence=#{isLicence},</if>
+			<if test="modifyTime !=null">modifyTime=#{modifyTime},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="carId !=null">
+				and carId=#{carId}
+			</if>
+		</trim>
+	</update>
+	
+	<insert id="addVehi" parameterType="java.util.Map">
+		INSERT INTO vehicledet
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="bandName !=null">bandName,</if>
+			<if test="carName !=null">carName,</if>
+			<if test="carDetName !=null">carDetName,</if>
+			<if test="sellPrice !=null">sellPrice,</if>
+			<if test="orginPrice !=null">orginPrice,</if>
+			<if test="carEngine !=null">carEngine,</if>
+			<if test="gearbox !=null">gearbox,</if>
+			<if test="carType !=null">carType,</if>
+			<if test="isLicence !=null">isLicence,</if>
+			<if test="createTime !=null">createTime,</if>
+			<if test="shopId !=null">shopId,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="bandName !=null">#{bandName},</if>
+			<if test="carName !=null">#{carName},</if>
+			<if test="carDetName !=null">#{carDetName},</if>
+			<if test="sellPrice !=null">#{sellPrice},</if>
+			<if test="orginPrice !=null">#{orginPrice},</if>
+			<if test="carEngine !=null">#{carEngine},</if>
+			<if test="gearbox !=null">#{gearbox},</if>
+			<if test="carType !=null">#{carType},</if>
+			<if test="isLicence !=null">#{isLicence},</if>
+			<if test="createTime !=null">#{createTime},</if>
+			<if test="shopId !=null">#{shopId},</if>
+		</trim>
+	</insert>
+	
+	<insert id="addVhiBan" parameterType="java.util.Map">
+		INSERT INTO vehiclebanner
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="carName !=null">carName,</if>
+			<if test="shopId !=null">shopId,</if>
+			<if test="classify !=null">classify,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="carName !=null">#{carName},</if>
+			<if test="shopId !=null">#{shopId},</if>
+			<if test="classify !=null">#{classify},</if>
+		</trim>
+	</insert>
+	
+	<select id="getVhiBan" resultType="java.util.Map">
+		select vehId,carName,shopId,classify from vehiclebanner 
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="carName !=null and carName !='' ">
+				and carName=#{carName}
+			</if>
+			<if test="shopId !=null and shopId !='' ">
+				and shopId=#{shopId}
+			</if>
+		</trim>
+	</select>
+	
+	<insert id="addVhiPic" parameterType="java.util.Map">
+		INSERT INTO vehbannerpic
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="vehId !=null">vehId,</if>
+			<if test="isShow !=null">isShow,</if>
+			<if test="picAddress !=null">picAddress,</if>
+			<if test="createTime !=null">createTime,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="vehId !=null">#{vehId},</if>
+			<if test="isShow !=null">#{isShow},</if>
+			<if test="picAddress !=null">#{picAddress},</if>
+			<if test="createTime !=null">#{createTime},</if>
+		</trim>
+	</insert>
+	
+	<update id="updateVhiPic" parameterType="java.util.Map">
+		UPDATE vehbannerpic
+		<trim prefix="set" suffixOverrides=","> 
+			<if test="vehId !=null">vehId=#{vehId},</if>
+			<if test="isShow !=null">isShow=#{isShow},</if>
+			<if test="picAddress !=null">picAddress=#{picAddress},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="vbId !=null">
+				and vbId=#{vbId}
+			</if>
+		</trim>
+	</update>
+	
+	<select id="getDept" resultType="com.sumainfo.modules.sys.entity.Menu">
+		SELECT dept_id id,parent_id pid,`name` FROM `sys_dept`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="deptids !=null">
+				parent_id=#{deptids}
+			</if>
+		</trim>
+	</select>
+	
+	<!-- <select id="getUserShop" resultType="java.util.Map">
+		SELECT shopid,dept_id FROM `sys_user`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="deptidList !=null and deptidList.size>0 ">
+				and dept_id in 
+				<foreach collection="deptidList" index="index" item="item" open="(" separator="," close=")">
+               		#{item}
+          		</foreach>
+			</if>
+		</trim>
+	</select> -->
+		
+	
+	<!-- <select id="getShopList" resultType="java.util.Map">
+		SELECT shopId,dept FROM `shop`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="deptidList !=null and deptidList.size>0 ">
+				and dept in 
+				<foreach collection="deptidList" index="index" item="item" open="(" separator="," close=")">
+               		#{item}
+          		</foreach>
+			</if>
+		</trim>
+	</select> -->
+	
+</mapper>

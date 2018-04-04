@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>一级品牌管理</title>
+	<#include "/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <div class="form-group col-sm-2">
+                <input type="text" class="form-control" id="keyword" v-model="q.uqId" @keyup.enter="query" placeholder="根据店铺名称、汽车品牌、汽车名称查询">
+            </div>
+            <a class="btn btn-default" @click="query">查询</a>
+			<#if shiro.hasPermission("sys:vehiclemain:save")>
+            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			</#if>
+			<#if shiro.hasPermission("sys:vehiclemain:update")>
+            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			</#if>
+			<#if shiro.hasPermission("sys:vehiclemain:delete")>
+            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			</#if>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+					<div class="form-group">
+                        <div class="col-sm-2 control-label">所属店铺</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" readonly="readonly" v-model="vehiclemain.shopName" placeholder="所属店铺"/>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <div class="col-sm-2 control-label">汽车品牌</div>
+                        <div class="col-sm-10">
+                            <!-- <input type="text" class="form-control" style="cursor:pointer;" v-model="vehiclemain.bandName" @click="deptTree" readonly="readonly" placeholder="汽车品牌"/> -->
+                            <select id="bandName" name="bandName"  data-live-search="true" class="selectpicker" multiple data-max-options="1" onchange="selectOnchang(this)"></select>
+                        	<input type="text"value="1" id="bandNames"/>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <div class="col-sm-2 control-label">汽车车型</div>
+                        <div class="col-sm-10">
+                            <!-- <input type="text" class="form-control" v-model="vehiclemain.carName" placeholder="汽车车型"/> -->
+                            <select id="carName" name="carName" data-live-search="true" class="selectpicker"></select>
+                            <input type="text"value="42912" id="carNames"/>
+                        </div>
+                    </div>
+				    <div class="form-group">
+                        <div class="col-sm-2 control-label">级别</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="vehiclemain.rank" placeholder="级别"/>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <div class="col-sm-2 control-label">变速箱</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="vehiclemain.gearbox" placeholder="变速箱"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2 control-label">车型结构</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="vehiclemain.carType" placeholder="车型结构"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2 control-label">发动机</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="vehiclemain.carEngine" placeholder="发动机"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2 control-label">是否是热销</div>
+                        <div class="col-sm-10">
+	                        <span v-if="vehiclemain.isHot === '1'">
+	                            <input type="text" class="form-control" value="热销" placeholder="是否是热销" readonly="readonly"/>
+							</span>
+							<span v-if="vehiclemain.isHot === '0'">
+								<input type="text" class="form-control" value="不热销" placeholder="是否是热销" readonly="readonly"/>
+							</span>
+                            <!-- <input type="text" class="form-control" v-model="vehiclemain.isHot" placeholder="是否是热销" readonly="readonly"/> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2 control-label">车辆图片</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="vehiclemain.picAddress" placeholder="车辆图片"/>
+                        </div>
+                    </div>
+			<div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- 选择汽车品牌 -->
+<div id="deptLayer" style="display: none;padding:10px;">
+	<ul id="deptTree" class="ztree"></ul>
+</div>
+<script src="${request.contextPath}/statics/js/modules/sys/vehiclemain.js?_${.now?long}"></script>
+</body>
+</html>

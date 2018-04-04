@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sumainfo.modules.sys.dao.VehiclemainMapper">
+	
+	<select id="getVeMainList" resultType="java.util.Map">
+	SELECT typeId,uqId,shopId,shopName,bandName,carName,rank,gearbox,carType,carEngine,isHot,createTime FROM `vehiclemain`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="shopId !=null and shopId != ''">
+				and shopId=#{shopId}
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				and shopName like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or bandName like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or carName like '%${keyword}%'
+			</if>
+		</trim>	
+		<if test="sidx != null and sidx != '' and order!='' and order != null ">
+			ORDER BY ${sidx} ${order}
+		</if>
+		<if test="start != null and limit != '' ">
+				limit #{start},#{limit}
+		</if>
+	</select>
+	
+	<select id="getVeMainListCout" resultType="java.lang.Integer" parameterType="java.util.Map">
+	SELECT count(1) FROM `vehiclemain`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="shopId !=null and shopId != ''">
+				and shopId=#{shopId}
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				and shopName like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or bandName like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or carName like '%${keyword}%'
+			</if>
+		</trim>	
+	</select>
+	
+	<select id="gerVeMainMap" resultType="java.util.Map">
+		SELECT typeId,uqId,shopId,shopName,bandName,carName,rank,gearbox,carType,carEngine,isHot,createTime FROM `vehiclemain`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="uqId !=null and uqId !='' ">
+				and uqId=#{uqId}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getVePic" resultType="java.util.Map">
+	SELECT picAddress FROM (SELECT *from vehiclebanner 
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="carName != null and carName !='' ">
+				and carName=#{carName}
+			</if>
+			<if test="shopId != null and shopId !='' ">
+				and shopId=#{shopId}
+			</if>
+		</trim>
+		) vb LEFT JOIN vehbannerpic vp ON vb.vehId=vp.vehId 
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="isShow !=null and isShow !='' ">
+				and isShow=#{isShow}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getFcv" resultType="java.util.Map">
+		SELECT id,name FROM `fcvtable`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="name !=null and name !='' ">
+				and name=#{name}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getFcvMap" resultType="java.util.Map">
+		SELECT id,name FROM `fcvtable`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="name !=null and name !='' ">
+				and name=#{name}
+			</if>
+		</trim>
+	</select>
+
+	<select id="getClvl" resultType="java.util.Map">
+		SELECT id,name FROM `seclvltable` 
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="parentid !=null and parentid !='' ">
+				and parentid=#{parentid}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getClvlMap" resultType="java.util.Map">
+		SELECT id,name FROM `seclvltable` 
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="name !=null and name !='' ">
+				and name=#{name}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getshop" resultType="java.util.Map">
+		SELECT shopid,shopname FROM `shop`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="shopid !=null and shopid !='' ">
+				and shopid=#{shopid}
+			</if>
+		</trim>
+	</select>
+	
+</mapper>

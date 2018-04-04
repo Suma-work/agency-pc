@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>个人用户</title>
+<#include "/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+	<div v-show="showList">
+		<div class="grid-btn">
+			<div class="form-group col-sm-2">
+				<input type="text" class="form-control" id="keyword" v-model="q.username" @keyup.enter="query" placeholder="客户昵称、真实姓名、身份证、手机号码">
+			</div>
+			<a class="btn btn-default" @click="query">查询</a>
+			<#if shiro.hasPermission("sys:personage:save")>
+			<a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			</#if>
+			<#if shiro.hasPermission("sys:personage:update")>
+			<a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			</#if>
+			<#if shiro.hasPermission("sys:personage:delete")>
+			<a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			</#if>
+		</div>
+	    <table id="jqGrid"></table>
+	    <div id="jqGridPager"></div>
+    </div>
+
+	<div v-show="!showList" class="panel panel-default">
+		<div class="panel-heading">{{title}}</div>
+		<form class="form-horizontal">
+			<div class="form-group">
+				<div class="col-sm-2 control-label">客户昵称</div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="user.nickName" placeholder="客户昵称"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">客户真实名称</div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="user.realName" placeholder="客户真实名称"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">客户身份证号码</div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="user.idNumber" placeholder="客户身份证号码"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">性别</div>
+				<label class="radio-inline">
+					<input type="radio" name="sex" value="0" v-model="user.sex"/> 女
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="sex" value="1" v-model="user.sex"/> 男
+				</label>
+			</div>
+			<!-- <div class="form-group">
+				<div class="col-sm-2 control-label">所属部门</div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" style="cursor:pointer;" v-model="user.deptName" @click="deptTree" readonly="readonly" placeholder="所属部门"/>
+				</div>
+			</div> -->
+			<!-- <div class="form-group">
+                 <div class="col-sm-2 control-label">所属店铺</div>
+                 <div class="col-sm-10">
+                     <input type="text" class="form-control" style="cursor:pointer;" v-model="vehiclemain.bandName" @click="deptTree" readonly="readonly" placeholder="汽车品牌"/>
+                     <select id="shopname" name="shopname"  data-live-search="true" class="selectpicker" multiple data-max-options="1" onchange="selectOnchang(this)"></select>
+                     <input type="text"value="1" id="shopids"/>
+                     <input type="text"value="1" id="shopnames"/>
+                 </div>
+            </div> -->
+			<div class="form-group">
+				<div class="col-sm-2 control-label">密码</div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="user.passWord" placeholder="密码"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">客户手机号码</div>
+				<div class="col-sm-10">
+					<input type="text" id="mobile" class="form-control" v-model="user.cellPhone" placeholder="客户手机号码" maxlength="11" onblur="checkseralize()" onkeypress="intOnly()"/>
+				</div>
+			</div>
+			<!-- <div class="form-group">
+				<div class="col-sm-2 control-label">角色</div>
+				<div class="col-sm-10">
+					<label v-for="role in roleList" class="checkbox-inline">
+						<input type="checkbox" :value="role.roleId" v-model="user.roleIdList">{{role.roleName}}
+					</label>
+				</div>
+			</div> -->
+			<div class="form-group">
+				<div class="col-sm-2 control-label">状态</div>
+				<label class="radio-inline">
+					<input type="radio" name="status" value="1" v-model="user.status"/> 禁用
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="status" value="0" v-model="user.status"/> 正常
+				</label>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label"></div>
+				<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+				&nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+			</div>
+		</form>
+	</div>
+</div>
+
+<!-- 选择部门 -->
+<div id="deptLayer" style="display: none;padding:10px;">
+	<ul id="deptTree" class="ztree"></ul>
+</div>
+
+<script src="${request.contextPath}/statics/js/modules/sys/personage.js?_${.now?long}"></script>
+</body>
+</html>

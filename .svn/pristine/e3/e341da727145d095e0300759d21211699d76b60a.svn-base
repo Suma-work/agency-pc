@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sumainfo.modules.sys.dao.JpushMapper">
+	
+	<insert id="setJpush" parameterType="java.util.Map">
+		INSERT INTO j_push
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pushId !=null">pushId,</if>
+			<if test="pushTitle !=null">pushTitle,</if>
+			<if test="pushAtitle !=null">pushAtitle,</if>
+			<if test="pushMsg !=null">pushMsg,</if>
+			<if test="instm !=null">instm,</if>
+			<if test="insterm !=null">insterm,</if>
+			<if test="insby !=null">insby,</if>
+			<if test="insfnc !=null">insfnc,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pushId !=null">#{pushId},</if>
+			<if test="pushTitle !=null">#{pushTitle},</if>
+			<if test="pushAtitle !=null">#{pushAtitle},</if>
+			<if test="pushMsg !=null">#{pushMsg},</if>
+			<if test="instm !=null">#{instm},</if>
+			<if test="insterm !=null">#{insterm},</if>
+			<if test="insby !=null">#{insby},</if>
+			<if test="insfnc !=null">#{insfnc},</if>
+		</trim>
+	</insert>
+	
+</mapper>
