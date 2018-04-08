@@ -11,10 +11,9 @@ $(function () {
         url: baseURL + 'vehi/getVehiList?deptid='+deptid,
         datatype: "json",
         colModel: [			
-            { label: '店铺主键', name: 'id', index: "id", width: 35, key: true },
-            { label: '店铺编号', name: 'shopId',index: "shopId", width: 50},
-            { label: '所属大区', name: 'dept',sortable:false, width: 80 },
+            { label: '店铺编号', name: 'shopId',index: "shopId", width: 50,key: true},
             { label: '店铺名称', name: 'shopName', index: "shopName",width: 50},
+            { label: '所属大区', name: 'dept',sortable:false, width: 50 },
             { label: '店铺电话', name: 'shopPhone', index: "shopPhone",width: 50 },
             { label: '店铺地址', name: 'address', index: "address",width: 50},
             { label: '经度', name: 'lon', index: "lon", width: 50 },

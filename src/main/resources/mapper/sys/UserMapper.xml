@@ -4,8 +4,10 @@
 <mapper namespace="com.sumainfo.modules.sys.dao.UserMapper">
 	
 	<select id="getUserList" resultType="java.util.Map">
-		SELECT user_id userid,shopid,shopname,username,uname,portait,email,
-		mobile,`status`,dept_id udeptid,create_time createtime FROM `sys_user`
+		SELECT sr.role_id roleid,sr.role_name rolename,
+		su.user_id userid,su.shopid,su.shopname,su.username,su.uname,su.portait,su.email,
+		su.mobile,su.`status`,su.dept_id udeptid,su.create_time createtime
+ 		FROM `sys_role` sr LEFT JOIN sys_user su on sr.dept_id=su.dept_id
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="deptidList !=null and deptidList.size>0 ">
 				and dept_id in 

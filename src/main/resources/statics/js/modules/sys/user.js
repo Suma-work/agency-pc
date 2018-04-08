@@ -14,6 +14,8 @@ $(function () {
 			{ label: '登录账户', name: 'username', width: 50 },
 			{ label: '用户名', name: 'uname', width: 50 },
 			{ label: '所属部门编号', name: 'udeptid', sortable: false, width: 45,hidden:true},
+			{ label: '角色编号', name: 'roleid', sortable: false, width: 35 },
+			{ label: '所属角色', name: 'rolename', sortable: false, width: 75 },
             { label: '所属部门', name: 'deptname', sortable: false, width: 75 },
             { label: '店铺编号', name: 'shopid', index: 'shopid', width: 60,hidden:true},
             { label: '所属店铺', name: 'shopname', width: 75 },
@@ -193,6 +195,8 @@ var vm = new Vue({
         	var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
         	var fcvid= rowData.shopid;
         	var udeptid= rowData.udeptid;
+        	var roleid= rowData.roleid;
+        	console.log(roleid);
         	var shopname= rowData.shopname;
         	var deptid=JSON.parse(localStorage.getItem("user")).deptId;
         	if(udeptid==1||udeptid==2){
@@ -200,7 +204,7 @@ var vm = new Vue({
         	}else if(udeptid==deptid){
         		alert("不能修改自己同级的资料！");
         	}else{
-        		if(udeptid==6||udeptid==3){
+        		if(roleid==1||roleid==2||roleid==3){
         			$("#shop").hide();
         			$("#shopname").find("option").remove();
         		}else{
@@ -320,7 +324,8 @@ var vm = new Vue({
                 btn1: function (index) {
                     var node = ztree.getSelectedNodes();
                     //选择上级部门
-                    vm.user.deptId = node[0].deptId;
+//                    vm.user.deptId = node[0].deptId;
+                    vm.user.deptIds= node[0].deptId;
                     vm.user.deptName = node[0].name;
                     if(vm.user.deptName=='上海苏马信息科技有限公司'||vm.user.deptName=='平台管理员'||vm.user.deptName=='集团老总'||vm.user.deptName=='大区经理'){
                     	$("#shop").hide();
