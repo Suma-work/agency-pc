@@ -326,11 +326,18 @@ var vm = new Vue({
             }else if(imgs.length<0){
             	alert("至少上传一张展示图片！");
             }else{
+            	var fd = new FormData();  
+            	fd.append('imgs', imgs); 
+            	fd.append('bandName', vm.vehicaledet.bandName); 
             		$.ajax({
             			type: "POST",
             			url: baseURL + url,
-            			contentType: "application/json",
-            			data: JSON.stringify(vm.vehicaledet),
+            			cache: false,  
+            		    contentType: false,  
+            		    processData: false,
+//            			contentType: "application/json",
+//            			data: JSON.stringify(vm.vehicaledet),
+            			data:fd,
             			success: function(r){
             				if(r.messageCode === "0"){
             					alert('操作成功', function(){

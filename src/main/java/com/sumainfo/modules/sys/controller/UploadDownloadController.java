@@ -10,6 +10,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.slf4j.Logger;  
 import org.slf4j.LoggerFactory;  
 import org.springframework.beans.factory.annotation.Value;  
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;  
 import org.springframework.web.bind.annotation.RequestMethod;  
 import org.springframework.web.bind.annotation.RequestParam;  
@@ -33,11 +34,12 @@ public class UploadDownloadController {
 	private static final Logger logger = LoggerFactory.getLogger(UploadDownloadController.class);  
     
 	@RequestMapping(value = "/uploadImage", method = RequestMethod.POST)  
-	public JsonResult uopl(@RequestParam(value = "file") MultipartFile file){
+	public JsonResult uopl(@RequestParam(value = "file") MultipartFile file,HttpServletRequest request,HttpServletResponse response){
 		JsonResult result=new JsonResult();
 		if (file.isEmpty()) {  
 	       return result.putFailed("图片不能为空！");
 	    } 
+		logger.info("request->>>>>>"+request.getParameter("aaa"));
 		// 获取文件名  
         String fileName = file.getOriginalFilename();  
         logger.info("上传的文件名为：" + fileName);  
@@ -47,8 +49,8 @@ public class UploadDownloadController {
         // 文件上传后的路径  
         InputStream is;
         System.err.println();
-//        String filePath = "D:\\";  
-        String filePath = "C://Users//Administrator//Desktop//tomcat//apache-tomcat-8.5.24-windows-x64//apache-tomcat-8.5.24//webapps//image//";
+        String filePath = "D:\\";  
+//        String filePath = "C://Users//Administrator//Desktop//tomcat//apache-tomcat-8.5.24-windows-x64//apache-tomcat-8.5.24//webapps//image//";
         // 解决中文问题，liunx下中文路径，图片显示问题  
         // fileName = UUID.randomUUID() + suffixName;  
 //        File dest = new File(filePath + fileName);  
@@ -60,6 +62,8 @@ public class UploadDownloadController {
         try {  
             file.transferTo(dest);  
             logger.info("上传成功后的文件路径未：" + filePath + fileName);  
+            response.setCharacterEncoding("UTF-8");
+			response.setContentType("application/json;charset = utf-8");
             return result.putSuccess(fileName);  
         } catch (IllegalStateException e) {  
             e.printStackTrace();  
@@ -70,11 +74,13 @@ public class UploadDownloadController {
 	}
 	
 	@RequestMapping(value = "/uploadImages", method = RequestMethod.POST)  
-	public JsonResult uopls(HttpServletRequest request,HttpServletResponse response,@RequestParam(value = "file")MultipartFile[] file){
+	public JsonResult uopls(HttpServletRequest request,HttpServletResponse response,@RequestParam(value = "imgs")MultipartFile[] file){
 		JsonResult result=new JsonResult();
 		if (file.length<0) {  
 	       return result.putFailed("图片不能为空！");
 	    } 
+		logger.info("bandName->>>>>>"+request.getParameter("bandName"));
+		logger.info("file->>>>>>"+file.length);
 		for(int i=0;i<file.length;i++){
 			// 获取文件名  
 			String fileName = file[i].getOriginalFilename();

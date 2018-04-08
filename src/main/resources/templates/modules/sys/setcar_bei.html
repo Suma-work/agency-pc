@@ -5,9 +5,10 @@
 </head>
 <body>
 	<form enctype="multipart/form-data" id="uploadForm">  
-          <input type="file" name="uploadFile" id="upload_file" style="margin-bottom:10px;">  
-            <input type="button" id="uploadPicButton" value="上传" onclick="uploadImage()">  
-         </form>  
+      <input type="file" name="uploadFile" id="upload_file" style="margin-bottom:10px;">  
+      <input type="button" id="uploadPicButton" value="上传" onclick="uploadImage()">  
+      <input type="text" id="aaa" class="form-control"  placeholder="所属店铺"/>
+    </form>  
             <!--<input type="file" onchange="uploadImgTest();" id="uploadImg" name="uploadImg" />  
             <button id="uploadImage" onclick="uploadImage();">上传</button>-->  
 	
@@ -16,9 +17,11 @@
 <script>
 	function uploadImage(){  
 	var pic = $('#upload_file')[0].files[0];  
+	var aaa = $('#aaa').val();  
 	var fd = new FormData();  
-	console.log(pic);
+	console.log(aaa);
 	fd.append('file', pic);  
+	fd.append('aaa', aaa);  
 	$.ajax({  
 	    url:baseURL +"uplo/uploadImage",  
 	    type:"post",  
