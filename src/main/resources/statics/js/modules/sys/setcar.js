@@ -5,7 +5,7 @@ $(function () {
 	}/*else if(deptid=="1"||deptid=="2"){
 		deptid="";
 	}*/
-	console.log(deptid);
+//	console.log(deptid);
     $("#jqGrid").jqGrid({
         url: baseURL + 'vehi/getVehiList?deptid='+deptid,
         datatype: "json",
