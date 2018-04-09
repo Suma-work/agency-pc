@@ -272,13 +272,16 @@ var vm = new Vue({
             	var myreg=/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/;  
             	if(!myreg.test($("#mobile").val())){
             	}else{
-            		if(vm.user.deptName=='上海苏马信息科技有限公司'||vm.user.deptName=='平台管理员'||vm.user.deptName=='集团老总'||vm.user.deptName=='大区经理'){
+            		console.log(vm.user.deptName.substring(0,4));
+            		if(vm.user.deptName=='上海苏马信息科技有限公司'||vm.user.deptName=='平台管理员'||vm.user.deptName.substring(0,4)=='集团老总'||vm.user.deptName.substring(0,4)=='大区经理'){
             			vm.user.shopid='';
             			vm.user.shopname='';
             		}else{
             			vm.user.shopid=$("#shopids").val();
             			vm.user.shopname=$("#shopnames").val();
             		}
+//            		vm.user.deptId=vm.user.deptIds;
+//            		vm.user.deptIds='';
             		$.ajax({
             			type: "POST",
             			url: baseURL + url,
@@ -324,10 +327,10 @@ var vm = new Vue({
                 btn1: function (index) {
                     var node = ztree.getSelectedNodes();
                     //选择上级部门
-//                    vm.user.deptId = node[0].deptId;
-                    vm.user.deptIds= node[0].deptId;
+                    vm.user.deptId = node[0].deptId;
+//                    vm.user.deptIds= node[0].deptId;
                     vm.user.deptName = node[0].name;
-                    if(vm.user.deptName=='上海苏马信息科技有限公司'||vm.user.deptName=='平台管理员'||vm.user.deptName=='集团老总'||vm.user.deptName=='大区经理'){
+                    if(vm.user.deptName=='上海苏马信息科技有限公司'||vm.user.deptName=='平台管理员'||vm.user.deptName.substring(0,4)=='集团老总'||vm.user.deptName.substring(0,4)=='大区经理'){
                     	$("#shop").hide();
 //                    	console.log(vm.user+"-----------");
                     	$("#shopname").find("option").remove();
@@ -336,6 +339,7 @@ var vm = new Vue({
                     	getschoolList();
 //                    	console.log(vm.user);
                     }
+                    
                     layer.close(index);
                 }
             });

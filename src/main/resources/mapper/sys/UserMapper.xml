@@ -10,22 +10,22 @@
  		FROM `sys_role` sr LEFT JOIN sys_user su on sr.dept_id=su.dept_id
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="deptidList !=null and deptidList.size>0 ">
-				and dept_id in 
+				and su.dept_id in 
 				<foreach collection="deptidList" index="index" item="item" open="(" separator="," close=")">
                		#{item}
           		</foreach>
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				and shopname like '%${keyword}%'
+				and su.shopname like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				and username like '%${keyword}%'
+				and su.username like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				or uname like '%${keyword}%'
+				or su.uname like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				or mobile like '%${keyword}%'
+				or su.mobile like '%${keyword}%'
 			</if>
 		</trim>
 		<if test="sidx != null and sidx != '' and order!='' and order != null ">
@@ -37,22 +37,22 @@
 	</select>
 	
 	<select id="getUserListCout" resultType="java.lang.Integer" parameterType="java.util.Map">
-		SELECT count(1) FROM `sys_user`
+		SELECT count(1) FROM `sys_role` sr LEFT JOIN sys_user su on sr.dept_id=su.dept_id
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="deptid !=null and deptid !='' ">
-				and dept_id=#{deptid}
+				and su.dept_id=#{deptid}
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				and shopname like '%${keyword}%'
+				and su.shopname like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				and username like '%${keyword}%'
+				and su.username like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				or uname like '%${keyword}%'
+				or su.uname like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				or mobile like '%${keyword}%'
+				or su.mobile like '%${keyword}%'
 			</if>
 		</trim>
 	</select>

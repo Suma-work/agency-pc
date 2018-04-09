@@ -8,12 +8,12 @@
 		vedet.carEngine,vedet.gearbox,vedet.carType,vedet.isLicence,vedet.createTime FROM `sys_user` 
 		user left join vehicledet vedet on `user`.shopid=vedet.shopId
 		<trim prefix="where" prefixOverrides="and|or">
-			<if test="deptidList !=null and deptidList.size>0 ">
+			<!-- <if test="deptidList !=null and deptidList.size>0 ">
 				and `user`.dept_id in 
 				<foreach collection="deptidList" index="index" item="item" open="(" separator="," close=")">
                		#{item}
           		</foreach>
-			</if>
+			</if> -->
 			<if test="keyword !=null and keyword != ''">
 				and `user`.bandName like '%${keyword}%'
 			</if>
@@ -52,12 +52,12 @@
 		SELECT count(1) FROM `sys_user` 
 		user left join vehicledet vedet on `user`.shopid=vedet.shopId
 		<trim prefix="where" prefixOverrides="and|or">
-			<if test="deptidList !=null and deptidList.size>0 ">
+			<!-- <if test="deptidList !=null and deptidList.size>0 ">
 				and `user`.dept_id in 
 				<foreach collection="deptidList" index="index" item="item" open="(" separator="," close=")">
                		#{item}
           		</foreach>
-			</if>
+			</if> -->
 			<if test="keyword !=null and keyword != ''">
 				and `user`.bandName like '%${keyword}%'
 			</if>
