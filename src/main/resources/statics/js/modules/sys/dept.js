@@ -31,7 +31,7 @@ var vm = new Vue({
                 ztree = $.fn.zTree.init($("#deptTree"), setting, r.deptList);
                 var node = ztree.getNodeByParam("deptId", vm.dept.parentId);
                 ztree.selectNode(node);
-
+                console.log(node);
                 vm.dept.parentName = node.name;
             })
         },
@@ -43,6 +43,7 @@ var vm = new Vue({
         },
         update: function () {
             var deptId = getDeptId();
+            
             if(deptId == null){
                 return ;
             }
@@ -112,7 +113,27 @@ var vm = new Vue({
                     //选择上级部门
                     vm.dept.parentId = node[0].deptId;
                     vm.dept.parentName = node[0].name;
-
+                    console.log(node[0].deptId);
+                    var parentId=vm.dept.parentId;
+                    $.ajax({
+                        url: baseURL + "dept/getDept?parentId="+parentId,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+                        type: "get",//数据发送方式
+                        dataType: "json",//接受数据格式
+                        data: 'data',//要传递的数据
+                        success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
+                            console.log(data.data.parentid+"-------------------------");
+                            if(data.data.parentid=="1"){//获取当前选择的部门的上级部门，如果上级部门的父节点是1就说明，当前选择的部门是大区经理
+                            	vm.dept.isregion=1;
+                            }else{
+                            	vm.dept.isregion=0;
+                            }
+                            console.log(vm.dept.isregion);
+                        },
+                        error: function (data) {
+                            alert("查询失败" + data);
+                        }
+                    });
+                    
                     layer.close(index);
                 }
             });

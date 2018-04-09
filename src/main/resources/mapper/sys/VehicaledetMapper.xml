@@ -15,10 +15,10 @@
           		</foreach>
 			</if> -->
 			<if test="keyword !=null and keyword != ''">
-				and `user`.bandName like '%${keyword}%'
+				or `user`.bandName like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				and `user`.carName like '%${keyword}%'
+				or `user`.carName like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
 				or `user`.carDetName like '%${keyword}%'
@@ -59,10 +59,10 @@
           		</foreach>
 			</if> -->
 			<if test="keyword !=null and keyword != ''">
-				and `user`.bandName like '%${keyword}%'
+				or `user`.bandName like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				and `user`.carName like '%${keyword}%'
+				or `user`.carName like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
 				or `user`.carDetName like '%${keyword}%'

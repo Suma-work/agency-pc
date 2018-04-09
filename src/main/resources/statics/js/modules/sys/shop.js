@@ -1,65 +1,71 @@
 $(function () {
-	var deptid=JSON.parse(localStorage.getItem("user")).deptId;
+	/*var deptid=JSON.parse(localStorage.getItem("user")).deptId;
 	console.log(deptid);
 	if(deptid==null){
 		deptid="";
-	}/*else if(deptid=="1"||deptid=="2"){
+	}else if(deptid=="1"||deptid=="2"){
 		deptid="";
 	}*/
+	var deptid="";
 	console.log(deptid);
     $("#jqGrid").jqGrid({
-        url: baseURL + 'vehi/getVehiList?deptid='+deptid,
+        url: baseURL + 'shop/getShopList?deptid='+deptid,
         datatype: "json",
         colModel: [			
-            { label: '店铺编号', name: 'shopId',index: "shopId", width: 50,key: true},
-            { label: '店铺名称', name: 'shopName', index: "shopName",width: 50},
-            { label: '所属大区', name: 'dept',sortable:false, width: 50 },
+            { label: '店铺编号', name: 'shopId',index: "shopId", width: 150,key: true},
+            { label: '店铺名称', name: 'shopName', index: "shopName",width: 80},
+            { label: '大区编号', name: 'dept',sortable:false, width: 50,hidden:true },
+            { label: '所属大区', name: 'name',sortable:false, width: 80 },
             { label: '店铺电话', name: 'shopPhone', index: "shopPhone",width: 50 },
-            { label: '店铺地址', name: 'address', index: "address",width: 50},
-            { label: '经度', name: 'lon', index: "lon", width: 50 },
-            { label: '纬度', name: 'lat', index: 'lat', width:50},
-            { label: '店铺类型', name: 'classify', index: 'classify', width:50},
-			{ label: '精品商品服务', name: 'refEl', width: 35, formatter: function(value, options, row){
-            	if(value==""){
-            		return value;
-            	}else{
-            		return value === "0" ?'不拥有' :'拥有';
+            { label: '店铺地址', name: 'address', index: "address",width: 120},
+            { label: '经度', name: 'lon', index: "lon", width: 50,hidden:true  },
+            { label: '纬度', name: 'lat', index: 'lat', width:50,hidden:true },
+            { label: '店铺类型', name: 'classify', width: 35, formatter: function(value, options, row){
+            	if(value=="1"){
+            		return '4S店';
+            	}else if(value=="2"){
+            		return '维保店';
+            	}else if(value=="3"){
+            		return '二手车机构店铺';
             	}
+			}},
+			{ label: '精品商品服务', name: 'refEl', width: 35, formatter: function(value, options, row){
+            	/*if(value==""){
+            		return value;
+            	}else{*/
+            		return value === 0 ?
+            		'<span class="label label-success">拥有</span>':
+            		'<span class="label label-danger">不拥有</span>';
+//            	}
 			}},
 			{ label: '保养服务', name: 'upkeepEl', width: 35, formatter: function(value, options, row){
-            	if(value==""){
-            		return value;
-            	}else{
-            		return value === "0" ?'不拥有' :'拥有';
-            	}
+//            	if(value==""){
+//            		return value;
+//            	}else{
+            		return value === 0 ?
+            		'<span class="label label-success">拥有</span>':
+                	'<span class="label label-danger">不拥有</span>';
+//            	}
 			}},
 			{ label: '轮胎服务', name: 'tyreEl', width: 35, formatter: function(value, options, row){
-            	if(value==""){
-            		return value;
-            	}else{
-            		return value === "0" ?'不拥有' :'拥有';
-            	}
+            		return value === 0 ?
+            		'<span class="label label-success">拥有</span>':
+                    '<span class="label label-danger">不拥有</span>';
 			}},
 			{ label: '改装服务', name: 'refitEl', width: 35, formatter: function(value, options, row){
-            	if(value==""){
-            		return value;
-            	}else{
-            		return value === "0" ?'不拥有' :'拥有';
-            	}
+            		return value === 0 ?
+            		'<span class="label label-success">拥有</span>':
+                    '<span class="label label-danger">不拥有</span>';
 			}},
 			{ label: '安装服务', name: 'installEl', width: 35, formatter: function(value, options, row){
-            	if(value==""){
-            		return value;
-            	}else{
-            		return value === "0" ?'不拥有' :'拥有';
-            	}
+            		return value === 0 ?
+            		'<span class="label label-success">拥有</span>':
+                    '<span class="label label-danger">不拥有</span>';
 			}},
 			{ label: '废弃标志', name: 'delfg', width: 35, formatter: function(value, options, row){
-            	if(value==""){
-            		return value;
-            	}else{
-            		return value === "0" ?'废弃' :'正常';
-            	}
+            		return value === 0 ?
+            		'<span class="label label-success">正常</span>':
+                    '<span class="label label-danger">废弃</span>';
 			}},
 			{ label: '创建时间', name: 'createTime', index: "createTime", width: 85}
         ],
@@ -146,16 +152,11 @@ var vm = new Vue({
         	var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
         	console.log(rowData);
         	var shopId = getSelectedRow();
-//        	console.log(shopId);
+        	console.log(shopId);
         	vm.showList = false;
         	vm.title = "修改";
-        	//品牌编号
-        	var fvcid=rowData.fvcid;
-        	//车型编号
-        	var secid=rowData.secid;
         	vm.getuser(shopId);
-//        	console.log(fvcid+"-------"+secid);
-        	this.getRoleList();
+//        	this.getRoleList();
         },
         del: function () {
             var userIds = getSelectedRows();

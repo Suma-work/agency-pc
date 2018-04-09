@@ -10,7 +10,7 @@
 				and cusId=#{cusId}
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				and nickName like '%${keyword}%'
+				or nickName like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
 				or realName like '%${keyword}%'
@@ -37,7 +37,7 @@
 				and cusId=#{cusId}
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				and nickName like '%${keyword}%'
+				or nickName like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
 				or realName like '%${keyword}%'

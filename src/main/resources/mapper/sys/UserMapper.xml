@@ -16,10 +16,10 @@
           		</foreach>
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				and su.shopname like '%${keyword}%'
+				or su.shopname like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				and su.username like '%${keyword}%'
+				or su.username like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
 				or su.uname like '%${keyword}%'
@@ -39,14 +39,17 @@
 	<select id="getUserListCout" resultType="java.lang.Integer" parameterType="java.util.Map">
 		SELECT count(1) FROM `sys_role` sr LEFT JOIN sys_user su on sr.dept_id=su.dept_id
 		<trim prefix="where" prefixOverrides="and|or">
-			<if test="deptid !=null and deptid !='' ">
-				and su.dept_id=#{deptid}
+			<if test="deptidList !=null and deptidList.size>0 ">
+				and su.dept_id in 
+				<foreach collection="deptidList" index="index" item="item" open="(" separator="," close=")">
+               		#{item}
+          		</foreach>
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				and su.shopname like '%${keyword}%'
+				or su.shopname like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				and su.username like '%${keyword}%'
+				or su.username like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
 				or su.uname like '%${keyword}%'

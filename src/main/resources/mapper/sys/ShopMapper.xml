@@ -3,5 +3,82 @@
 
 <mapper namespace="com.sumainfo.modules.sys.dao.ShopMapper">
 	
+	<select id="getShopList" resultType="java.util.Map">
+		SELECT s.shopId,s.shopName,s.dept,sd.`name`,
+		s.shopPhone,s.address,s.lon,s.lat,s.classify,s.refEl,s.upkeepEl,
+		s.tyreEl,s.refEl,s.installEl,s.shopPicAdress,s.createTime,s.delfg
+ 		FROM `shop` s LEFT JOIN sys_dept sd on s.dept=sd.dept_id
+ 		<trim prefix="where" prefixOverrides="and|or">
+ 			<if test="deptidList !=null and deptidList.size>0 ">
+				and s.dept in 
+				<foreach collection="deptidList" index="index" item="item" open="(" separator="," close=")">
+               		#{item}
+          		</foreach>
+			</if>
+ 			<if test="keyword !=null and keyword != ''">
+				or s.shopId like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or s.shopName like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or sd.`name` like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or s.address like '%${keyword}%'
+			</if>
+ 		</trim>
+ 		<if test="sidx != null and sidx != '' and order!='' and order != null ">
+			ORDER BY ${sidx} ${order}
+		</if>
+		<if test="start != null and limit != '' ">
+				limit #{start},#{limit}
+		</if>
+	</select>
 	
+	<select id="getShopListCout" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT count(1)FROM `shop` s LEFT JOIN sys_dept sd on s.dept=sd.dept_id
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="deptidList !=null and deptidList.size>0 ">
+				and s.dept in 
+				<foreach collection="deptidList" index="index" item="item" open="(" separator="," close=")">
+               		#{item}
+          		</foreach>
+			</if>
+ 			<if test="keyword !=null and keyword != ''">
+				or s.shopId like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or s.shopName like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or sd.`name` like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or s.address like '%${keyword}%'
+			</if>
+ 		</trim>
+	</select>
+	
+	<select id="getShop" resultType="java.util.Map">
+		SELECT s.shopId,s.shopName,s.dept,sd.`name`,
+		s.shopPhone,s.address,s.lon,s.lat,s.classify,s.refEl,s.upkeepEl,
+		s.tyreEl,s.refEl,s.installEl,s.shopPicAdress,s.createTime,s.delfg
+ 		FROM `shop` s LEFT JOIN sys_dept sd on s.dept=sd.dept_id
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="shopId !=null and shopId !='' ">
+				s.shopId=#{shopId}
+			</if>
+		</trim>
+		LIMIT 1
+	</select>
+	
+	<select id="getDept" resultType="com.sumainfo.modules.sys.entity.Menu">
+		SELECT dept_id id,parent_id pid,`name` FROM `sys_dept`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="deptid !=null">
+				parent_id=#{deptid}
+			</if>
+		</trim>
+	</select>
 </mapper>

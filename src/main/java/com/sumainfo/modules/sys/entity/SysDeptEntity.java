@@ -33,6 +33,17 @@ public class SysDeptEntity implements Serializable {
 	//排序
 	private Integer orderNum;
 
+	//是否是大区部门
+	private Integer isregion;
+
+	public Integer getIsregion() {
+		return isregion;
+	}
+
+	public void setIsregion(Integer isregion) {
+		this.isregion = isregion;
+	}
+
 	@TableLogic
 	private Integer delFlag;
 	/**
