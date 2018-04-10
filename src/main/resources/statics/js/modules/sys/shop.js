@@ -107,7 +107,23 @@ function hideSelectAll() {
 function beforeSelectRow() {  
     $("#jqGrid").jqGrid('resetSelection');  
     return(true);  
-}  
+} 
+
+function selectDeptList(){
+	$.ajax({
+        url: baseURL + "shop/getDeptList",//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+        type: "get",//数据发送方式
+        dataType: "json",//接受数据格式
+        data: 'data',//要传递的数据
+        success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
+           console.log(data)
+        },
+        error: function (data) {
+            alert("查询失败" + data);
+        }
+    });
+}
+
 var setting = {
     data: {
         simpleData: {
@@ -146,6 +162,7 @@ var vm = new Vue({
         add: function(){
             vm.showList = false;
         	vm.title = "新增";
+        	selectDeptList();
         },
         update: function () {
         	var id = getSelectedRow();//根据点击行获得点击行的id（id为jsonReader: {id: "id" },)

@@ -2,6 +2,7 @@ package com.sumainfo.modules.sys.service.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,5 +81,29 @@ public class ShopService implements Serializable {
 	public Map<String,Object>getShop(Map<String,Object>params){
 		
 		return null;
+	}
+	
+	/**
+	 * 获取大区的部门
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月10日
+	 */
+	public List<Map<String,Object>>getDeptRegList(Map<String,Object>params){
+		List<Map<String,Object>>result=new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>>getDept=shopMapper.getDeptList(params);
+		for (Map<String, Object> map : getDept) {
+			Map<String,Object>dept=new HashMap<String,Object>();
+			//获取父节点
+			System.err.println(map.get("parentid"));
+			params.put("parentid", map.get("parentid"));
+			Map<String,Object>parentDept=shopMapper.getDeptMap(params);
+			
+			dept.put("id",map.get("deptid"));
+			String name=parentDept.get("name").toString();
+			dept.put("value",name.substring(name.indexOf("-")+1)+"-"+map.get("name"));
+			result.add(dept);
+		}
+		return result;
 	}
 }

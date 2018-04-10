@@ -81,4 +81,22 @@
 			</if>
 		</trim>
 	</select>
+	
+	<select id="getDeptList" resultType="java.util.Map">
+		SELECT dept_id deptid,parent_id parentid,`name` FROM `sys_dept` 
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="isregion !=null and isregion !='' ">
+				and isregion=#{isregion}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getDeptMap" resultType="java.util.Map">
+	SELECT dept_id deptid,parent_id parentid,`name` FROM `sys_dept`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="parentid !=null and parentid !='' ">
+				and dept_id=#{parentid}
+			</if>
+		</trim>
+	</select>
 </mapper>

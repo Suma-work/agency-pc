@@ -39,4 +39,18 @@ public interface ShopMapper {
 	 * @return
 	 */
 	 List<Menu> getDept(Map<String,Object>params);
+	 
+	 /**
+	  * 获取大区的部门
+	  * @param parmas
+	  * @return
+	  */
+	 List<Map<String,Object>>getDeptList(Map<String,Object>params);
+	 
+	 /**
+	  * 获取父部门
+	  * @param params
+	  * @return
+	  */
+	 Map<String,Object>getDeptMap(Map<String,Object>params);
 }

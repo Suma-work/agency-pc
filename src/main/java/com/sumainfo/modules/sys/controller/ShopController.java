@@ -44,4 +44,12 @@ public class ShopController implements Serializable{
 		result=pageUtils.getJsonResult(getShopList, params, cout);
 		return result;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getDeptList",method=RequestMethod.GET)
+	public JsonResult getDeptList(@RequestParam Map<String,Object>params){
+		JsonResult result=new JsonResult();
+		params.put("isregion", "1");
+		return result.put(shopService.getDeptRegList(params));
+	}
 }
