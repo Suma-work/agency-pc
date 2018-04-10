@@ -32,48 +32,81 @@ public class ShopService implements Serializable {
 
 	public List<Map<String, Object>> getShopList(Map<String, Object> params) {
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
-
-		// 获取登录用户下的子部门
-		if (!StringUtils.isEmpty(params.get("deptid"))) {
-			List<Menu> deptList = shopMapper.getDept(params);
-			int dept = Integer.valueOf(params.get("deptid").toString());
-			System.err.println(dept);
+		if(StringUtils.isEmpty(params.get("loginDeptid"))){
+			List<Map<String, Object>> shopList = shopMapper.getShopList(params);
+			return shopList;
+		}
+		//获取当前登录的部门
+		Map<String,Object>getDeptMap=shopMapper.getDeptMap(params);
+		String deptName=getDeptMap.get("name").toString();
+		if(deptName.lastIndexOf("-")!=-1){
+			deptName= deptName.substring(0, deptName.lastIndexOf("-"));
+		}
+		List<String> newList = new ArrayList<String>();
+		if(deptName.equals("集团老总")){//集团老总，找当前集团下面的所有大区
+			params.put("pareid", getDeptMap.get("deptid"));
+			List<Menu> deptList = shopMapper.getDept(params);//就获取下面的所有子部门
+			int dept = Integer.valueOf(getDeptMap.get("deptid").toString());
 			List<Menu> tree = MenuRecursion.treeMenuList(deptList, dept);
 			List<String> deptidList = new ArrayList<String>();// 子部门编号
 			for (Menu m : tree) {
 				deptidList.add(m.getId());
 			}
 			// 去重复子部门
-			List<String> newList = new ArrayList<String>();
 			for (String cd : deptidList) {
 				if (!newList.contains(cd)) {
 					newList.add(cd);
 				}
 			}
 			params.put("deptidList", newList);
+		}else if(deptName.equals("大区经理")){//大区经理，直接找当前的大区
+			newList.add(getDeptMap.get("deptid").toString());
+			params.put("deptidList", newList);
+		}else if(deptName.equals("商家店长")){//商家店长，就要按照父节点查所在大区
+			newList.add(getDeptMap.get("parentid").toString());
+			params.put("deptidList", newList);
+		}else if(deptName.equals("商家店员")){//商家店员，就不查询
+			return result;
 		}
 		List<Map<String, Object>> shopList = shopMapper.getShopList(params);
 		return shopList;
 	}
 
 	public Integer getShopListCout(Map<String, Object> params) {
-		// 获取登录用户下的子部门
-		if (!StringUtils.isEmpty(params.get("deptid"))) {
-			List<Menu> deptList = shopMapper.getDept(params);
-			int dept = Integer.valueOf(params.get("deptid").toString());
+		if(StringUtils.isEmpty(params.get("loginDeptid"))){
+			return shopMapper.getShopListCout(params);
+		}
+		//获取当前登录的部门
+		Map<String,Object>getDeptMap=shopMapper.getDeptMap(params);
+		String deptName=getDeptMap.get("name").toString();
+		if(deptName.lastIndexOf("-")!=-1){
+			deptName= deptName.substring(0, deptName.lastIndexOf("-"));
+		}
+		List<String> newList = new ArrayList<String>();
+		if(deptName.equals("集团老总")){//集团老总，找当前集团下面的所有大区
+			params.put("pareid", getDeptMap.get("deptid"));
+			List<Menu> deptList = shopMapper.getDept(params);//就获取下面的所有子部门
+			int dept = Integer.valueOf(getDeptMap.get("deptid").toString());
 			List<Menu> tree = MenuRecursion.treeMenuList(deptList, dept);
 			List<String> deptidList = new ArrayList<String>();// 子部门编号
 			for (Menu m : tree) {
 				deptidList.add(m.getId());
 			}
 			// 去重复子部门
-			List<String> newList = new ArrayList<String>();
 			for (String cd : deptidList) {
 				if (!newList.contains(cd)) {
 					newList.add(cd);
 				}
 			}
 			params.put("deptidList", newList);
+		}else if(deptName.equals("大区经理")){//大区经理，直接找当前的大区
+			newList.add(getDeptMap.get("deptid").toString());
+			params.put("deptidList", newList);
+		}else if(deptName.equals("商家店长")){//商家店长，就要按照父节点查所在大区
+			newList.add(getDeptMap.get("parentid").toString());
+			params.put("deptidList", newList);
+		}else if(deptName.equals("商家店员")){//商家店员，就不查询
+			return 0;
 		}
 		return shopMapper.getShopListCout(params);
 	}
@@ -91,17 +124,35 @@ public class ShopService implements Serializable {
 	 */
 	public List<Map<String,Object>>getDeptRegList(Map<String,Object>params){
 		List<Map<String,Object>>result=new ArrayList<Map<String,Object>>();
+		
+		//获取当前登录的部门
+		Map<String,Object>getDeptMap=shopMapper.getDeptMap(params);
+		String deptName=getDeptMap.get("name").toString();
+		if(deptName.lastIndexOf("-")!=-1){
+			deptName= deptName.substring(0, deptName.lastIndexOf("-"));
+		}
+		if(deptName.equals("集团老总")){//集团老总，找当前集团下面的所有大区
+			
+		}else if(deptName.equals("大区经理")){//大区经理，直接找当前的大区
+			params.put("parentid", getDeptMap.get("parentid"));
+		}else if(deptName.equals("商家店长")){//商家店长，就要按照父节点查所在大区
+			params.put("deptid", getDeptMap.get("parentid"));
+		}else if(deptName.equals("商家店员")){//商家店员，就不查询
+			return result;
+		}
+		
 		List<Map<String,Object>>getDept=shopMapper.getDeptList(params);
 		for (Map<String, Object> map : getDept) {
 			Map<String,Object>dept=new HashMap<String,Object>();
 			//获取父节点
 			System.err.println(map.get("parentid"));
 			params.put("parentid", map.get("parentid"));
-			Map<String,Object>parentDept=shopMapper.getDeptMap(params);
+			Map<String,Object>parentDept=shopMapper.getDeptParntMap(params);
 			
 			dept.put("id",map.get("deptid"));
-			String name=parentDept.get("name").toString();
-			dept.put("value",name.substring(name.indexOf("-")+1)+"-"+map.get("name"));
+			String pareName=parentDept.get("name").toString();
+			String deptNames=map.get("name").toString();
+			dept.put("value",pareName.substring(pareName.indexOf("-")+1)+"-"+deptNames.substring(deptNames.indexOf("-")+1));
 			result.add(dept);
 		}
 		return result;

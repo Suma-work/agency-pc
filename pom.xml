@@ -301,6 +301,25 @@
 		    <artifactId>qiniu-java-sdk</artifactId>  
 		    <version>7.1.0</version>  
 		</dependency>
+		<!-- 高德地图 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.7.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.7.4</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.ning</groupId>
+			<artifactId>async-http-client</artifactId>
+			<version>1.8.7</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/de.taimos/httputils -->
+		
   </dependencies>
   <!-- 阿里云maven仓库 -->
     <repositories>

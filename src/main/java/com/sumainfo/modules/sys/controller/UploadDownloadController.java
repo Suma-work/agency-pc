@@ -74,12 +74,12 @@ public class UploadDownloadController {
 	}
 	
 	@RequestMapping(value = "/uploadImages", method = RequestMethod.POST)  
-	public JsonResult uopls(HttpServletRequest request,HttpServletResponse response,@RequestParam(value = "imgs")MultipartFile[] file){
+	public JsonResult uopls(@RequestParam(value = "imgs")MultipartFile[] file){
 		JsonResult result=new JsonResult();
 		if (file.length<0) {  
 	       return result.putFailed("图片不能为空！");
 	    } 
-		logger.info("bandName->>>>>>"+request.getParameter("bandName"));
+//		logger.info("bandName->>>>>>"+request.getParameter("bandName"));
 		logger.info("file->>>>>>"+file.length);
 		for(int i=0;i<file.length;i++){
 			// 获取文件名  
@@ -92,7 +92,7 @@ public class UploadDownloadController {
 			String newFileName = String.valueOf(ComUtils.randomUID("img"))
 					+ "." + suffixName;
 			// 文件上传后的路径  
-        String filePath = "D:\\";  
+            String filePath = "D:\\";  
 //			String filePath = ToolsUntil.PATH_URL;
 			// 解决中文问题，liunx下中文路径，图片显示问题  
 			// fileName = UUID.randomUUID() + suffixName;  
