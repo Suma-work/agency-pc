@@ -43,22 +43,6 @@
 						var fileList = file.files; // 获取的图片文件
 						var input = $(this).parent();// 文本框的父亲元素
 						var imgArr = [];
-						var formData = new FormData();
-						console.log(formData);
-						formData.append('file',fileList);
-						$.ajax({
-							type: "post",
-							url: baseURL + 'uplo/uploadImages',
-							dataType: "json",
-							data:formData ,
-							cache: false,  
-						    contentType: false,  
-						    processData: false,
-							success: function(data){
-								console.log(imgArr);
-								vm.vehicaledet.imgs.concat(imgArr);
-							}
-						})
 						// 遍历得到的图片文件
 						var numUp = imgContainer.find(".up-section").length;
 						var totalNum = numUp + fileList.length; // 总的数量
