@@ -108,8 +108,8 @@ public class UploadDownloadController {
 				file[i].transferTo(dest);  
 				String url = ToolsUntil.PICTURE_URL+newFileName;
 				log.info("上传成功后的文件路径未：" +url);  
-				resultMap.put("picture", ToolsUntil.PICTURE_URL);//服务器地址
-				resultMap.put("newFileName", newFileName);//图片名称
+				resultMap.put("pictureUrl",url);//图片地址
+				resultMap.put("pictureId",newFileName);//图片id,作为删除
 				return result.put(resultMap);
 			} catch (IllegalStateException e) {  
 				e.printStackTrace();  
