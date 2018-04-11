@@ -53,7 +53,6 @@
 							fileList = validateUp(fileList,defaults);
 							for ( var i = 0; i < fileList.length; i++) {
 								var imgUrl = window.URL.createObjectURL(fileList[i]);
-								imgArr.push(imgUrl);
 								var $section = $("<section class='up-section fl loading'>");
 								imgContainer.children(".z_file").before($section);
 								var $span = $("<span class='up-span'>");

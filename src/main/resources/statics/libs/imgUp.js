@@ -10,8 +10,25 @@ $(function(){
 		var file = document.getElementById(idFile);
 		var imgContainer = $(this).parents(".z_photo"); //存放图片的父亲元素
 		var fileList = file.files; //获取的图片文件
+		console.log(fileList.length);
 		var input = $(this).parent();//文本框的父亲元素
-		var imgArr = [];
+		var pic = $('#file')[0].files[0];
+	     var fd = new FormData();
+	     fd.append('file', pic);
+	     $.ajax({  
+	 	    url: baseURL + "uplo/uploadImages",  
+	 	    type:"post",  
+	 	    // Form数据  
+	 	    data: fd,  
+	 	    cache: false,  
+	 	    contentType: false,  
+	 	    processData: false,  
+	 	    success:function(data){  
+	 	        console.log("the data is : {}",data.data.pictureUrl);
+	 	        vm.vehicaledet.imgs.push(data.data.pictureUrl);
+	 	        console.log(vm.vehicaledet.imgs);
+	 	    }  
+	 	});
 		//遍历得到的图片文件
 		var numUp = imgContainer.find(".up-section").length;
 		var totalNum = numUp + fileList.length;  //总的数量
@@ -22,13 +39,7 @@ $(function(){
 			 fileList = validateUp(fileList);
 			 for(var i = 0;i < fileList.length; ++i){
 			     var imgUrl = window.URL.createObjectURL(fileList[i]);
-			     var pic = $('#file')[0].files[i];
-//				 var obj = {
-//					picAddress: fileList[i],
-//			     };
-				 vm.vehicaledet.imgs.push(pic);
-//				 console.info(obj);
-				 var $section = $("<section class='up-section fl loading'>");
+				/* var $section = $("<section class='up-section fl loading'>");
 				     imgContainer.prepend($section);
 				 var $span = $("<span class='up-span'>");
 				     $span.appendTo($section);
@@ -47,9 +58,8 @@ $(function(){
 			     var $input = $("<input id='taglocation' name='taglocation' value='' type='hidden'>");
 			         $input.appendTo($section);
 			     var $input2 = $("<input id='tags' name='tags' value='' type='hidden'/>");
-			         $input2.appendTo($section);
+			         $input2.appendTo($section);*/
 			 }
-			 
 			 console.log(vm.vehicaledet.imgs);
 		}
 		setTimeout(function(){

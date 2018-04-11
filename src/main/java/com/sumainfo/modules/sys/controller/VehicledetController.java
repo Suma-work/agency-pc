@@ -101,7 +101,7 @@ public class VehicledetController implements Serializable{
 	 * @return
 	 */
 	@RequestMapping(value="/modiVehi",method=RequestMethod.POST)
-	public JsonResult modiVehi(@RequestBody Map<String,Object>params,MultipartFile[] files)throws IOException{
+	public JsonResult modiVehi(@RequestBody Map<String,Object>params)throws IOException{
 		log.info("params->>>>>>>>>>>>"+params);
 //		log.info("files->>>>>>>>>>>>"+file);
 //		String fileName = file.getOriginalFilename();//获取到上传文件的名字

@@ -300,13 +300,15 @@ var vm = new Vue({
         	}
         },
         saveOrUpdate: function () {
-            var url = vm.vehicaledet.carId == null ? "vehi/setVehi" : "uplo/uploadImages?carId="+vm.vehicaledet.carId;
+            var url = vm.vehicaledet.carId == null ? "vehi/setVehi" : "vehi/modiVehi?carId="+vm.vehicaledet.carId;
 //            console.log("carId:"+vm.vehicaledet.carId+"----url:"+url);
             //取值汽车品牌
             vm.vehicaledet.bandName=document.getElementById("bandNames").value;
             //取值汽车车型
             vm.vehicaledet.carName=document.getElementById("carNames").value;
+            
             var imgs=vm.vehicaledet.imgs;
+            console.log(imgs);
             console.log("imgs->>>>>>>>>>>"+imgs);
             var idsel=$("#idsel").find("option:selected").text();
             //追加发动机
@@ -326,18 +328,15 @@ var vm = new Vue({
             }else if(imgs.length<0){
             	alert("至少上传一张展示图片！");
             }else{
-            	var fd = new FormData();  
-            	fd.append('imgs', imgs); 
-            	fd.append('bandName', vm.vehicaledet.bandName); 
             		$.ajax({
             			type: "POST",
             			url: baseURL + url,
             			cache: false,  
             		    contentType: false,  
             		    processData: false,
-//            			contentType: "application/json",
-//            			data: JSON.stringify(vm.vehicaledet),
-            			data:fd,
+            			contentType: "application/json",
+            			data: JSON.stringify(vm.vehicaledet),
+//            			data:fd,
             			success: function(r){
             				if(r.messageCode === "0"){
             					alert('操作成功', function(){
@@ -352,7 +351,17 @@ var vm = new Vue({
         },
         getuser: function(shopId){
             $.get(baseURL + "vehi/getVehi?carId="+shopId, function(r){
+            	console.log(r);
                 vm.vehicaledet = r.data;
+                imgslength = vm.vehicaledet.imgs.length;
+                console.log(imgslength)
+                if(imgslength>0){
+                	var imgs = [];
+                	for(var i=0;i<imgslength;i++){
+                		imgs.push(vm.vehicaledet.imgs[i].picAddress);
+                	}
+                	vm.vehicaledet.imgs = imgs
+                }
                 //去除最后一位
                 var carEn=vm.vehicaledet.carEngine;
                 vm.vehicaledet.carEngine=carEn.slice(0,carEn.length-1);
