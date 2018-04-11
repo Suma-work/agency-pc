@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;  
 import org.springframework.web.bind.annotation.RequestMethod;  
 import org.springframework.web.bind.annotation.RequestParam;  
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;  
 import org.springframework.web.multipart.MultipartFile;  
 
@@ -31,7 +32,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/uplo")
 public class UploadDownloadController {
-	private static final Logger logger = LoggerFactory.getLogger(UploadDownloadController.class);  
+	private static final Logger log = LoggerFactory.getLogger(UploadDownloadController.class);  
     
 	@RequestMapping(value = "/uploadImage", method = RequestMethod.POST)  
 	public JsonResult uopl(@RequestParam(value = "file") MultipartFile file,HttpServletRequest request,HttpServletResponse response){
@@ -39,13 +40,13 @@ public class UploadDownloadController {
 		if (file.isEmpty()) {  
 	       return result.putFailed("图片不能为空！");
 	    } 
-		logger.info("request->>>>>>"+request.getParameter("aaa"));
+		log.info("request->>>>>>"+request.getParameter("aaa"));
 		// 获取文件名  
         String fileName = file.getOriginalFilename();  
-        logger.info("上传的文件名为：" + fileName);  
+        log.info("上传的文件名为：" + fileName);  
         // 获取文件的后缀名  
         String suffixName = fileName.substring(fileName.lastIndexOf("."));  
-        logger.info("上传的后缀名为：" + suffixName);  
+        log.info("上传的后缀名为：" + suffixName);  
         // 文件上传后的路径  
         InputStream is;
         System.err.println();
@@ -61,7 +62,7 @@ public class UploadDownloadController {
         }  
         try {  
             file.transferTo(dest);  
-            logger.info("上传成功后的文件路径未：" + filePath + fileName);  
+            log.info("上传成功后的文件路径未：" + filePath + fileName);  
             response.setCharacterEncoding("UTF-8");
 			response.setContentType("application/json;charset = utf-8");
             return result.putSuccess(fileName);  
@@ -79,15 +80,15 @@ public class UploadDownloadController {
 		if (file.length<0) {  
 	       return result.putFailed("图片不能为空！");
 	    } 
-//		logger.info("bandName->>>>>>"+request.getParameter("bandName"));
-		logger.info("file->>>>>>"+file.length);
+//		log.info("bandName->>>>>>"+request.getParameter("bandName"));
+		log.info("file->>>>>>"+file.length);
 		for(int i=0;i<file.length;i++){
 			// 获取文件名  
 			String fileName = file[i].getOriginalFilename();
-			logger.info("上传的文件名为：" + fileName); 
+			log.info("上传的文件名为：" + fileName); 
 			// 获取文件的后缀名  
 			String suffixName = fileName.substring(fileName.lastIndexOf("."));  
-			logger.info("上传的后缀名为：" + suffixName); 
+			log.info("上传的后缀名为：" + suffixName); 
 			// 新的图片文件名 = 获取时间戳+"."图片扩展名
 			String newFileName = String.valueOf(ComUtils.randomUID("img"))
 					 + suffixName;
@@ -105,7 +106,7 @@ public class UploadDownloadController {
 			try {  
 				file[i].transferTo(dest);  
 				String url = ToolsUntil.PICTURE_URL+newFileName;
-				logger.info("上传成功后的文件路径未：" +url);  
+				log.info("上传成功后的文件路径未：" +url);  
 				return result.putSuccess(url);  
 			} catch (IllegalStateException e) {  
 				e.printStackTrace();  
@@ -115,5 +116,19 @@ public class UploadDownloadController {
 		}
         return result.putFailed("上传失败！"); 
 	}
-    
+	@ResponseBody
+	@RequestMapping(value="/deleteImages",method=RequestMethod.GET)
+    public JsonResult getDelete(@RequestParam Map<String,Object>params){
+		JsonResult result=new JsonResult();
+		log.info("params->>>>>>>>>>"+params);
+		File file=new File(params.get("imagesPic").toString());
+        if (file.exists()) {
+           file.delete();//如果文件存在 则删除该文件
+           result.putSuccess("删除图片成功！");
+        }else{
+           result.putFailed("删除失败，不存在图片！");
+        }
+		return result;
+    }
+	
 }
