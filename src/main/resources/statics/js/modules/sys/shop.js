@@ -119,7 +119,6 @@ function upperCase(value){
         	   alert(data.messageStr);  
         	   document.getElementById('address').value='';
            }else{
-        	   console.log(data.data);
         	   document.getElementById('lon').value=data.data.log;
         	   document.getElementById('lat').value=data.data.lat;
         	   vm.shop.log=data.data.log;
@@ -133,6 +132,7 @@ function upperCase(value){
 }
 
 function selectDeptList(deptid){
+	$("#dept").find("option").remove();
 	$.ajax({
         url: baseURL + "shop/getDeptList?loginDeptid="+deptid,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
         type: "get",//数据发送方式
@@ -142,13 +142,33 @@ function selectDeptList(deptid){
            $.each(data.data, function (i) {
 //        	    console.log(data.data[i].id+"----"+data.data[i].value)
                 $('#dept.selectpicker').append("<option value=" + data.data[i].id + ">" + data.data[i].value + "</option>");
+//                console.log(data.data[i]);
             });
-           $("#dept").selectpicker('refresh');
+           	if(deptid==undefined){
+//		    	console.log(fids);
+		    	$('#dept').selectpicker('val',1);
+		    	document.getElementById("depts").value=data.data[0].value;
+		    }else{
+		    	if(deptid==1){
+		    		$('#dept').selectpicker('val',1);
+		    		document.getElementById("depts").value=data.data[0].value;
+		    	}else{
+		    		$('#dept').selectpicker('val',deptid);
+		    		document.getElementById("depts").value=data.data.value;
+		    	}
+		    }
+           	$("#dept").selectpicker('refresh');
         },
         error: function (data) {
             alert("查询失败" + data);
         }
     });
+	var deptids=undefined;
+    if(deptids==undefined){//如果是新增的时候默认为第一个	
+    	deptids=1;
+    }else{//修改的时候默认获取传递进来的值
+    	deptids=deptid;
+    }
 }
 
 var setting = {
@@ -195,11 +215,12 @@ var vm = new Vue({
         update: function () {
         	var id = getSelectedRow();//根据点击行获得点击行的id（id为jsonReader: {id: "id" },)
         	var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
-//        	console.log(rowData);
         	var shopId = getSelectedRow();
 //        	console.log(shopId);
         	vm.showList = false;
         	vm.title = "修改";
+        	var deptid = rowData.dept;
+        	selectDeptList(deptid);
         	vm.getuser(shopId);
 //        	this.getRoleList();
         },
@@ -273,6 +294,7 @@ var vm = new Vue({
         },
         getuser: function(shopId){
             $.get(baseURL + "shop/getShopMap?shopId="+shopId, function(r){
+            	console.log(r)
                 vm.shop = r.data;
             
             });

@@ -260,12 +260,14 @@ var vm = new Vue({
         saveOrUpdate: function () {
             var url = vm.user.userId == null ? "sys/user/save" : "sys/user/update";
 //            console.log(vm.user.deptName);
-            if(vm.user.deptName==null){
+            if(vm.user.uname==null){
+            	alert("真实姓名不能为空");
+            }else if(vm.user.deptName==null){
             	alert("请选择所属部门");
             }else if(vm.user.mobile==null){
             	alert("手机号不能为空！");
             }else if(vm.user.username==null){
-            	alert("用户名不能为空！");
+            	alert("登录账号不能为空！");
             }else if(vm.user.password==null){
             	alert("密码不能为空！");
             }else{
