@@ -1,12 +1,12 @@
 $(function () {
 	var deptid=JSON.parse(localStorage.getItem("user")).deptId;
-	console.log(deptid);
+//	console.log(deptid);
 	if(deptid==null){
 		deptid="";
 	}else if(deptid=="1"||deptid=="2"){
 		deptid="";
 	}
-	console.log(deptid);
+//	console.log(deptid);
     $("#jqGrid").jqGrid({
         url: baseURL + 'shop/getShopList?loginDeptid='+deptid,
         datatype: "json",
@@ -108,6 +108,30 @@ function beforeSelectRow() {
     return(true);  
 } 
 
+function upperCase(value){
+	$.ajax({
+        url: baseURL + "shop/getDistance?address="+value,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+        type: "get",//数据发送方式
+        dataType: "json",//接受数据格式
+        data: 'data',//要传递的数据
+        success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
+           if(data.messageCode=="400"){
+        	   alert(data.messageStr);  
+        	   document.getElementById('address').value='';
+           }else{
+        	   console.log(data.data);
+        	   document.getElementById('lon').value=data.data.log;
+        	   document.getElementById('lat').value=data.data.lat;
+        	   vm.shop.log=data.data.log;
+        	   vm.shop.lat=data.data.lat;
+           }
+        },
+        error: function (data) {
+            alert("查询失败" + data);
+        }
+    });
+}
+
 function selectDeptList(deptid){
 	$.ajax({
         url: baseURL + "shop/getDeptList?loginDeptid="+deptid,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
@@ -116,7 +140,7 @@ function selectDeptList(deptid){
         data: 'data',//要传递的数据
         success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
            $.each(data.data, function (i) {
-        	    console.log(data.data[i].id+"----"+data.data[i].value)
+//        	    console.log(data.data[i].id+"----"+data.data[i].value)
                 $('#dept.selectpicker').append("<option value=" + data.data[i].id + ">" + data.data[i].value + "</option>");
             });
            $("#dept").selectpicker('refresh');
@@ -154,7 +178,7 @@ var vm = new Vue({
             deptName:null,
             roleIdList:[]
         },
-        vehicaledet:{
+        shop:{
         	imgs:[]
         }
     },
@@ -171,9 +195,9 @@ var vm = new Vue({
         update: function () {
         	var id = getSelectedRow();//根据点击行获得点击行的id（id为jsonReader: {id: "id" },)
         	var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
-        	console.log(rowData);
+//        	console.log(rowData);
         	var shopId = getSelectedRow();
-        	console.log(shopId);
+//        	console.log(shopId);
         	vm.showList = false;
         	vm.title = "修改";
         	vm.getuser(shopId);
@@ -210,22 +234,22 @@ var vm = new Vue({
         	}
         },
         saveOrUpdate: function () {
-            var url = vm.vehicaledet.carId == null ? "vehi/setVehi" : "uplo/uploadImages?carId="+vm.vehicaledet.carId;
-//            console.log("carId:"+vm.vehicaledet.carId+"----url:"+url);
+            var url = vm.shop.carId == null ? "vehi/setVehi" : "uplo/uploadImages?carId="+vm.shop.carId;
+//            console.log("carId:"+vm.shop.carId+"----url:"+url);
             
-            var imgs=vm.vehicaledet.imgs;
-            console.log("imgs->>>>>>>>>>>"+imgs);
-            if(vm.vehicaledet.sellPrice==null){
+            var imgs=vm.shop.imgs;
+//            console.log("imgs->>>>>>>>>>>"+imgs);
+            if(vm.shop.sellPrice==null){
             	alert("当前售价不能为空！");
-            }else if(vm.vehicaledet.carDetName==null){
+            }else if(vm.shop.carDetName==null){
             	alert("车型名称不能为空！");
-            }else if(vm.vehicaledet.orginPrice==null){
+            }else if(vm.shop.orginPrice==null){
             	alert("原始价格不能为空！");
-            }else if(vm.vehicaledet.carEngine==null){
+            }else if(vm.shop.carEngine==null){
             	alert("发动机不能为空！");
-            }else if(vm.vehicaledet.gearbox==null){
+            }else if(vm.shop.gearbox==null){
             	alert("变速箱不能为空！");
-            }else if(vm.vehicaledet.carType==null){
+            }else if(vm.shop.carType==null){
             	alert("车体结构不能为空！");
             }else if(imgs.length<0){
             	alert("至少上传一张展示图片！");
@@ -234,7 +258,7 @@ var vm = new Vue({
             			type: "POST",
             			url: baseURL + url,
             			contentType: "application/json",
-            			data: JSON.stringify(vm.vehicaledet),
+            			data: JSON.stringify(vm.shop),
             			success: function(r){
             				if(r.messageCode === "0"){
             					alert('操作成功', function(){
@@ -248,8 +272,8 @@ var vm = new Vue({
             }
         },
         getuser: function(shopId){
-            $.get(baseURL + "vehi/getVehi?carId="+shopId, function(r){
-                vm.vehicaledet = r.data;
+            $.get(baseURL + "shop/getShopMap?shopId="+shopId, function(r){
+                vm.shop = r.data;
             
             });
         },

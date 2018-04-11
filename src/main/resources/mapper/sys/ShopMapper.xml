@@ -115,4 +115,19 @@
 		</trim>
 	</select>
 	
+	<select id="getShopPic" resultType="java.util.Map">
+		SELECT associationId,picAddress,slideshow FROM picturesave
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="associationId !=null and associationId !='' ">
+				and associationId=#{associationId}
+			</if>
+			<if test="slideshow !=null and slideshow.size>0 ">
+				and slideshow in 
+				<foreach collection="slideshow" index="index" item="item" open="(" separator="," close=")">
+               		#{item}
+          		</foreach>
+			</if>
+		</trim>
+	</select>
+	
 </mapper>

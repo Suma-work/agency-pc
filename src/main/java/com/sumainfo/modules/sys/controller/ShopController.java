@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.sumainfo.common.util.Distance;
 import com.sumainfo.common.util.JsonResult;
 import com.sumainfo.common.util.PageUtils;
 import com.sumainfo.common.util.Pager;
@@ -30,6 +31,12 @@ public class ShopController implements Serializable{
 	@Autowired
 	ShopService shopService;
 	
+	/**
+	 * 获取店铺列表，按部门查询
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月11日
+	 */
 	@ResponseBody
 	@RequestMapping(value="/getShopList",method=RequestMethod.GET)
 	public JsonResult getShopList(@RequestParam Map<String,Object>params,Pager pager){
@@ -45,11 +52,55 @@ public class ShopController implements Serializable{
 		return result;
 	}
 	
+	/**
+	 * 获取获取大区的部门
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月11日
+	 */
 	@ResponseBody
 	@RequestMapping(value="/getDeptList",method=RequestMethod.GET)
 	public JsonResult getDeptList(@RequestParam Map<String,Object>params){
 		JsonResult result=new JsonResult();
 		params.put("isregion", "1");
 		return result.put(shopService.getDeptRegList(params));
+	}
+	
+	/**
+	 * 获取地理位置
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月11日
+	 */
+	@ResponseBody
+	@RequestMapping(value="getDistance",method=RequestMethod.GET)
+	public JsonResult getDistance(@RequestParam Map<String,Object>params){
+		JsonResult result=new JsonResult();
+		Map<String,Object>dist=Distance.getLngLatFromOneAddr(params);
+		if(dist==null || dist.size()<1){
+			result.putFailed("获取地理位置失败，请重新输入地址！");
+		}else{
+			result.put(dist);
+		}
+		return result;
+	}
+	
+	/**
+	 * 获取某一个店铺
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月11日
+	 */
+	@ResponseBody
+	@RequestMapping(value="getShopMap",method=RequestMethod.GET)
+	public JsonResult getShopMap(@RequestParam Map<String,Object>params){
+		JsonResult result=new JsonResult();
+		log.info("params--------->"+params);
+		final List ids = new ArrayList();
+        ids.add(1);
+        ids.add(2);
+		params.put("slideshow", ids);
+		result.put(shopService.getShop(params));
+		return result;
 	}
 }

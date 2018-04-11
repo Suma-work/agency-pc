@@ -61,4 +61,12 @@ public interface ShopMapper {
 	 * @date 2018年4月10日
 	  */
 	 Map<String,Object>getDeptMap(Map<String,Object>params);
+	 
+	 /**
+	  * 获取店铺的图片
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @author zhlu
+	 * @date 2018年4月11日
+	  */
+	 List<Map<String,Object>>getShopPic(Map<String,Object>params);
 }
