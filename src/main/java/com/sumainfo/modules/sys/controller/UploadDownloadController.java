@@ -74,7 +74,7 @@ public class UploadDownloadController {
 	}
 	
 	@RequestMapping(value = "/uploadImages", method = RequestMethod.POST)  
-	public JsonResult uopls(@RequestParam(value = "imgs")MultipartFile[] file){
+	public JsonResult uopls(@RequestParam(value = "file")MultipartFile[] file){
 		JsonResult result=new JsonResult();
 		if (file.length<0) {  
 	       return result.putFailed("图片不能为空！");
@@ -90,7 +90,7 @@ public class UploadDownloadController {
 			logger.info("上传的后缀名为：" + suffixName); 
 			// 新的图片文件名 = 获取时间戳+"."图片扩展名
 			String newFileName = String.valueOf(ComUtils.randomUID("img"))
-					+ "." + suffixName;
+					 + suffixName;
 			// 文件上传后的路径  
             String filePath = "D:\\";  
 //			String filePath = ToolsUntil.PATH_URL;
@@ -104,8 +104,9 @@ public class UploadDownloadController {
 			}  
 			try {  
 				file[i].transferTo(dest);  
-				logger.info("上传成功后的文件路径未：" +ToolsUntil.PICTURE_URL+newFileName);  
-				return result.putSuccess(fileName);  
+				String url = ToolsUntil.PICTURE_URL+newFileName;
+				logger.info("上传成功后的文件路径未：" +url);  
+				return result.putSuccess(url);  
 			} catch (IllegalStateException e) {  
 				e.printStackTrace();  
 			} catch (IOException e) {  

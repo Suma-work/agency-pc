@@ -21,9 +21,8 @@
 	var fd = new FormData();  
 	console.log(aaa);
 	fd.append('file', pic);  
-	fd.append('aaa', aaa);  
 	$.ajax({  
-	    url:baseURL +"uplo/uploadImage",  
+	    url:baseURL +"uplo/uploadImages",  
 	    type:"post",  
 	    // Form数据  
 	    data: fd,  
