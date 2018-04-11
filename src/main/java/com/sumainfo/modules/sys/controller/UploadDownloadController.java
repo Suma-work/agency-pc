@@ -109,7 +109,6 @@ public class UploadDownloadController {
 				String url = ToolsUntil.PICTURE_URL+newFileName;
 				log.info("上传成功后的文件路径未：" +url);  
 				resultMap.put("pictureUrl",url);//图片地址
-				resultMap.put("pictureId",newFileName);//图片id,作为删除
 				return result.put(resultMap);
 			} catch (IllegalStateException e) {  
 				e.printStackTrace();  
