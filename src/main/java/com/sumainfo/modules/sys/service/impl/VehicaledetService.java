@@ -242,22 +242,22 @@ public class VehicaledetService implements Serializable {
 		params.put("carName", VehiMap.get("carName"));
 		List<Map<String, Object>> vehiPicList = vehicledetMapper
 				.getVePic(params);
-//		List<Map<String, Object>> vepics = new ArrayList<Map<String, Object>>();
-		StringBuilder str = new StringBuilder();
-		for (int i = 0; i < vehiPicList.size(); i++) {
-			if(i==vehiPicList.size()){
-				str.append(vehiPicList.get(i).get("picAddress"));
-			}else{
-				str.append(vehiPicList.get(i).get("picAddress")+";");
-			}
-		}
-//		for (Map<String, Object> map : vehiPicList) {
-//			Map<String, Object> vepic = new HashMap<String, Object>();
-////			vepic.put("isShow", map.get("isShow"));
-////			vepic.put("picAddress", map.get("picAddress"));
-////			vepics.add(vepic);
+//		StringBuilder str = new StringBuilder();
+//		for (int i = 0; i < vehiPicList.size(); i++) {
+//			if(i==vehiPicList.size()){
+//				str.append(vehiPicList.get(i).get("picAddress"));
+//			}else{
+//				str.append(vehiPicList.get(i).get("picAddress")+";");
+//			}
 //		}
-		VehiMap.put("imgs",str.substring(0,str.length()-1));
+		List<Map<String, Object>> vepics = new ArrayList<Map<String, Object>>();
+		for (Map<String, Object> map : vehiPicList) {
+			Map<String, Object> vepic = new HashMap<String, Object>();
+//			vepic.put("isShow", map.get("isShow"));
+			vepic.put("picAddress", map.get("picAddress"));
+			vepics.add(vepic);
+		}
+		VehiMap.put("imgs",vepics);
 		// 获取品牌编号
 		VehiMap.put("fvcid", vehicledetMapper.getFcv(params).get("id"));
 		// 获取车型编号
