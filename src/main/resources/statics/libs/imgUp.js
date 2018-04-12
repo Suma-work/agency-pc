@@ -78,9 +78,9 @@ $(function(){
 	
    
     $(".z_photo").delegate(".close-upimg","click",function(){
-    		console.log(1);
      	  $(".works-mask").show();
      	  delParent = $(this).parent();
+     	  console.log(delParent)
 	});
 		
 	$(".wsdel-ok").click(function(){
@@ -91,7 +91,19 @@ $(function(){
 			delParent.parent().find(".z_file").show();
 		}
 		 delParent.remove();
-		
+		 var FormObj = new FormData();
+		$.ajax({
+			type:"post",
+			url: baseURL + "uplo/deleteImages",
+			cache: false,  
+		    contentType: false,  
+		    processData: false,
+			contentType: "application/json",
+			data: JSON.stringify(vm.vehicaledet),
+			success:function(data){
+				
+			}
+		});
 	});
 	
 	$(".wsdel-no").click(function(){

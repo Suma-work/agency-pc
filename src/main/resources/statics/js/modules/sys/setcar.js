@@ -336,7 +336,6 @@ var vm = new Vue({
             		    processData: false,
             			contentType: "application/json",
             			data: JSON.stringify(vm.vehicaledet),
-//            			data:fd,
             			success: function(r){
             				if(r.messageCode === "0"){
             					alert('操作成功', function(){
@@ -354,7 +353,6 @@ var vm = new Vue({
             	console.log(r);
                 vm.vehicaledet = r.data;
                 imgslength = vm.vehicaledet.imgs.length;
-                console.log(imgslength)
                 if(imgslength>0){
                 	var imgs = [];
                 	for(var i=0;i<imgslength;i++){
