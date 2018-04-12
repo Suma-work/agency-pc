@@ -78,6 +78,7 @@ $(function(){
 	
    
     $(".z_photo").delegate(".close-upimg","click",function(){
+    		console.log(1);
      	  $(".works-mask").show();
      	  delParent = $(this).parent();
 	});
@@ -85,6 +86,7 @@ $(function(){
 	$(".wsdel-ok").click(function(){
 		$(".works-mask").hide();
 		var numUp = delParent.siblings().length;
+		console.log(numUp);
 		if(numUp < 6){
 			delParent.parent().find(".z_file").show();
 		}

@@ -6,7 +6,6 @@ $(function () {
 		deptid="";
 	}
 	var username=JSON.parse(localStorage.getItem("user")).username;
-	console.log(username);
     $("#jqGrid").jqGrid({
         url: baseURL + 'vehi/getVehiList?loginDeptid='+deptid+"&username="+username,
         datatype: "json",
@@ -359,7 +358,7 @@ var vm = new Vue({
                 if(imgslength>0){
                 	var imgs = [];
                 	for(var i=0;i<imgslength;i++){
-                		imgs.push(vm.vehicaledet.imgs[i].picAddress);
+                		imgs.push(vm.vehicaledet.imgs[i]);
                 	}
                 	vm.vehicaledet.imgs = imgs
                 }
