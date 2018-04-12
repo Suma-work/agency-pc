@@ -116,4 +116,19 @@ public class VehicledetController implements Serializable{
 		}
 		return result;
 	}
+	
+	/**
+	 * 获取所有的车型
+	 * @author:zhlu
+	 * @date: 2018年3月21日
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/getCarList",method=RequestMethod.GET)
+	public JsonResult getClvl(@RequestParam Map<String,Object>params){
+		JsonResult result=new JsonResult();
+		return result.put(vehicaledetService.getCarList(params));
+//		return result;
+	}
 }

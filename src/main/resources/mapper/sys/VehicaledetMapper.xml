@@ -228,20 +228,6 @@
 		</trim>
 	</insert>
 	
-	<update id="updateVhiPic" parameterType="java.util.Map">
-		UPDATE vehbannerpic
-		<trim prefix="set" suffixOverrides=","> 
-			<if test="vehId !=null">vehId=#{vehId},</if>
-			<if test="isShow !=null">isShow=#{isShow},</if>
-			<if test="picAddress !=null">picAddress=#{picAddress},</if>
-		</trim>
-		<trim prefix="where" prefixOverrides="and|or">
-			<if test="vbId !=null">
-				and vbId=#{vbId}
-			</if>
-		</trim>
-	</update>
-	
 	<select id="getDept" resultType="com.sumainfo.modules.sys.entity.Menu">
 		SELECT dept_id id,parent_id pid,`name` FROM `sys_dept`
 		<trim prefix="where" prefixOverrides="and|or">
@@ -272,17 +258,16 @@
 		</trim>
 	</select>
 		
-	
-	<!-- <select id="getShopList" resultType="java.util.Map">
-		SELECT shopId,dept FROM `shop`
+	<select id="getCarList" resultType="java.util.Map">
+		SELECT uqId id,carName name FROM `vehiclemain`
 		<trim prefix="where" prefixOverrides="and|or">
-			<if test="deptidList !=null and deptidList.size>0 ">
-				and dept in 
-				<foreach collection="deptidList" index="index" item="item" open="(" separator="," close=")">
-               		#{item}
-          		</foreach>
+			<if test="bandName !=null">
+				and bandName=#{bandName}
+			</if>
+			<if test="shopId !=null">
+				and shopId=#{shopId}
 			</if>
 		</trim>
-	</select> -->
+	</select>
 	
 </mapper>

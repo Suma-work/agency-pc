@@ -129,15 +129,6 @@ public interface VehicledetMapper {
 	Integer addVhiPic(Map<String,Object>params);
 	
 	/**
-	 * 修改新车的图片信息表
-	 * @author:zhlu
-	 * @date: 2018年3月31日
-	 * @param params
-	 * @return
-	 */
-	Integer updateVhiPic(Map<String,Object>params);
-	
-	/**
 	 * 删除新车的图片信息表，修改的时候先删除
 	* @Description: TODO(这里用一句话描述这个方法的作用) 
 	* @author zhlu
@@ -187,4 +178,12 @@ public interface VehicledetMapper {
 	 * @date 2018年4月11日
 	  */
 	 Map<String,Object>userAnShop(Map<String,Object>params);
+	 
+	 /**
+	  * 店铺车型
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @author zhlu
+	 * @date 2018年4月12日
+	  */
+	 List<Map<String,Object>>getCarList(Map<String,Object>params);
 }

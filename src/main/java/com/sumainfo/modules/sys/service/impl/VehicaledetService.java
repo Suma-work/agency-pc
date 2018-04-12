@@ -267,14 +267,41 @@ public class VehicaledetService implements Serializable {
 		return VehiMap;
 	}
 
+	/**
+	 * 添加新车
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月12日
+	 */
 	public boolean addVehi(Map<String, Object> params) {
 		boolean result = false;
 		log.info("params->>>>>>>>>>>" + params);
 		params.put("createTime", ConvertDateTime.getCurrentTime());
-		int bole = vehicledetMapper.addVehi(params);
-		if (bole > 0) {
-			result = true;
+		List<String>pic=(List<String>) params.get("imgs");//获取图片数组
+		
+		try {
+			int bole = vehicledetMapper.addVehi(params);//新车信息主表
+			params.put("classify", 1);
+			bole=vehicledetMapper.addVhiBan(params);//新车和图片中间表
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
+		Map<String,Object>vehiPic=vehicledetMapper.getVhiBan(params);
+		for (int i = 0; i < pic.size(); i++) {
+			Map<String, Object>picMap=new HashMap<String, Object>();
+			if(i==0){
+				picMap.put("isShow",1);
+			}else{
+				picMap.put("isShow",0);
+			}
+			picMap.put("vehId", vehiPic.get("vehId"));
+			picMap.put("picAddress", pic.get(i));
+			picMap.put("createTime",params.get("createTime"));
+			vehicledetMapper.addVhiPic(picMap);
+		}
+		
+		result = true;
 		return result;
 	}
 
@@ -328,5 +355,15 @@ public class VehicaledetService implements Serializable {
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * 获取店铺车型
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月12日
+	 */
+	public List<Map<String,Object>>getCarList(Map<String,Object>params){
+		return vehicledetMapper.getCarList(params);
 	}
 }

@@ -123,18 +123,15 @@ public class ShopService implements Serializable {
 			return new HashMap<String,Object>();
 		}
 		params.put("associationId", shop.get("shopId"));
-		List<Map<String,Object>>pic=new ArrayList<Map<String,Object>>();
+		List<String>pic=new ArrayList<String>();
 		List<Map<String,Object>>shopPic=shopMapper.getShopPic(params);
 		if(shopPic==null || shopPic.size()<1){
 			shop.put("imgs", new ArrayList<Map<String,Object>>());
 		}else{
-			log.info("shopPic->>>>>>"+shopPic);
 			for (Map<String, Object> map : shopPic) {
-				log.info(map.get("picAddress").toString());
-				Map<String,Object>picMap=new HashMap<String,Object>();
-				picMap.put("picAddress",map.get("picAddress"));
-				picMap.put("isShow",map.get("slideshow"));
-				pic.add(picMap);
+				if(map.get("picAddress")!=null){
+					pic.add(map.get("picAddress").toString());
+				}
 			}
 			shop.put("imgs", pic);
 		}
