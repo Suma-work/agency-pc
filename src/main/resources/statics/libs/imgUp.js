@@ -60,7 +60,6 @@ $(function(){
 			     var $input2 = $("<input id='tags' name='tags' value='' type='hidden'/>");
 			         $input2.appendTo($section);*/
 			 }
-			 console.log(vm.vehicaledet.imgs);
 		}
 		setTimeout(function(){
              $(".up-section").removeClass("loading");

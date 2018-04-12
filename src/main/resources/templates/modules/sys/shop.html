@@ -39,106 +39,106 @@
 			<div class="form-group">
                  <div class="col-sm-2 control-label">店铺名称</div>
                  <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="shop.shopName" placeholder="店铺名称"/>
+                    <input type="text" class="form-control" v-model="vehicaledet.shopName" placeholder="店铺名称"/>
                  </div> 	
             </div>
             <div class="form-group">
                  <div class="col-sm-2 control-label">店铺电话</div>
                  <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="shop.shopPhone" placeholder="店铺电话"/>
+                    <input type="text" class="form-control" v-model="vehicaledet.shopPhone" placeholder="店铺电话"/>
                  </div> 	
             </div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">店铺地址</div>
 				<div class="col-sm-10">
-					<input type="num"  id="address" class="form-control" placeholder="店铺地址" v-model="shop.address" onchange="upperCase(this.value)"/>
+					<input type="num"  id="address" class="form-control" placeholder="店铺地址" v-model="vehicaledet.address" onchange="upperCase(this.value)"/>
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">经度</div>
 				<div class="col-sm-10">
-					<input type="num"  id="lon" class="form-control" placeholder="经度" v-model="shop.lon" readonly="readonly"/>
+					<input type="num"  id="lon" class="form-control" placeholder="经度" v-model="vehicaledet.lon" readonly="readonly"/>
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">纬度</div>
 				<div class="col-sm-10">
-					<input type="num"  id="lat" class="form-control" placeholder="纬度" v-model="shop.lat" readonly="readonly"/>
+					<input type="num"  id="lat" class="form-control" placeholder="纬度" v-model="vehicaledet.lat" readonly="readonly"/>
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">店铺类型</div>
 				<label class="radio-inline">
-					<input type="radio" name="classify" value="0"  v-model="shop.classify"/> 4S店
+					<input type="radio" name="classify" value="0"  v-model="vehicaledet.classify"/> 4S店
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="classify" value="1"  v-model="shop.classify"/>维保店
+					<input type="radio" name="classify" value="1"  v-model="vehicaledet.classify"/>维保店
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="classify" value="2"  v-model="shop.classify"/>二手车机构店铺
+					<input type="radio" name="classify" value="2"  v-model="vehicaledet.classify"/>二手车机构店铺
 				</label>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">精品商品服务</div>
 				<label class="radio-inline">
-					<input type="radio" name="refEl" value="0"  v-model="shop.refEl"/>拥有
+					<input type="radio" name="refEl" value="0"  v-model="vehicaledet.refEl"/>拥有
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="refEl" value="1"  v-model="shop.refEl"/>不拥有
+					<input type="radio" name="refEl" value="1"  v-model="vehicaledet.refEl"/>不拥有
 				</label>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">保养服务</div>
 				<label class="radio-inline">
-					<input type="radio" name="upkeepEl" value="0"  v-model="shop.upkeepEl"/>拥有
+					<input type="radio" name="upkeepEl" value="0"  v-model="vehicaledet.upkeepEl"/>拥有
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="upkeepEl" value="1"  v-model="shop.upkeepEl"/>不拥有
+					<input type="radio" name="upkeepEl" value="1"  v-model="vehicaledet.upkeepEl"/>不拥有
 				</label>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">轮胎服务</div>
 				<label class="radio-inline">
-					<input type="radio" name="tyreEl" value="0"  v-model="shop.tyreEl"/>拥有
+					<input type="radio" name="tyreEl" value="0"  v-model="vehicaledet.tyreEl"/>拥有
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="tyreEl" value="1"  v-model="shop.tyreEl"/>不拥有
+					<input type="radio" name="tyreEl" value="1"  v-model="vehicaledet.tyreEl"/>不拥有
 				</label>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">改装服务</div>
 				<label class="radio-inline">
-					<input type="radio" name="refitEl" value="0"  v-model="shop.refitEl"/>拥有
+					<input type="radio" name="refitEl" value="0"  v-model="vehicaledet.refitEl"/>拥有
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="refitEl" value="1"  v-model="shop.refitEl"/>不拥有
+					<input type="radio" name="refitEl" value="1"  v-model="vehicaledet.refitEl"/>不拥有
 				</label>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">安装服务</div>
 				<label class="radio-inline">
-					<input type="radio" name="installEl" value="0"  v-model="shop.installEl"/>拥有
+					<input type="radio" name="installEl" value="0"  v-model="vehicaledet.installEl"/>拥有
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="installEl" value="1"  v-model="shop.installEl"/>不拥有
+					<input type="radio" name="installEl" value="1"  v-model="vehicaledet.installEl"/>不拥有
 				</label>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">废弃标志</div>
 				<label class="radio-inline">
-					<input type="radio" name="delfg" value="0"  v-model="shop.delfg"/>正常
+					<input type="radio" name="delfg" value="0"  v-model="vehicaledet.delfg"/>正常
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="delfg" value="1"  v-model="shop.delfg"/>废弃
+					<input type="radio" name="delfg" value="1"  v-model="vehicaledet.delfg"/>废弃
 				</label>
 			</div>
 			<div class="form-group"> 
 				<div class="col-sm-2 control-label">图片</div>
 				<div class="z_photo upimg-div clear col-sm-10" >
-					<section class="up-section fl" style="float:left;" v-for="img in shop.imgs" >
+					<section class="up-section fl" style="float:left;" v-for="img in vehicaledet.imgs" >
 						<span class="up-span"></span>
 							<img class="close-upimg" src="../../statics/img/a7.png">
-							<img class="up-img" :src="img.picAddress">
+							<img class="up-img" :src="img">
 							<input id="taglocation" name="taglocation" value="" type="hidden">
 							<input id="tags" name="tags" value="" type="hidden">
 					 </section>

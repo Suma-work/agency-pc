@@ -121,8 +121,8 @@ function upperCase(value){
            }else{
         	   document.getElementById('lon').value=data.data.log;
         	   document.getElementById('lat').value=data.data.lat;
-        	   vm.shop.log=data.data.log;
-        	   vm.shop.lat=data.data.lat;
+        	   vm.vehicaledet.log=data.data.log;
+        	   vm.vehicaledet.lat=data.data.lat;
            }
         },
         error: function (data) {
@@ -198,7 +198,7 @@ var vm = new Vue({
             deptName:null,
             roleIdList:[]
         },
-        shop:{
+        vehicaledet:{
         	imgs:[]
         }
     },
@@ -255,23 +255,34 @@ var vm = new Vue({
         	}
         },
         saveOrUpdate: function () {
-            var url = vm.shop.carId == null ? "vehi/setVehi" : "uplo/uploadImages?carId="+vm.shop.carId;
-//            console.log("carId:"+vm.shop.carId+"----url:"+url);
-            
-            var imgs=vm.shop.imgs;
+            var url = vm.vehicaledet.carId == null ? "vehi/setVehi" : "uplo/uploadImages?carId="+vm.shop.carId;
+//            console.log("carId:"+vm.vehicaledet.carId+"----url:"+url);            
+            var imgs=vm.vehicaledet.imgs;
 //            console.log("imgs->>>>>>>>>>>"+imgs);
-            if(vm.shop.sellPrice==null){
-            	alert("当前售价不能为空！");
-            }else if(vm.shop.carDetName==null){
-            	alert("车型名称不能为空！");
-            }else if(vm.shop.orginPrice==null){
-            	alert("原始价格不能为空！");
-            }else if(vm.shop.carEngine==null){
-            	alert("发动机不能为空！");
-            }else if(vm.shop.gearbox==null){
-            	alert("变速箱不能为空！");
-            }else if(vm.shop.carType==null){
-            	alert("车体结构不能为空！");
+            if(vm.vehicaledet.name==null){
+            	alert("所属大区不能为空！");
+            }else if(vm.vehicaledet.shopName==null){
+            	alert("店铺名称不能为空！");
+            }else if(vm.vehicaledet.shopPhone==null){
+            	alert("店铺电话不能为空！");
+            }else if(vm.vehicaledet.address==null){
+            	alert("店铺地址不能为空！");
+            }else if(vm.vehicaledet.lon==null){
+            	alert("经度不能为空！");
+            }else if(vm.vehicaledet.lat==null){
+            	alert("纬度不能为空！");
+            }else if(vm.vehicaledet.classify==null){
+            	alert("请选择店铺类型！");
+            }else if(vm.vehicaledet.refEl==null){
+            	alert("请选择精品商品服务！");
+            }else if(vm.vehicaledet.upkeepEl==null){
+            	alert("请选择保养服务！");
+            }else if(vm.vehicaledet.tyreEl==null){
+            	alert("请选择轮胎服务！");
+            }else if(vm.vehicaledet.installEl==null){
+            	alert("请选择安装服务！");
+            }else if(vm.vehicaledet.delfg==null){
+            	alert("请选择废弃标志！");
             }else if(imgs.length<0){
             	alert("至少上传一张展示图片！");
             }else{
@@ -279,7 +290,7 @@ var vm = new Vue({
             			type: "POST",
             			url: baseURL + url,
             			contentType: "application/json",
-            			data: JSON.stringify(vm.shop),
+            			data: JSON.stringify(vm.vehicaledet),
             			success: function(r){
             				if(r.messageCode === "0"){
             					alert('操作成功', function(){
@@ -295,8 +306,15 @@ var vm = new Vue({
         getuser: function(shopId){
             $.get(baseURL + "shop/getShopMap?shopId="+shopId, function(r){
             	console.log(r)
-                vm.shop = r.data;
-            
+                vm.vehicaledet = r.data;
+            	imgslength = vm.vehicaledet.imgs.length;
+                if(imgslength>0){
+                	var imgs = [];
+                	for(var i=0;i<imgslength;i++){
+                		imgs.push(vm.vehicaledet.imgs[i]);
+                	}
+                	vm.vehicaledet.imgs = imgs
+                }
             });
         },
         getRoleList: function(){
