@@ -4,30 +4,29 @@
 <mapper namespace="com.sumainfo.modules.sys.dao.VehicledetMapper">
 	
 	<select id="getVehiList" resultType="java.util.Map">
-		SELECT `user`.dept_id,vedet.shopId,vedet.carId,vedet.bandName,vedet.carName,vedet.carDetName,vedet.sellPrice,vedet.orginPrice,
-		vedet.carEngine,vedet.gearbox,vedet.carType,vedet.isLicence,vedet.createTime FROM `sys_user` 
-		user left join vehicledet vedet on `user`.shopid=vedet.shopId
+		SELECT shopId,carId,bandName,carName,carDetName,sellPrice,orginPrice,
+		carEngine,gearbox,carType,isLicence,createTime FROM vehicledet vedet
 		<trim prefix="where" prefixOverrides="and|or">
-			<!-- <if test="deptidList !=null and deptidList.size>0 ">
-				and `user`.dept_id in 
-				<foreach collection="deptidList" index="index" item="item" open="(" separator="," close=")">
+			<if test="shopidList !=null and shopidList.size>0 ">
+				and shopId in 
+				<foreach collection="shopidList" index="index" item="item" open="(" separator="," close=")">
                		#{item}
           		</foreach>
-			</if> -->
-			<if test="keyword !=null and keyword != ''">
-				or `user`.bandName like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				or `user`.carName like '%${keyword}%'
+				or bandName like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				or `user`.carDetName like '%${keyword}%'
+				or carName like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				or `user`.gearbox like '%${keyword}%'
+				or carDetName like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				or `user`.carType like '%${keyword}%'
+				or gearbox like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or carType like '%${keyword}%'
 			</if>
 		</trim>
 		<if test="sidx != null and sidx != '' and order!='' and order != null ">
@@ -49,29 +48,28 @@
 	</select>
 	
 	<select id="getVehiCout" resultType="java.lang.Integer" parameterType="java.util.Map">
-		SELECT count(1) FROM `sys_user` 
-		user left join vehicledet vedet on `user`.shopid=vedet.shopId
+		SELECT count(1) FROM vehicledet vedet
 		<trim prefix="where" prefixOverrides="and|or">
-			<!-- <if test="deptidList !=null and deptidList.size>0 ">
-				and `user`.dept_id in 
-				<foreach collection="deptidList" index="index" item="item" open="(" separator="," close=")">
+			<if test="shopidList !=null and shopidList.size>0 ">
+				and shopId in 
+				<foreach collection="shopidList" index="index" item="item" open="(" separator="," close=")">
                		#{item}
           		</foreach>
-			</if> -->
-			<if test="keyword !=null and keyword != ''">
-				or `user`.bandName like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				or `user`.carName like '%${keyword}%'
+				or bandName like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				or `user`.carDetName like '%${keyword}%'
+				or carName like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				or `user`.gearbox like '%${keyword}%'
+				or carDetName like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
-				or `user`.carType like '%${keyword}%'
+				or gearbox like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or carType like '%${keyword}%'
 			</if>
 		</trim>
 	</select>
@@ -88,8 +86,8 @@
 	</select>
 	
 	<select id="getVePic" resultType="java.util.Map">
-	select ve.vehId,ve.carName,vep.isShow,vep.picAddress from (SELECT vehId,carName,shopId FROM 
-	vehiclebanner 
+		select ve.vehId,ve.carName,vep.isShow,vep.picAddress from (SELECT vehId,carName,shopId FROM 
+		vehiclebanner 
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="carName !=null and carName !='' ">
 				and carName=#{carName}
@@ -100,6 +98,24 @@
 		</trim>
 		)ve LEFT JOIN vehbannerpic vep on ve.vehId=vep.vehId
 	</select>
+	
+	<select id="getVePics" resultType="java.util.Map">
+		SELECT vbId,vehId,isShow,picAddress FROM `vehbannerpic`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="vehId !=null and vehId !='' ">
+				and vehId=#{vehId}
+			</if>
+		</trim>
+	</select>
+	
+	<delete id="deltctVhiPic" parameterType="java.util.Map">  
+        delete from vehbannerpic
+        <trim prefix="where" prefixOverrides="and|or">
+        	<if test="vbId !=null">
+        		and vbId=#{vbId}
+        	</if>
+        </trim>
+    </delete>  
 	
 	<select id="getFcv" resultType="java.util.Map">
 		SELECT id,`name` FROM `fcvtable`
@@ -229,13 +245,13 @@
 	<select id="getDept" resultType="com.sumainfo.modules.sys.entity.Menu">
 		SELECT dept_id id,parent_id pid,`name` FROM `sys_dept`
 		<trim prefix="where" prefixOverrides="and|or">
-			<if test="deptids !=null">
-				parent_id=#{deptids}
+			<if test="loginDeptid !=null">
+				parent_id=#{loginDeptid}
 			</if>
 		</trim>
 	</select>
 	
-	<!-- <select id="getUserShop" resultType="java.util.Map">
+	<select id="getUserShop" resultType="java.util.Map">
 		SELECT shopid,dept_id FROM `sys_user`
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="deptidList !=null and deptidList.size>0 ">
@@ -245,7 +261,16 @@
           		</foreach>
 			</if>
 		</trim>
-	</select> -->
+	</select>
+	
+	<select id="userAnShop" resultType="java.util.Map">
+		SELECT shopid,username FROM `sys_user` 
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="username !=null">
+				and username=#{username}
+			</if>
+		</trim>
+	</select>
 		
 	
 	<!-- <select id="getShopList" resultType="java.util.Map">

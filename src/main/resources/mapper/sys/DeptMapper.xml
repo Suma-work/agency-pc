@@ -12,4 +12,13 @@
 		</trim>
 	</select>
 	
+	<select id="getDeptMap" resultType="java.util.Map">
+	SELECT dept_id deptid,parent_id parentid,`name` FROM `sys_dept`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="loginDeptid !=null and loginDeptid !='' ">
+				and dept_id=#{loginDeptid}
+			</if>
+		</trim>
+	</select>
+	
 </mapper>

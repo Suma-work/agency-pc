@@ -2,12 +2,13 @@ $(function () {
 	var deptid=JSON.parse(localStorage.getItem("user")).deptId;
 	if(deptid==null){
 		deptid="";
-	}/*else if(deptid=="1"||deptid=="2"){
+	}else if(deptid=="1"||deptid=="2"){
 		deptid="";
-	}*/
-//	console.log(deptid);
+	}
+	var username=JSON.parse(localStorage.getItem("user")).username;
+	console.log(username);
     $("#jqGrid").jqGrid({
-        url: baseURL + 'vehi/getVehiList?deptid='+deptid,
+        url: baseURL + 'vehi/getVehiList?loginDeptid='+deptid+"&username="+username,
         datatype: "json",
         colModel: [			
             { label: '汽车主键', name: 'carId', index: "cusId", width: 35, key: true },

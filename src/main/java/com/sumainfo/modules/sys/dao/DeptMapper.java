@@ -13,4 +13,12 @@ public interface DeptMapper {
 	 * @return
 	 */
 	Map<String,Object>getDept(Map<String,Object>params);
+	
+	/**
+	  * 获取当前的部门
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @author zhlu
+	 * @date 2018年4月10日
+	  */
+	 Map<String,Object>getDeptMap(Map<String,Object>params);
 }
