@@ -244,14 +244,20 @@ public class VehicaledetService implements Serializable {
 				.getVePic(params);
 //		List<Map<String, Object>> vepics = new ArrayList<Map<String, Object>>();
 		StringBuilder str = new StringBuilder();
-		for (Map<String, Object> map : vehiPicList) {
-			Map<String, Object> vepic = new HashMap<String, Object>();
-//			vepic.put("isShow", map.get("isShow"));
-//			vepic.put("picAddress", map.get("picAddress"));
-			str.append(map.get("picAddress")+";");
-//			vepics.add(vepic);
+		for (int i = 0; i < vehiPicList.size(); i++) {
+			if(i==vehiPicList.size()){
+				str.append(vehiPicList.get(i).get("picAddress"));
+			}else{
+				str.append(vehiPicList.get(i).get("picAddress")+";");
+			}
 		}
-		VehiMap.put("imgs", str);
+//		for (Map<String, Object> map : vehiPicList) {
+//			Map<String, Object> vepic = new HashMap<String, Object>();
+////			vepic.put("isShow", map.get("isShow"));
+////			vepic.put("picAddress", map.get("picAddress"));
+////			vepics.add(vepic);
+//		}
+		VehiMap.put("imgs",str.substring(0,str.length()-1));
 		// 获取品牌编号
 		VehiMap.put("fvcid", vehicledetMapper.getFcv(params).get("id"));
 		// 获取车型编号
