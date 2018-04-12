@@ -118,6 +118,13 @@ public class UploadDownloadController {
 		}
         return result.putFailed("上传失败！"); 
 	}
+	
+	/**
+	 * 根据名字删除图片
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月12日
+	 */
 	@ResponseBody
 	@RequestMapping(value="/deleteImages",method=RequestMethod.GET)
     public JsonResult getDelete(@RequestParam Map<String,Object>params){
