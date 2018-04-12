@@ -109,6 +109,7 @@ public class UploadDownloadController {
 				String url = ToolsUntil.PICTURE_URL+newFileName;
 				log.info("上传成功后的文件路径未：" +url);  
 				resultMap.put("pictureUrl",url);//图片地址
+				resultMap.put("picName",newFileName);//图片地址
 				return result.put(resultMap);
 			} catch (IllegalStateException e) {  
 				e.printStackTrace();  
@@ -130,7 +131,7 @@ public class UploadDownloadController {
     public JsonResult getDelete(@RequestParam Map<String,Object>params){
 		JsonResult result=new JsonResult();
 		log.info("params->>>>>>>>>>"+params);
-		File file=new File(params.get("imagesPic").toString());
+		File file=new File(ToolsUntil.PATH_URL+params.get("picName").toString());
         if (file.exists()) {
            file.delete();//如果文件存在 则删除该文件
            result.putSuccess("删除图片成功！");
