@@ -108,10 +108,7 @@ function isPoneAvailable() {
     }  
 } 
 function getschoolList(fid,secid) {//获取下拉列表
-	$("#bandName").find("option").remove();
-	$("#carName").find("option").remove(); 
-//	var fids=fid;
-//	console.log(fid+"*********"+secid);
+	var shopid=JSON.parse(localStorage.getItem("user")).shopid;
     $.ajax({
         url: baseURL + "vehic/getFvc",//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
         type: "get",//数据发送方式
@@ -143,57 +140,60 @@ function getschoolList(fid,secid) {//获取下拉列表
             alert("查询失败" + data);
         }
     });
-    var fids=undefined;
-    if(fid==undefined){//如果是新增的时候默认为第一个	
-    	fids=1;
-    }else{//修改的时候默认获取传递进来的值
-    	fids=fid;
-    }
-    $.ajax({
-        url: baseURL + "vehic/getClvl?parentid="+fids,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
-        type: "get",//数据发送方式
-        dataType: "json",//接受数据格式
-        data: 'data',//要传递的数据
-        success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
-            $.each(data.data, function (i) {
-                $('#carName.selectpicker').append("<option id='clvl' value=" + data.data[i].id + ">" + data.data[i].name + "</option>");
-                if(secid==undefined){
-//		    	console.log(fids);
-                	document.getElementById("carNames").value=data.data[0].name;
-                }else if(secid==data.data[i].id){
-//                	console.log("secid:"+secid+"---data.data[i].id:"+data.data[i].id+"-----name:"+data.data[i].name)
-                	$('#carName').selectpicker('val',secid);
-                	document.getElementById("carNames").value=data.data[i].name;
-//                	console.log(document.getElementById("carNames").value);
-//                	document.getElementById("carNames").value=data.data[fid-1].name;
-                }
-            });
-//            $('#carName').selectpicker('val',fid);
-            $('#carName').selectpicker('refresh');
-        },
-        error: function (data) {
-            alert("查询失败" + data);
-        }
-    });
+//    var bandName=undefined;
+//    if(fid==undefined){//如果是新增的时候默认为第一个	
+//    	bandName="奥迪";
+//    }else{//修改的时候默认获取传递进来的值
+//    	bandName=fid;
+//    }
+//    $.ajax({
+//        url: baseURL + "vehi/getCarList?bandName="+bandName+"&shopId="+shopid,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+//        type: "get",//数据发送方式
+//        dataType: "json",//接受数据格式
+//        data: 'data',//要传递的数据
+//        success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
+//        	if(data.data.length == 0){
+//        		alert("暂无汽车车型！");
+//        	}else{
+//        		$.each(data.data, function (i) {
+//        			$('#carName.selectpicker').append("<option id='clvl' value=" + data.data[i].id + ">" + data.data[i].name + "</option>");
+//        			if(secid==undefined){
+//        				document.getElementById("carNames").value=data.data[0].name;
+//        			}else if(secid==data.data[i].id){
+//        				$('#carName').selectpicker('val',secid);
+//        				document.getElementById("carNames").value=data.data[i].name;
+//        			}
+//        		});
+//        		$('#carName').selectpicker('refresh');
+//        	}
+//        },
+//        error: function (data) {
+//            alert("查询失败" + data);
+//        }
+//    });
 }
 
 
 function selectBandName(obj){
 	document.getElementById("bandNames").value=obj.options[obj.selectedIndex].text;
-	var value = obj.options[obj.selectedIndex].value;
-//	console.log(value);
+	var bandName = obj.options[obj.selectedIndex].text;
+	var shopid=JSON.parse(localStorage.getItem("user")).shopid;
 	$("#carName").find("option").remove(); 
 	$.ajax({
-        url: baseURL + "vehic/getClvl?parentid="+value,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+        url: baseURL + "vehi/getCarList?bandName="+bandName+"&shopId="+shopid,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
         type: "get",//数据发送方式
         dataType: "json",//接受数据格式
         data: 'data',//要传递的数据
         success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
-            $.each(data.data, function (i) {
-                $('#carName.selectpicker').append("<option id='clvl' value=" + data.data[i].id + ">" + data.data[i].name + "</option>");
-            });
-            document.getElementById("carNames").value=data.data[0].name;
-            $('#carName').selectpicker('refresh');
+        	if(data.data.length == 0){
+        		alert("暂无汽车车型！");
+        	}else{
+        		$.each(data.data, function (i) {
+        			$('#carName.selectpicker').append("<option id='clvl' value=" + data.data[i].id + ">" + data.data[i].name + "</option>");
+        		});
+        		document.getElementById("carNames").value=data.data[0].name;
+        		$('#carName').selectpicker('refresh');
+        	}
         },
         error: function (data) {
             alert("查询失败" + data);
@@ -239,19 +239,10 @@ var vm = new Vue({
             vm.reload();
         },
         add: function(){
-//            var shopid=JSON.parse(localStorage.getItem("user")).shopid;
-//            console.log(shopid);
-//            if(shopid==null){
-//            	alert("只能商家发布新车！");
-//            	vm.showList = true;
-//            }else{
-//            	vm.showList = false;
-//            	vm.title = "新增";
-//            	getschoolList();
-//            }
             vm.showList = false;
         	vm.title = "新增";
         	getschoolList();
+        	console.log($('#bandName').selectpicker('val')+"-----------");
         },
         update: function () {
         	var id = getSelectedRow();//根据点击行获得点击行的id（id为jsonReader: {id: "id" },)
