@@ -131,4 +131,18 @@ public class VehicledetController implements Serializable{
 		return result.put(vehicaledetService.getCarList(params));
 //		return result;
 	}
+	
+	/**
+	 * 获取所有的店铺品牌
+	 * @author:zhlu
+	 * @date: 2018年3月21日
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/getBanList",method=RequestMethod.GET)
+	public JsonResult getBanList(@RequestParam Map<String,Object>params){
+		JsonResult result=new JsonResult();
+		return result.put(vehicaledetService.getBanList(params));
+	}
 }

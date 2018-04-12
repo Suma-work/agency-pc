@@ -366,4 +366,14 @@ public class VehicaledetService implements Serializable {
 	public List<Map<String,Object>>getCarList(Map<String,Object>params){
 		return vehicledetMapper.getCarList(params);
 	}
+	
+	/**
+	 * 店铺品牌
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月12日
+	 */
+	public List<Map<String,Object>>getBanList(Map<String,Object>params){
+		return vehicledetMapper.getBanList(params);
+	}
 }
