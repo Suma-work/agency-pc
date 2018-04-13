@@ -280,4 +280,48 @@
 		GROUP BY id,name
 	</select>
 	
+	<select id="getCarEn" parameterType="java.util.Map">
+		SELECT carEngine FROM `vehiclemain`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="shopId !=null">
+				and shopId=#{shopId}
+			</if>
+			<if test="bandName !=null">
+				and bandName=#{bandName}
+			</if>
+			<if test="carName !=null">
+				and carName=#{carName}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getCarGear" parameterType="java.util.Map">
+		SELECT gearbox FROM `vehiclemain`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="shopId !=null">
+				and shopId=#{shopId}
+			</if>
+			<if test="bandName !=null">
+				and bandName=#{bandName}
+			</if>
+			<if test="carName !=null">
+				and carName=#{carName}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getCarType" parameterType="java.util.Map">
+		SELECT carType FROM `vehiclemain`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="shopId !=null">
+				and shopId=#{shopId}
+			</if>
+			<if test="bandName !=null">
+				and bandName=#{bandName}
+			</if>
+			<if test="carName !=null">
+				and carName=#{carName}
+			</if>
+		</trim>
+	</select>
 </mapper>

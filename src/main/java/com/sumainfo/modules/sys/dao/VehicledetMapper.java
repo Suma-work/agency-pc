@@ -194,4 +194,28 @@ public interface VehicledetMapper {
 	 * @date 2018年4月12日
 	  */
 	 List<Map<String,Object>>getBanList(Map<String,Object>params);
+	 
+	 /**
+	  * 获取发动机
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @author zhlu
+	 * @date 2018年4月13日
+	  */
+	 Map<String,Object>getCarEn(Map<String,Object>params);
+	 
+	 /**
+	  * 获取变速箱
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @author zhlu
+	 * @date 2018年4月13日
+	  */
+	 Map<String,Object>getCarGear(Map<String,Object>params);
+	 
+	 /**
+	  * 获取车型结构
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @author zhlu
+	 * @date 2018年4月13日
+	  */
+	 Map<String,Object>getCarType(Map<String,Object>params);
 }

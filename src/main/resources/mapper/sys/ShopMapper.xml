@@ -63,7 +63,7 @@
 	<select id="getShop" resultType="java.util.Map">
 		SELECT s.shopId,s.shopName,s.dept,sd.`name`,
 		s.shopPhone,s.address,s.lon,s.lat,s.classify,s.refEl,s.upkeepEl,
-		s.tyreEl,s.refEl,s.installEl,s.shopPicAdress,s.createTime,s.delfg
+		s.tyreEl,s.refitEl,s.installEl,s.shopPicAdress,s.createTime,s.delfg
  		FROM `shop` s LEFT JOIN sys_dept sd on s.dept=sd.dept_id
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="shopId !=null and shopId !='' ">

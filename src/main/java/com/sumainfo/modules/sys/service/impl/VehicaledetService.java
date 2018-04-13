@@ -376,4 +376,61 @@ public class VehicaledetService implements Serializable {
 	public List<Map<String,Object>>getBanList(Map<String,Object>params){
 		return vehicledetMapper.getBanList(params);
 	}
+	
+	/**
+	 * 获取发动机
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月13日
+	 */
+	public List<Map<String,Object>>getCarEnList(Map<String,Object>params){
+		List<Map<String,Object>>result=new ArrayList<Map<String,Object>>();
+		Map<String,Object>caren=vehicledetMapper.getCarEn(params);
+		String[]car=caren.get("carEngine").toString().split(",");
+		for (int i = 0; i < car.length; i++) {
+			Map<String,Object>carMap=new HashMap<String, Object>();
+			carMap.put("id", i+1);
+			carMap.put("name",car[i]);
+			result.add(carMap);
+		}
+		return result;
+	}
+	
+	/**
+	 * 获取变速箱
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月13日
+	 */
+	public List<Map<String,Object>>getCarGearList(Map<String,Object>params){
+		List<Map<String,Object>>result=new ArrayList<Map<String,Object>>();
+		Map<String,Object>carGear=vehicledetMapper.getCarGear(params);
+		String[]gear=carGear.get("gearbox").toString().split(",");
+		for (int i = 0; i < gear.length; i++) {
+			Map<String,Object>gearMap=new HashMap<String, Object>();
+			gearMap.put("id", i+1);
+			gearMap.put("name",gear[i]);
+			result.add(gearMap);
+		}
+		return result;
+	}
+	
+	/**
+	 * 获取车型结构
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月13日
+	 */
+	public List<Map<String,Object>>getCarTypeList(Map<String,Object>params){
+		List<Map<String,Object>>result=new ArrayList<Map<String,Object>>();
+		Map<String,Object>carType=vehicledetMapper.getCarType(params);
+		String[]type=carType.get("carType").toString().split(",");
+		for (int i = 0; i < type.length; i++) {
+			Map<String,Object>typeMap=new HashMap<String, Object>();
+			typeMap.put("id", i+1);
+			typeMap.put("name",type[i]);
+			result.add(typeMap);
+		}
+		return result;
+	}
 }

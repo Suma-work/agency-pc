@@ -1,12 +1,10 @@
-$(function () {
+$(function () {//加载数据
 	var deptid=JSON.parse(localStorage.getItem("user")).deptId;
-//	console.log(deptid);
 	if(deptid==null){
 		deptid="";
 	}else if(deptid=="1"||deptid=="2"){
 		deptid="";
 	}
-//	console.log(deptid);
     $("#jqGrid").jqGrid({
         url: baseURL + 'shop/getShopList?loginDeptid='+deptid,
         datatype: "json",
@@ -29,22 +27,14 @@ $(function () {
             	}
 			}},
 			{ label: '精品商品服务', name: 'refEl', width: 35, formatter: function(value, options, row){
-            	/*if(value==""){
-            		return value;
-            	}else{*/
             		return value === 0 ?
             		'<span class="label label-success">拥有</span>':
             		'<span class="label label-danger">不拥有</span>';
-//            	}
 			}},
 			{ label: '保养服务', name: 'upkeepEl', width: 35, formatter: function(value, options, row){
-//            	if(value==""){
-//            		return value;
-//            	}else{
             		return value === 0 ?
             		'<span class="label label-success">拥有</span>':
                 	'<span class="label label-danger">不拥有</span>';
-//            	}
 			}},
 			{ label: '轮胎服务', name: 'tyreEl', width: 35, formatter: function(value, options, row){
             		return value === 0 ?
@@ -108,7 +98,7 @@ function beforeSelectRow() {
     return(true);  
 } 
 
-function upperCase(value){
+function upperCase(value){//获取地理位置
 	$.ajax({
         url: baseURL + "shop/getDistance?address="+value,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
         type: "get",//数据发送方式
@@ -131,7 +121,7 @@ function upperCase(value){
     });
 }
 
-function selectDeptList(deptid){
+function selectDeptList(deptid){//所属大区
 	$("#dept").find("option").remove();
 	$.ajax({
         url: baseURL + "shop/getDeptList?loginDeptid="+deptid,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
@@ -184,7 +174,7 @@ var setting = {
         }
     }
 };
-var vm = new Vue({
+var vm = new Vue({//vue 初始值
     el:'#rrapp',
     data:{
         q:{
@@ -211,18 +201,17 @@ var vm = new Vue({
         	vm.title = "新增";
         	var deptid=JSON.parse(localStorage.getItem("user")).deptId;
         	selectDeptList(deptid);
+        	vm.vehicaledet = {imgs:[]};
         },
         update: function () {
         	var id = getSelectedRow();//根据点击行获得点击行的id（id为jsonReader: {id: "id" },)
         	var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
         	var shopId = getSelectedRow();
-//        	console.log(shopId);
         	vm.showList = false;
         	vm.title = "修改";
         	var deptid = rowData.dept;
         	selectDeptList(deptid);
         	vm.getuser(shopId);
-//        	this.getRoleList();
         },
         del: function () {
             var userIds = getSelectedRows();
@@ -305,7 +294,6 @@ var vm = new Vue({
         },
         getuser: function(shopId){
             $.get(baseURL + "shop/getShopMap?shopId="+shopId, function(r){
-            	console.log(r)
                 vm.vehicaledet = r.data;
             	imgslength = vm.vehicaledet.imgs.length;
                 if(imgslength>0){
@@ -315,11 +303,6 @@ var vm = new Vue({
                 	}
                 	vm.vehicaledet.imgs = imgs
                 }
-            });
-        },
-        getRoleList: function(){
-            $.get(baseURL + "sys/role/select", function(r){
-                vm.roleList = r.list;
             });
         },
         reload: function () {
