@@ -283,8 +283,8 @@
 	<select id="getCarEn" parameterType="java.util.Map">
 		SELECT carEngine FROM `vehiclemain`
 		<trim prefix="where" prefixOverrides="and|or">
-			<if test="shopId !=null">
-				and shopId=#{shopId}
+			<if test="shopid !=null">
+				and shopId=#{shopid}
 			</if>
 			<if test="bandName !=null">
 				and bandName=#{bandName}
@@ -298,8 +298,8 @@
 	<select id="getCarGear" parameterType="java.util.Map">
 		SELECT gearbox FROM `vehiclemain`
 		<trim prefix="where" prefixOverrides="and|or">
-			<if test="shopId !=null">
-				and shopId=#{shopId}
+			<if test="shopid !=null">
+				and shopId=#{shopid}
 			</if>
 			<if test="bandName !=null">
 				and bandName=#{bandName}
@@ -313,8 +313,8 @@
 	<select id="getCarType" parameterType="java.util.Map">
 		SELECT carType FROM `vehiclemain`
 		<trim prefix="where" prefixOverrides="and|or">
-			<if test="shopId !=null">
-				and shopId=#{shopId}
+			<if test="shopid !=null">
+				and shopId=#{shopid}
 			</if>
 			<if test="bandName !=null">
 				and bandName=#{bandName}
