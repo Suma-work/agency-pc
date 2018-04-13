@@ -280,7 +280,7 @@
 		GROUP BY id,name
 	</select>
 	
-	<select id="getCarEn" parameterType="java.util.Map">
+	<select id="getCarEn" resultType="java.util.Map">
 		SELECT carEngine FROM `vehiclemain`
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="shopid !=null">
@@ -295,7 +295,7 @@
 		</trim>
 	</select>
 	
-	<select id="getCarGear" parameterType="java.util.Map">
+	<select id="getCarGear" resultType="java.util.Map">
 		SELECT gearbox FROM `vehiclemain`
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="shopid !=null">
@@ -310,7 +310,7 @@
 		</trim>
 	</select>
 	
-	<select id="getCarType" parameterType="java.util.Map">
+	<select id="getCarType" resultType="java.util.Map">
 		SELECT carType FROM `vehiclemain`
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="shopid !=null">
