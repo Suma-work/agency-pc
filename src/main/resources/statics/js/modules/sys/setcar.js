@@ -109,68 +109,67 @@ function isPoneAvailable() {
 } 
 function getschoolList(fid,secid) {//获取下拉列表
 	var shopid=JSON.parse(localStorage.getItem("user")).shopid;
+	$("#bandName").selectpicker({  
+        noneSelectedText : '请选择'  
+    }); 
+	$("#carName").selectpicker({  
+        noneSelectedText : '请选择'  
+    });
     $.ajax({
-        url: baseURL + "vehic/getFvc",//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+        url: baseURL + "vehi/getBanList?shopid="+shopid,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
         type: "get",//数据发送方式
         dataType: "json",//接受数据格式
         data: 'data',//要传递的数据
         success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
-        	$.each(data.data, function (i) {
-                $('#bandName.selectpicker').append("<option id='fcv' value=" + data.data[i].id + ">" + data.data[i].name + "</option>");
-            });
-//            $('#carName').selectpicker('val',fid);
-		    if(fid==undefined){
-//		    	console.log(fids);
-		    	$('#bandName').selectpicker('val',1);
-		    	document.getElementById("bandNames").value=data.data[0].name;
-		    }else{
-		    	if(fid==1){
-		    		$('#bandName').selectpicker('val',1);
-		    		document.getElementById("bandNames").value=data.data[0].name;
-		    	}else{
-		    		$('#bandName').selectpicker('val',fid);
-		    		document.getElementById("bandNames").value=data.data[fid-1].name;
-		    	}
-		    }
-		    $("#bandName").selectpicker('refresh');
-//            console.log("getschoolList->>>"+fid);
-            
+        	if(data.data.length == 0){
+        		alert("暂无汽车品牌！");
+        	}else{
+        		$.each(data.data, function (i) {
+        			$('#bandName.selectpicker').append("<option id='fcv' value=" + data.data[i].id + ">" + data.data[i].name + "</option>");
+        			if(fid==undefined){
+        				
+        			}
+        			$('#bandName').selectpicker('val',data.data[0].id);
+    		    	document.getElementById("bandNames").value=data.data[0].name;
+        		});
+        		$("#bandName").selectpicker('refresh');
+        	}
         },
         error: function (data) {
             alert("查询失败" + data);
         }
     });
-//    var bandName=undefined;
-//    if(fid==undefined){//如果是新增的时候默认为第一个	
-//    	bandName="奥迪";
-//    }else{//修改的时候默认获取传递进来的值
-//    	bandName=fid;
-//    }
-//    $.ajax({
-//        url: baseURL + "vehi/getCarList?bandName="+bandName+"&shopId="+shopid,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
-//        type: "get",//数据发送方式
-//        dataType: "json",//接受数据格式
-//        data: 'data',//要传递的数据
-//        success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
-//        	if(data.data.length == 0){
-//        		alert("暂无汽车车型！");
-//        	}else{
-//        		$.each(data.data, function (i) {
-//        			$('#carName.selectpicker').append("<option id='clvl' value=" + data.data[i].id + ">" + data.data[i].name + "</option>");
-//        			if(secid==undefined){
-//        				document.getElementById("carNames").value=data.data[0].name;
-//        			}else if(secid==data.data[i].id){
-//        				$('#carName').selectpicker('val',secid);
-//        				document.getElementById("carNames").value=data.data[i].name;
-//        			}
-//        		});
-//        		$('#carName').selectpicker('refresh');
-//        	}
-//        },
-//        error: function (data) {
-//            alert("查询失败" + data);
-//        }
-//    });
+    var bandName=undefined;
+    if(fid==undefined){//如果是新增的时候默认为第一个	
+    	bandName="本田";
+    }else{//修改的时候默认获取传递进来的值
+    	bandName=fid;
+    }
+    $.ajax({
+        url: baseURL + "vehi/getCarList?bandName="+bandName+"&shopId="+shopid,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+        type: "get",//数据发送方式
+        dataType: "json",//接受数据格式
+        data: 'data',//要传递的数据
+        success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
+        	if(data.data.length == 0){
+        		alert("暂无汽车车型！");
+        	}else{
+        		$.each(data.data, function (i) {
+        			$('#carName.selectpicker').append("<option id='clvl' value=" + data.data[i].id + ">" + data.data[i].name + "</option>");
+        			if(secid==undefined){
+        				document.getElementById("carNames").value=data.data[0].name;
+        			}else if(secid==data.data[i].id){
+        				$('#carName').selectpicker('val',secid);
+        				document.getElementById("carNames").value=data.data[i].name;
+        			}
+        		});
+        		$('#carName').selectpicker('refresh');
+        	}
+        },
+        error: function (data) {
+            alert("查询失败" + data);
+        }
+    });
 }
 
 
