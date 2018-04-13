@@ -270,4 +270,14 @@
 		</trim>
 	</select>
 	
+	<select id="getBanList" resultType="java.util.Map">
+		SELECT bandid id,bandName name FROM `vehiclemain`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="shopid !=null">
+				and shopId=#{shopid}
+			</if>
+		</trim>
+		GROUP BY id,name
+	</select>
+	
 </mapper>

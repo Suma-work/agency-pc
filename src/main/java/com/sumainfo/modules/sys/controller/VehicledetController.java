@@ -143,6 +143,7 @@ public class VehicledetController implements Serializable{
 	@RequestMapping(value="/getBanList",method=RequestMethod.GET)
 	public JsonResult getBanList(@RequestParam Map<String,Object>params){
 		JsonResult result=new JsonResult();
+		log.info("params->>>>>"+params);
 		return result.put(vehicaledetService.getBanList(params));
 	}
 }
