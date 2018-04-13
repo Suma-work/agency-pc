@@ -146,4 +146,50 @@ public class VehicledetController implements Serializable{
 		log.info("params->>>>>"+params);
 		return result.put(vehicaledetService.getBanList(params));
 	}
+	
+	/**
+	 * 获取发动机
+	 * @author:zhlu
+	 * @date: 2018年3月21日
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/getCarEnList",method=RequestMethod.GET)
+	public JsonResult getCarEnList(@RequestParam Map<String,Object>params){
+		JsonResult result=new JsonResult();
+		log.info("params->>>>>"+params);
+		return result.put(vehicaledetService.getCarEnList(params));
+	}
+	
+	/**
+	 * 获取变速箱
+	 * @author:zhlu
+	 * @date: 2018年3月21日
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/getCarGearList",method=RequestMethod.GET)
+	public JsonResult getCarGearList(@RequestParam Map<String,Object>params){
+		JsonResult result=new JsonResult();
+		log.info("params->>>>>"+params);
+		return result.put(vehicaledetService.getCarGearList(params));
+	}
+	
+
+	/**
+	 * 获取车型结构
+	 * @author:zhlu
+	 * @date: 2018年3月21日
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/getCarTypeList",method=RequestMethod.GET)
+	public JsonResult getCarTypeList(@RequestParam Map<String,Object>params){
+		JsonResult result=new JsonResult();
+		log.info("params->>>>>"+params);
+		return result.put(vehicaledetService.getCarTypeList(params));
+	}
 }
