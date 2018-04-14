@@ -12,7 +12,7 @@
 	<div v-show="showList">
 		<div class="grid-btn">
 			<div class="form-group col-sm-2">
-				<input type="text" class="form-control" id="keyword" v-model="q.shopname" @keyup.enter="query" placeholder="店铺名称、店铺类型">
+				<input type="text" class="form-control" id="keyword" v-model="q.shopname" @keyup.enter="query" placeholder="轮播图标题">
 			</div>
 			<a class="btn btn-default" @click="query">查询</a>
 			<#if shiro.hasPermission("sys:shop:save")>
@@ -122,106 +122,32 @@
 		<div class="panel-heading">{{title}}</div>
 		<form class="form-horizontal" id="form-horizontal" >
 	        <div class="form-group">
-                 <div class="col-sm-2 control-label">所属大区</div>
+                 <div class="col-sm-2 control-label">轮播图编号</div>
                     <div class="col-sm-10">
-                    <select id="dept" name="dept" data-live-search="true" class="selectpicker" onchange="clickSelectDeptList(this)"></select>
-                    <input type="text" value="1" hidden id="depts"/>
+                    <input type="text" class="form-control" disabled="true" v-model="vehicaledet.bannerid" placeholder="轮播图标题"/>
                 </div>
             </div>
 			<div class="form-group">
-                 <div class="col-sm-2 control-label">店铺名称</div>
+                 <div class="col-sm-2 control-label">轮播图标题</div>
                  <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="vehicaledet.shopName" placeholder="店铺名称"/>
+                    <input type="text" class="form-control" v-model="vehicaledet.title" placeholder="轮播图标题"/>
                  </div> 	
             </div>
             <div class="form-group">
-                 <div class="col-sm-2 control-label">店铺电话</div>
+                 <div class="col-sm-2 control-label">关联的网址</div>
                  <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="vehicaledet.shopPhone" placeholder="店铺电话"/>
+                    <input type="text" class="form-control" v-model="vehicaledet.netUrl" placeholder="关联的网址"/>
                  </div> 	
             </div>
 			<div class="form-group">
-				<div class="col-sm-2 control-label">店铺地址</div>
-				<div class="col-sm-10">
-					<input type="num"  id="address" class="form-control" placeholder="店铺地址" v-model="vehicaledet.address" onchange="upperCase(this.value)"/>
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">经度</div>
-				<div class="col-sm-10">
-					<input type="num"  id="lon" class="form-control" placeholder="经度" v-model="vehicaledet.lon" readonly="readonly"/>
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">纬度</div>
-				<div class="col-sm-10">
-					<input type="num"  id="lat" class="form-control" placeholder="纬度" v-model="vehicaledet.lat" readonly="readonly"/>
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">店铺类型</div>
-				<label class="radio-inline">
-					<input type="radio" name="classify" value="1"  v-model="vehicaledet.classify"/> 4S店
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="classify" value="2"  v-model="vehicaledet.classify"/>维保店
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="classify" value="3"  v-model="vehicaledet.classify"/>二手车机构店铺
-				</label>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">精品商品服务</div>
-				<label class="radio-inline">
-					<input type="radio" name="refEl" value="0"  v-model="vehicaledet.refEl"/>拥有
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="refEl" value="1"  v-model="vehicaledet.refEl"/>不拥有
-				</label>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">保养服务</div>
-				<label class="radio-inline">
-					<input type="radio" name="upkeepEl" value="0"  v-model="vehicaledet.upkeepEl"/>拥有
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="upkeepEl" value="1"  v-model="vehicaledet.upkeepEl"/>不拥有
-				</label>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">轮胎服务</div>
-				<label class="radio-inline">
-					<input type="radio" name="tyreEl" value="0"  v-model="vehicaledet.tyreEl"/>拥有
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="tyreEl" value="1"  v-model="vehicaledet.tyreEl"/>不拥有
-				</label>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">改装服务</div>
-				<label class="radio-inline">
-					<input type="radio" name="refitEl" value="0"  v-model="vehicaledet.refitEl"/>拥有
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="refitEl" value="1"  v-model="vehicaledet.refitEl"/>不拥有
-				</label>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">安装服务</div>
-				<label class="radio-inline">
-					<input type="radio" name="installEl" value="0"  v-model="vehicaledet.installEl"/>拥有
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="installEl" value="1"  v-model="vehicaledet.installEl"/>不拥有
-				</label>
-			</div>
-			<div class="form-group">
 				<div class="col-sm-2 control-label">废弃标志</div>
 				<label class="radio-inline">
-					<input type="radio" name="delfg" value="0"  v-model="vehicaledet.delfg"/>正常
+					<input type="radio" name="classify" value="0"  v-model="vehicaledet.deflg"/>正常
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="delfg" value="1"  v-model="vehicaledet.delfg"/>废弃
+					<input type="radio" name="classify" value="1"  v-model="vehicaledet.deflg"/>废弃
+				</label>
+				<label class="radio-inline">
 				</label>
 			</div>
 			<div class="form-group"> 

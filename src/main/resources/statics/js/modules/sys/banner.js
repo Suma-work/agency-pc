@@ -1,27 +1,27 @@
 $(function () {//加载数据
-	var deptid=JSON.parse(localStorage.getItem("user")).deptId;
-	if(deptid==null){
-		deptid="";
-	}else if(deptid=="1"||deptid=="2"){
-		deptid="";
-	}
     $("#jqGrid").jqGrid({
-        url: baseURL + 'shop/getShopList?loginDeptid='+deptid,
+        url: baseURL + 'banner/getBanList',
         datatype: "json",
         colModel: [			
-            { label: '店铺编号', name: 'shopId',index: "shopId", width: 150,key: true,height:500,align:"center"},
-            { label: '店铺名称', name: 'shopName', index: "shopName",width: 80,height:500},
-            { label: '大区编号', name: 'dept',sortable:false, width: 50,hidden:true,height:500},
-            { label: '所属大区', name: 'name',sortable:false, width: 80,height:500},
-            { label: '店铺电话', name: 'shopPhone', index: "shopPhone",width: 50,height:500},
-            { label: '店铺地址', name: 'address', index: "address",width: 120,height:500},
-            { label: '经度', name: 'lon', index: "lon", width: 50,hidden:true,height:500},
-            { label: '纬度', name: 'lat', index: 'lat', width:50,hidden:true,height:500}
+            { label: '轮播图编号', name: 'bannerid',index: "bannerid", width:100,key: true},
+            { label: '轮播图标题', name: 'title', index: "title",width: 80},
+            { label: '关联的网址', name: 'netUrl',sortable:false, width: 80},
+            { label: '创建时间', name: 'createTime', index: "netUrl",width: 50},
+            { label: '修改时间', name: 'modifyTime', index: "createTime",width: 50,hidden:true},
+            { label: '废弃标志', name: 'deflg', width: 20, formatter: function(value, options, row){
+            		return value ===0 ?
+            			'<span class="label label-success">正常</span>':
+                		'<span class="label label-danger">废弃</span>';
+			}},
+			{ label: '废弃标志', name: 'picUrl', width:60,align:"center", formatter: function(value, options, row){
+        		return '<img class="img-responsive"style="width:130px;height:100px" src="'+value+'">';
+			}}/*,
+            { label: '平台首页的展示图片', name: 'picUrl',sortable:false, width:100},*/
         ],
 		viewrecords: true,
-        height: 195,
-        rowNum: 5,
-		rowList : [5,30,50],
+        height: 450,
+        rowNum: 6,
+//		rowList : [6,30,50],
         rownumbers: true, 
         rownumWidth: 25, 
         autowidth:true,
@@ -46,13 +46,13 @@ $(function () {//加载数据
         gridComplete:function(){
         	//隐藏grid底部滚动条
         	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
-        }/*,
+        },
         loadComplete:function(){//定义jqGrid高度，放置图片
             var grid = $("#jqGrid");
             var ids = grid.getDataIDs();
             for (var i = 0; i < ids.length; i++) {
-                grid.setRowData ( ids[i], false, {height:135+i*2} );
-            }}*/
+                grid.setRowData ( ids[i], false, {height:67+i*2} );
+            }}
     });
 });
 function hideSelectAll() {  
@@ -188,12 +188,11 @@ var vm = new Vue({//vue 初始值
         update: function () {
         	var id = getSelectedRow();//根据点击行获得点击行的id（id为jsonReader: {id: "id" },)
         	var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
-        	var shopId = getSelectedRow();
+        	var bannerid = getSelectedRow();
         	vm.showList = false;
         	vm.title = "修改";
-        	var deptid = rowData.dept;
-        	selectDeptList(deptid);
-        	vm.getuser(shopId);
+//        	console.log(bannerid);
+        	vm.getuser(bannerid);
         },
         del: function () {
             var userIds = getSelectedRows();
@@ -275,17 +274,17 @@ var vm = new Vue({//vue 初始值
             		});
             }
         },
-        getuser: function(shopId){
-            $.get(baseURL + "shop/getShopMap?shopId="+shopId, function(r){
+        getuser: function(bannerid){
+            $.get(baseURL + "banner/getBanMap?bannerid="+bannerid, function(r){
                 vm.vehicaledet = r.data;
-            	imgslength = vm.vehicaledet.imgs.length;
-                if(imgslength>0){
-                	var imgs = [];
-                	for(var i=0;i<imgslength;i++){
-                		imgs.push(vm.vehicaledet.imgs[i]);
-                	}
-                	vm.vehicaledet.imgs = imgs
-                }
+//            	imgslength = vm.vehicaledet.imgs.length;
+//                if(imgslength>0){
+//                	var imgs = [];
+//                	for(var i=0;i<imgslength;i++){
+//                		imgs.push(vm.vehicaledet.imgs[i]);
+//                	}
+//                	vm.vehicaledet.imgs = imgs
+//                }
             });
         },
         reload: function () {
