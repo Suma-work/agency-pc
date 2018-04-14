@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -101,6 +102,36 @@ public class ShopController implements Serializable{
         ids.add(2);
 		params.put("slideshow", ids);
 		result.put(shopService.getShop(params));
+		return result;
+	}
+	
+	/**
+	 * 新增店铺资料
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月13日
+	 */
+	@RequestMapping(value="/setShop",method=RequestMethod.POST)
+	public JsonResult setShop(@RequestBody Map<String,Object>params){
+		JsonResult result=new JsonResult();
+		log.info("params->>>>>>"+params);
+		if(shopService.setShop(params)){
+			result.putSuccess("新增成功！");
+		}else{
+			result.putFailed("服务器繁忙,请稍后重试!");
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/update",method=RequestMethod.POST)
+	public JsonResult update(@RequestBody Map<String,Object>params){
+		JsonResult result=new JsonResult();
+		log.info("params->>>>>>"+params);
+		if(shopService.updateShop(params)){
+			result.putSuccess("修改成功！");
+		}else{
+			result.putFailed("服务器繁忙,请稍后重试!");
+		}
 		return result;
 	}
 }

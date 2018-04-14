@@ -9,59 +9,19 @@ $(function () {//加载数据
         url: baseURL + 'shop/getShopList?loginDeptid='+deptid,
         datatype: "json",
         colModel: [			
-            { label: '店铺编号', name: 'shopId',index: "shopId", width: 150,key: true},
-            { label: '店铺名称', name: 'shopName', index: "shopName",width: 80},
-            { label: '大区编号', name: 'dept',sortable:false, width: 50,hidden:true },
-            { label: '所属大区', name: 'name',sortable:false, width: 80 },
-            { label: '店铺电话', name: 'shopPhone', index: "shopPhone",width: 50 },
-            { label: '店铺地址', name: 'address', index: "address",width: 120},
-            { label: '经度', name: 'lon', index: "lon", width: 50,hidden:true  },
-            { label: '纬度', name: 'lat', index: 'lat', width:50,hidden:true },
-            { label: '店铺类型', name: 'classify', width: 35, formatter: function(value, options, row){
-            	if(value=="1"){
-            		return '4S店';
-            	}else if(value=="2"){
-            		return '维保店';
-            	}else if(value=="3"){
-            		return '二手车机构店铺';
-            	}
-			}},
-			{ label: '精品商品服务', name: 'refEl', width: 35, formatter: function(value, options, row){
-            		return value === 0 ?
-            		'<span class="label label-success">拥有</span>':
-            		'<span class="label label-danger">不拥有</span>';
-			}},
-			{ label: '保养服务', name: 'upkeepEl', width: 35, formatter: function(value, options, row){
-            		return value === 0 ?
-            		'<span class="label label-success">拥有</span>':
-                	'<span class="label label-danger">不拥有</span>';
-			}},
-			{ label: '轮胎服务', name: 'tyreEl', width: 35, formatter: function(value, options, row){
-            		return value === 0 ?
-            		'<span class="label label-success">拥有</span>':
-                    '<span class="label label-danger">不拥有</span>';
-			}},
-			{ label: '改装服务', name: 'refitEl', width: 35, formatter: function(value, options, row){
-            		return value === 0 ?
-            		'<span class="label label-success">拥有</span>':
-                    '<span class="label label-danger">不拥有</span>';
-			}},
-			{ label: '安装服务', name: 'installEl', width: 35, formatter: function(value, options, row){
-            		return value === 0 ?
-            		'<span class="label label-success">拥有</span>':
-                    '<span class="label label-danger">不拥有</span>';
-			}},
-			{ label: '废弃标志', name: 'delfg', width: 35, formatter: function(value, options, row){
-            		return value === 0 ?
-            		'<span class="label label-success">正常</span>':
-                    '<span class="label label-danger">废弃</span>';
-			}},
-			{ label: '创建时间', name: 'createTime', index: "createTime", width: 85}
+            { label: '店铺编号', name: 'shopId',index: "shopId", width: 150,key: true,height:500,align:"center"},
+            { label: '店铺名称', name: 'shopName', index: "shopName",width: 80,height:500},
+            { label: '大区编号', name: 'dept',sortable:false, width: 50,hidden:true,height:500},
+            { label: '所属大区', name: 'name',sortable:false, width: 80,height:500},
+            { label: '店铺电话', name: 'shopPhone', index: "shopPhone",width: 50,height:500},
+            { label: '店铺地址', name: 'address', index: "address",width: 120,height:500},
+            { label: '经度', name: 'lon', index: "lon", width: 50,hidden:true,height:500},
+            { label: '纬度', name: 'lat', index: 'lat', width:50,hidden:true,height:500}
         ],
 		viewrecords: true,
-        height: 385,
-        rowNum: 10,
-		rowList : [10,30,50],
+        height: 800,
+        rowNum: 5,
+		rowList : [5,30,50],
         rownumbers: true, 
         rownumWidth: 25, 
         autowidth:true,
@@ -86,7 +46,13 @@ $(function () {//加载数据
         gridComplete:function(){
         	//隐藏grid底部滚动条
         	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
-        }
+        },
+        loadComplete:function(){//定义jqGrid高度，放置图片
+            var grid = $("#jqGrid");
+            var ids = grid.getDataIDs();
+            for (var i = 0; i < ids.length; i++) {
+                grid.setRowData ( ids[i], false, {height:135+i*2} );
+            }}
     });
 });
 function hideSelectAll() {  

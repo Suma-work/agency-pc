@@ -4,10 +4,10 @@
 <mapper namespace="com.sumainfo.modules.sys.dao.ShopMapper">
 	
 	<select id="getShopList" resultType="java.util.Map">
-		SELECT s.shopId,s.shopName,s.dept,sd.`name`,
-		s.shopPhone,s.address,s.lon,s.lat,s.classify,s.refEl,s.upkeepEl,
-		s.tyreEl,s.refEl,s.installEl,s.shopPicAdress,s.createTime,s.delfg
- 		FROM `shop` s LEFT JOIN sys_dept sd on s.dept=sd.dept_id
+		SELECT s.shopId,s.shopName,s.dept,sd.`name`, s.shopPhone,s.address,
+		s.lon,s.lat,s.classify,s.refEl,s.upkeepEl, s.tyreEl,s.refitEl,
+		s.installEl,s.shopPicAdress,s.createTime,s.delfg FROM `shop` s 
+		LEFT JOIN sys_dept sd on s.dept=sd.dept_id
  		<trim prefix="where" prefixOverrides="and|or">
  			<if test="deptidList !=null and deptidList.size>0 ">
 				and s.dept in 
@@ -16,7 +16,7 @@
           		</foreach>
 			</if>
  			<if test="keyword !=null and keyword != ''">
-				or s.shopId like '%${keyword}%'
+				and s.shopId like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
 				or s.shopName like '%${keyword}%'
@@ -46,7 +46,7 @@
           		</foreach>
 			</if>
  			<if test="keyword !=null and keyword != ''">
-				or s.shopId like '%${keyword}%'
+				and s.shopId like '%${keyword}%'
 			</if>
 			<if test="keyword !=null and keyword != ''">
 				or s.shopName like '%${keyword}%'
@@ -61,10 +61,10 @@
 	</select>
 	
 	<select id="getShop" resultType="java.util.Map">
-		SELECT s.shopId,s.shopName,s.dept,sd.`name`,
-		s.shopPhone,s.address,s.lon,s.lat,s.classify,s.refEl,s.upkeepEl,
-		s.tyreEl,s.refitEl,s.installEl,s.shopPicAdress,s.createTime,s.delfg
- 		FROM `shop` s LEFT JOIN sys_dept sd on s.dept=sd.dept_id
+		SELECT s.shopId,s.shopName,s.dept,sd.`name`, s.shopPhone,s.address,
+		s.lon,s.lat,s.classify,s.refEl,s.upkeepEl, s.tyreEl,s.refitEl,
+		s.installEl,s.shopPicAdress,s.createTime,s.delfg FROM `shop` s 
+		LEFT JOIN sys_dept sd on s.dept=sd.dept_id
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="shopId !=null and shopId !='' ">
 				s.shopId=#{shopId}
@@ -129,5 +129,127 @@
 			</if>
 		</trim>
 	</select>
+	
+	<insert id="setShop" parameterType="java.util.Map">
+		INSERT INTO shop
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="shopId !=null">shopId,</if><!-- 店铺编号  -->
+			<if test="dept !=null">dept,</if><!-- 所属大区绑定大区  -->
+			<if test="shopName !=null">shopName,</if><!-- 店铺名称  -->
+			<if test="shopPhone !=null">shopPhone,</if><!-- 店铺电话  -->
+			<if test="address !=null">address,</if><!-- 店铺地址  -->
+			<if test="prvncnm !=null">prvncnm,</if><!-- 省  -->
+			<if test="citynm !=null">citynm,</if><!-- 市  -->
+			<if test="distnm !=null">distnm,</if><!-- 区  -->
+			<if test="areacd !=null">areacd,</if><!-- 地区编号  -->
+			<if test="lon !=null">lon,</if><!-- 经度  -->
+			<if test="lat !=null">lat,</if><!-- 纬度  -->
+			<if test="classify !=null">classify,</if><!-- 店铺类型   1 4S店   2 维保店 3二手车机构店铺  -->
+			<if test="refEl !=null">refEl,</if><!-- 精品商品服务：0拥有 1不拥有  -->
+			<if test="upkeepEl !=null">upkeepEl,</if><!-- 保养服务 0拥有  1不拥有  -->
+			<if test="tyreEl !=null">tyreEl,</if><!-- 轮胎服务  -->
+			<if test="refitEl !=null">refitEl,</if><!-- 改装服务  -->
+			<if test="installEl !=null">installEl,</if><!-- 安装服务  -->
+			<if test="shopPicAdress !=null">shopPicAdress,</if><!-- 店铺logo图片地址  -->
+			<if test="modifyTime !=null">modifyTime,</if><!-- 修改时间  -->
+			<if test="createTime !=null">createTime,</if><!-- 创建时间  -->
+			<if test="delfg !=null">delfg,</if><!-- 废弃标志  0 正常 1 废弃  -->
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="shopId !=null">#{shopId},</if>
+			<if test="dept !=null">#{dept},</if>
+			<if test="shopName !=null">#{shopName},</if>
+			<if test="shopPhone !=null">#{shopPhone},</if>
+			<if test="address !=null">#{address},</if>
+			<if test="prvncnm !=null">#{prvncnm},</if>
+			<if test="citynm !=null">#{citynm},</if>
+			<if test="distnm !=null">#{distnm},</if>
+			<if test="areacd !=null">#{areacd},</if>
+			<if test="lon !=null">#{lon},</if>
+			<if test="lat !=null">#{lat},</if>
+			<if test="classify !=null">#{classify},</if>
+			<if test="refEl !=null">#{refEl},</if>
+			<if test="upkeepEl !=null">#{upkeepEl},</if>
+			<if test="tyreEl !=null">#{tyreEl},</if>
+			<if test="refitEl !=null">#{refitEl},</if>
+			<if test="installEl !=null">#{installEl},</if>
+			<if test="shopPicAdress !=null">#{shopPicAdress},</if>
+			<if test="modifyTime !=null">#{modifyTime},</if>
+			<if test="createTime !=null">#{createTime},</if>
+			<if test="delfg !=null">#{delfg},</if>
+		</trim>
+	</insert>
+	
+	
+	<insert id="setShopPic" parameterType="java.util.Map">
+		INSERT INTO picturesave
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="classify !=null">classify,</if><!-- 分类 2二手车、3客户投诉、4店铺  -->
+			<if test="associationId !=null">associationId,</if><!-- 关联表的主键  -->
+			<if test="picAddress !=null">picAddress,</if><!-- 图片上传的地址  -->
+			<if test="createTime !=null">createTime,</if><!-- 创建时间 -->
+			<if test="slideshow !=null">slideshow,</if><!-- 图片类型   0普通图片  1轮播图  2展示图片(一张) 4二手车详情图  -->
+			<if test="delfg !=null">delfg,</if><!-- 废弃标志  -->
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="classify !=null">#{classify},</if>
+			<if test="associationId !=null">#{associationId},</if>
+			<if test="picAddress !=null">#{picAddress},</if>
+			<if test="createTime !=null">#{createTime},</if>
+			<if test="slideshow !=null">#{slideshow},</if>
+			<if test="delfg !=null">#{delfg},</if>
+		</trim>
+	</insert>
+	
+	<update id="updateShop" parameterType="java.util.Map">
+		UPDATE shop
+		<trim prefix="set" suffixOverrides=","> 
+			<if test="dept !=null">dept=#{dept},</if>
+			<if test="shopName !=null">shopName=#{shopName},</if>
+			<if test="shopPhone !=null">shopPhone=#{shopPhone},</if>
+			<if test="address !=null">address=#{address},</if>
+			<if test="prvncnm !=null">prvncnm=#{prvncnm},</if>
+			<if test="citynm !=null">citynm=#{citynm},</if>
+			<if test="distnm !=null">distnm=#{distnm},</if>
+			<if test="areacd !=null">areacd=#{areacd},</if>
+			<if test="lon !=null">lon=#{lon},</if>
+			<if test="lat !=null">lat=#{lat},</if>
+			<if test="classify !=null">classify=#{classify},</if>
+			<if test="refEl !=null">refEl=#{refEl},</if>
+			<if test="upkeepEl !=null">upkeepEl=#{upkeepEl},</if>
+			<if test="tyreEl !=null">tyreEl=#{tyreEl},</if>
+			<if test="refitEl !=null">refitEl=#{refitEl},</if>
+			<if test="installEl !=null">installEl=#{installEl},</if>
+			<if test="shopPicAdress !=null">shopPicAdress=#{shopPicAdress},</if>
+			<if test="modifyTime !=null">modifyTime=#{modifyTime},</if>
+			<if test="delfg !=null">delfg=#{delfg},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="shopId !=null">
+				and shopId=#{shopId}
+			</if>
+		</trim>
+	</update>
+	
+	<select id="shopPicList" resultType="java.util.Map">
+		SELECT classify,associationId,picAddress,createTime,slideshow FROM `picturesave`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="associationId !=null">
+				and associationId=#{associationId}
+			</if>
+		</trim>
+	</select>	
+	
+	<delete id="delectShopPic" parameterType="java.util.Map">  
+        delete from picturesave
+        <trim prefix="where" prefixOverrides="and|or">
+        	<if test="associationId !=null">
+        		and associationId=#{associationId}
+        	</if>
+        	<if test="slideshow !=null">
+        		and slideshow=#{slideshow}
+        	</if>
+        </trim>
+    </delete> 
 	
 </mapper>

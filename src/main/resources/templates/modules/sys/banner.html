@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>店铺管理</title>
+<title>发布轮播图</title>
 <#include "/header.html">
+<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
+<link rel="stylesheet" type="text/css" href="${request.contextPath}/statics/css/flexible-bootstrap-carousel.css" />
+<link rel="stylesheet" type="text/css" href="${request.contextPath}/statics/css/styles.css">
 </head>
 <body>
 <div id="rrapp" v-cloak>
@@ -24,6 +27,95 @@
 		</div>
 	    <table id="jqGrid"></table>
 	    <div id="jqGridPager"></div>
+	    
+	    <section class="examples">
+		<div class="container">
+			<div class="carousel-example">
+				<!-- FLEXIBLE BOOTSTRAP CAROUSEL -->
+				<div id="simple-content-carousel" class="carousel flexible slide"
+					data-ride="carousel" data-interval="5000" data-wrap="true">
+
+					<div class="items">
+						<div class="flex-item">
+							<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153614331732265800925.jpg">
+						</div>
+
+						<div class="flex-item">
+							<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153613060303906321413.jpg">
+						</div>
+
+						<div class="flex-item">
+							<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153618611569567974587.jpg">
+						</div>
+
+						<div class="flex-item">
+							<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153616820266735594116.jpg">
+						</div>
+
+						<div class="flex-item">
+							<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153615436982289003101.jpg">
+						</div>
+
+						<div class="flex-item">
+							<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153611701692589232638.jpg">
+						</div>
+					</div>
+
+					<div class="carousel-inner" role="listbox">
+						<div class="item next left">
+							<div class="row">
+								<div class="col-xs-4 left">
+									<div class="flex-item">
+										<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153614331732265800925.jpg">
+									</div>
+								</div>
+								<div class="col-xs-4 center">
+									<div class="flex-item">
+										<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153613060303906321413.jpg">
+									</div>
+								</div>
+								<div class="col-xs-4 right">
+									<div class="flex-item">
+										<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153618611569567974587.jpg">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="item active left">
+							<div class="row">
+								<div class="col-xs-4 left">
+									<div class="flex-item">
+										<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153616820266735594116.jpg">
+									</div>
+								</div>
+								<div class="col-xs-4 center">
+									<div class="flex-item">
+										<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153615436982289003101.jpg">
+									</div>
+								</div>
+								<div class="col-xs-4 right">
+									<div class="flex-item">
+										<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153611701692589232638.jpg">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<a class="left carousel-control" href="#simple-content-carousel"
+						role="button" data-slide="prev"> <span
+						class="fa fa-angle-left" aria-hidden="true"></span> <span
+						class="sr-only">Previous</span>
+					</a> <a class="right carousel-control" href="#simple-content-carousel"
+						role="button" data-slide="next"> <span
+						class="fa fa-angle-right" aria-hidden="true"></span> <span
+						class="sr-only">Next</span>
+					</a>
+				</div>
+			</div>
+
+		</div>
+	</section>
     </div>
 
 	<div v-show="!showList" class="panel panel-default">
@@ -162,7 +254,8 @@
 		</form>
 	</div>
 </div>
-
-<script src="${request.contextPath}/statics/js/modules/sys/shop.js?_${.now?long}"></script>
+<script src="${request.contextPath}/statics/js/modules/sys/banner.js?_${.now?long}"></script>
+<script type="text/javascript" src="${request.contextPath}/statics/libs/flexible-bootstrap-carousel.js"></script>
+<script type="text/javascript" src="${request.contextPath}/statics/libs/script.js"></script>
 </body>
 </html>

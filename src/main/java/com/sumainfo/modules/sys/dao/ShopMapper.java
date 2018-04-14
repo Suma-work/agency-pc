@@ -69,4 +69,46 @@ public interface ShopMapper {
 	 * @date 2018年4月11日
 	  */
 	 List<Map<String,Object>>getShopPic(Map<String,Object>params);
+	 
+	 /**
+	  * 新增店铺
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @author zhlu
+	 * @date 2018年4月13日
+	  */
+	 Integer setShop(Map<String,Object>params);
+	 
+	 /**
+	  * 新增店铺的图片表
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @author zhlu
+	 * @date 2018年4月13日
+	  */
+	 Integer setShopPic(Map<String,Object>params);
+	 
+	 /**
+	  * 修改店铺信息
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @author zhlu
+	 * @date 2018年4月13日
+	  */
+	 Integer updateShop(Map<String,Object>params);
+	 
+	 /**
+	  * 获取图片资料
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @author zhlu
+	 * @date 2018年4月13日
+	  */
+	 List<Map<String,Object>>shopPicList(Map<String,Object>params);
+	 
+	 /**
+	  * 修改图片资料的时候，先删除图片信息,然后新增图片
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @author zhlu
+	 * @date 2018年4月13日
+	  */
+	 Integer delectShopPic(Map<String,Object>params);
+	 
+	 
 }
