@@ -6,7 +6,6 @@ $(function(){
 	};
 		/*点击图片的文本框*/
 	$(".Bannerfile").change(function(){
-		console.log("1111111111111");
 		var idFile = $(this).attr("id");
 		var file = document.getElementById(idFile);
 		var imgContainer = $(this).parents(".z_photo"); //存放图片的父亲元素
@@ -65,8 +64,8 @@ $(function(){
 	$(".wsdel-ok").click(function(){
 		$(".works-mask").hide();
 		var numUp = delParent.siblings().length;
-		if(numUp <6){
-			delParent.parent().find(".z_file").show();
+		if(numUp <1){
+			$(".bannerfl").show();
 		}
 		 delParent.remove();
 		 var FormObj = new FormData();

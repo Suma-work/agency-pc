@@ -150,7 +150,7 @@ function getschoolList(fid,secid) {//获取下拉列表
     });
     var bandName=undefined;
     if(fid==undefined){//如果是新增的时候默认为第一个	
-    	bandName="本田";
+    	bandName="";
     	carName="东风本田-思域Civic";
     }else{//修改的时候默认获取传递进来的值
     	bandName=fid;

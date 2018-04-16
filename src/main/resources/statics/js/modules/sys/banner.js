@@ -171,6 +171,7 @@ var vm = new Vue({//vue 初始值
             roleIdList:[]
         },
         vehicaledet:{
+        	picUrl: ""  	
         }
     },
     methods: {
@@ -252,14 +253,14 @@ var vm = new Vue({//vue 初始值
         getuser: function(bannerid){
             $.get(baseURL + "banner/getBanMap?bannerid="+bannerid, function(r){
                 vm.vehicaledet = r.data;
-//            	imgslength = vm.vehicaledet.picUrl;
-//                if(imgslength>0){
-                	var picUrl = "";
-//                	for(var i=0;i<imgslength;i++){
-//                		imgs.push(vm.vehicaledet.imgs[i]);
-//                	}
-                	vm.vehicaledet.picUrl = picUrl
-//                }
+                var imgContainer = $(".Bannerfile").parents(".z_photo"); //存放图片的父亲元素
+                var input = $(".Bannerfile").parent();//文本框的父亲元素
+            	numUp = imgContainer.find(".up-section").length;
+            	console.log(numUp);
+                if(numUp>=0){
+                	console.log($(this).parent())
+                	$(".bannerfl").hide();
+                }
             });
         },
         reload: function () {
