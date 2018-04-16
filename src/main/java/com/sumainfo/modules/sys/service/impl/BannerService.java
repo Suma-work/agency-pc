@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sumainfo.common.util.ConvertDateTime;
 import com.sumainfo.modules.sys.dao.BannerMapper;
 
 @Service
@@ -54,6 +55,22 @@ public class BannerService implements Serializable{
 	public Map<String,Object>getBanMap(Map<String,Object>params){
 		Map<String,Object>banMap=bannerMapper.getBanMap(params);
 		return banMap;
+	}
+	
+	/**
+	 * 修改轮播图
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月16日
+	 */
+	public boolean updateBan(Map<String,Object>params){
+		boolean result=false;
+		params.put("modifyTime", ConvertDateTime.getCurrentTime());
+		int ban=bannerMapper.updaBanner(params);
+		if(ban>0){
+			result=true;
+		}
+		return result;
 	}
 	
 }

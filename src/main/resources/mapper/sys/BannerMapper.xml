@@ -43,4 +43,21 @@
 		limit 1
 	</select>
 	
+	<update id="updaBanner" parameterType="java.util.Map">
+		update platbanner
+		<trim prefix="set" suffixOverrides=",">
+			<if test="bannerid !=null">bannerid=#{bannerid},</if>
+			<if test="title !=null">title=#{title},</if>
+			<if test="picUrl !=null">picUrl=#{picUrl},</if>
+			<if test="netUrl !=null">netUrl=#{netUrl},</if>
+			<if test="modifyTime !=null">modifyTime=#{modifyTime},</if>
+			<if test="deflg !=null">deflg=#{deflg},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="bannerid !=null">
+				and bannerid=#{bannerid}
+			</if>
+		</trim>
+	</update>
+	
 </mapper>

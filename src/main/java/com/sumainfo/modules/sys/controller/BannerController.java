@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,5 +64,20 @@ public class BannerController implements Serializable{
 		JsonResult result=new JsonResult();
 		Map<String,Object>banMap=bannerService.getBanMap(params);
 		return result.put(banMap);
+	}
+	
+	@RequestMapping(value="upBan",method=RequestMethod.POST)
+	public JsonResult upBan(@RequestBody Map<String,Object>params){
+		JsonResult result=new JsonResult();
+		log.info("params->>>>>>>>>"+params);
+		if(params==null||params.get("bannerid")==null){
+			return result.putFailed("缺失bannerid");
+		}
+		if(bannerService.updateBan(params)){
+			result.putSuccess("修改成功！");
+		}else{
+			result.putFailed("服务器繁忙,请稍后重试!");
+		}
+		return result;
 	}
 }

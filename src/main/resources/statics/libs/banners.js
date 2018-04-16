@@ -5,15 +5,16 @@ $(function(){
 		fileSize         : 1024 * 1024 * 10                  // 上传文件的大小 10M
 	};
 		/*点击图片的文本框*/
-	$(".file").change(function(){
+	$(".Bannerfile").change(function(){
+		console.log("1111111111111");
 		var idFile = $(this).attr("id");
 		var file = document.getElementById(idFile);
 		var imgContainer = $(this).parents(".z_photo"); //存放图片的父亲元素
 		var fileList = file.files; //获取的图片文件
 		var input = $(this).parent();//文本框的父亲元素
-		var pic = $('#file')[0].files[0];
+		var pic = $('#Bannerfile')[0].files[0];
 	     var fd = new FormData();
-	     fd.append('file', pic);
+	     fd.append('Bannerfile', pic);
 	     $.ajax({  
 	 	    url: baseURL + "uplo/uploadImages",  
 	 	    type:"post",  
@@ -23,8 +24,8 @@ $(function(){
 	 	    contentType: false,  
 	 	    processData: false,  
 	 	    success:function(data){  
-	 	        console.log("the data is : {}",data.data.pictureUrl);
-	 	        vm.vehicaledet.imgs.push(data.data.pictureUrl);
+	 	        console.log("the data is : {}",data.data.picUrl);
+	 	        vm.vehicaledet.picUrl=data.data.picUrl;
 	 	    }  
 	 	});
 		//遍历得到的图片文件
@@ -32,33 +33,13 @@ $(function(){
 		console.log(numUp);
 		var totalNum = numUp + fileList.length;  //总的数量
 		console.log(totalNum)
-		if(fileList.length > 5 || totalNum > 5 ){
+		if(fileList.length > 1 || totalNum > 1 ){
 			alert("上传图片数目不可以超过5个，请重新选择");  //一次选择上传超过5个 或者是已经上传和这次上传的到的总数也不可以超过5个
 		}
-		else if(numUp < 5){
+		else if(numUp < 1){
 			 fileList = validateUp(fileList);
 			 for(var i = 0;i < fileList.length; ++i){
 			     var imgUrl = window.URL.createObjectURL(fileList[i]);
-				/* var $section = $("<section class='up-section fl loading'>");
-				     imgContainer.prepend($section);
-				 var $span = $("<span class='up-span'>");
-				     $span.appendTo($section);
-			     var $img0 = $("<img class='close-upimg'>").on("click",function(event){
-					    event.preventDefault();
-						event.stopPropagation(); 
-						$(".works-mask").show();
-						delParent = $(this).parent();
-					});   
-					$img0.attr("src","../../statics/img/a7.png").appendTo($section);
-			     var $img = $("<img class='up-img up-opcity'>");
-			         $img.attr("src",imgUrl);
-			         $img.appendTo($section);
-			     var $p = $("<p class='img-name-p'>");
-			         $p.html(fileList[i].name).appendTo($section);
-			     var $input = $("<input id='taglocation' name='taglocation' value='' type='hidden'>");
-			         $input.appendTo($section);
-			     var $input2 = $("<input id='tags' name='tags' value='' type='hidden'/>");
-			         $input2.appendTo($section);*/
 			 }
 		}
 		setTimeout(function(){
@@ -66,7 +47,7 @@ $(function(){
 		 	 $(".up-img").removeClass("up-opcity");
 		 },450);
 		 numUp = imgContainer.find(".up-section").length;
-		if(numUp >= 4){
+		if(numUp >= 0){
 			$(this).parent().hide();
 		}
 		

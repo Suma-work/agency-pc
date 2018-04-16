@@ -171,7 +171,6 @@ var vm = new Vue({//vue 初始值
             roleIdList:[]
         },
         vehicaledet:{
-        	imgs:[]
         }
     },
     methods: {
@@ -225,37 +224,13 @@ var vm = new Vue({//vue 初始值
         	}
         },
         saveOrUpdate: function () {
-            var url = vm.vehicaledet.shopId == null ? "shop/setShop" : "shop/update?shopId="+vm.vehicaledet.shopId;
+            var url = vm.vehicaledet.bannerid == null ? "shop/setShop" : "banner/upBan?bannerid="+vm.vehicaledet.bannerid;
             var imgs=vm.vehicaledet.imgs;
-          //取值汽车品牌
-            vm.vehicaledet.dept=document.getElementById("depts").value;
-            /*if(vm.vehicaledet.depts==null){
-            	alert("所属大区不能为空！");
-            }else */if(vm.vehicaledet.shopName==null){
-            	alert("店铺名称不能为空！");
-            }else if(vm.vehicaledet.shopPhone==null){
-            	alert("店铺电话不能为空！");
-            }else if(vm.vehicaledet.address==null){
-            	alert("店铺地址不能为空！");
-            }else if(vm.vehicaledet.lon==null){
-            	alert("经度不能为空！");
-            }else if(vm.vehicaledet.lat==null){
-            	alert("纬度不能为空！");
-            }else if(vm.vehicaledet.classify==null){
-            	alert("请选择店铺类型！");
-            }else if(vm.vehicaledet.refEl==null){
-            	alert("请选择精品商品服务！");
-            }else if(vm.vehicaledet.upkeepEl==null){
-            	alert("请选择保养服务！");
-            }else if(vm.vehicaledet.tyreEl==null){
-            	alert("请选择轮胎服务！");
-            }else if(vm.vehicaledet.installEl==null){
-            	alert("请选择安装服务！");
-            }else if(vm.vehicaledet.delfg==null){
-            	alert("请选择废弃标志！");
-            }else if(imgs.length<0){
+            if(vm.vehicaledet.deflg==null){
+            	alert("废弃标志不能为空！");
+            }/*else if(imgs.length<0){
             	alert("至少上传一张展示图片！");
-            }else{
+            }*/else{
             	console.log(vm.vehicaledet);
             		$.ajax({
             			type: "POST",
@@ -277,13 +252,13 @@ var vm = new Vue({//vue 初始值
         getuser: function(bannerid){
             $.get(baseURL + "banner/getBanMap?bannerid="+bannerid, function(r){
                 vm.vehicaledet = r.data;
-//            	imgslength = vm.vehicaledet.imgs.length;
+//            	imgslength = vm.vehicaledet.picUrl;
 //                if(imgslength>0){
-//                	var imgs = [];
+                	var picUrl = "";
 //                	for(var i=0;i<imgslength;i++){
 //                		imgs.push(vm.vehicaledet.imgs[i]);
 //                	}
-//                	vm.vehicaledet.imgs = imgs
+                	vm.vehicaledet.picUrl = picUrl
 //                }
             });
         },
