@@ -13,7 +13,7 @@ $(function () {//加载数据
             			'<span class="label label-success">正常</span>':
                 		'<span class="label label-danger">废弃</span>';
 			}},
-			{ label: '废弃标志', name: 'picUrl', width:60,align:"center", formatter: function(value, options, row){
+			{ label: '轮播图片', name: 'picUrl', width:60,align:"center", formatter: function(value, options, row){
         		return '<img class="img-responsive"style="width:130px;height:100px" src="'+value+'">';
 			}}/*,
             { label: '平台首页的展示图片', name: 'picUrl',sortable:false, width:100},*/
