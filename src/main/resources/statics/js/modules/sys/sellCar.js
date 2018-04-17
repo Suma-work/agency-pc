@@ -7,8 +7,8 @@ $(function () {//加载数据
             { label: '车型编号', name: 'hotcarid', index: "hotcarid",width: 30,hidden:true},
             { label: '车型名称', name: 'hotcar', index: "hotcar",width: 80},
             { label: '车型类型', name: 'hottype',sortable:false, width: 50,hidden:true},
-            { label: '轮播图片', name: 'sellPrice', width:60, formatter: function(value, options, row){
-        		return '<span class="label label-danger">'+value+'$</span>';
+            { label: '起始售价', name: 'sellPrice', width:60, formatter: function(value, options, row){
+        		return '<span class="label label-danger">¥ '+value+'</span>';
 			}},
 //            { label: '起始售价', name: 'sellPrice',sortable:false, width: 80},
             { label: '创建时间', name: 'createTime',sortable:false, width: 80},
