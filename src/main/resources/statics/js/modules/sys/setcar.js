@@ -458,23 +458,27 @@ var vm = new Vue({
         },
         update: function () {
         	var id = getSelectedRow();//根据点击行获得点击行的id（id为jsonReader: {id: "id" },)
-        	var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
-        	var shopid = getSelectedRow();
-        	vm.showList = false;
-        	vm.title = "修改";
-        	//品牌编号
-        	var fvcid=rowData.fvcid;
-        	//车型
-        	var secid=rowData.secid;
-        	//发动机
-        	var carEngine = rowData.carEngine;
-        	//变速器
-        	var gearbox = rowData.gearbox;
-        	//车体结构
-        	var carType = rowData.carType;
-        	vm.getuser(shopid);
-        	this.getRoleList();
-        	getschoolList(fvcid,secid,carEngine,gearbox,carType);
+        	if(id == null){
+        		return;
+        	}else{
+        		var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
+            	var shopid = getSelectedRow();
+            	vm.showList = false;
+            	vm.title = "修改";
+            	//品牌编号
+            	var fvcid=rowData.fvcid;
+            	//车型
+            	var secid=rowData.secid;
+            	//发动机
+            	var carEngine = rowData.carEngine;
+            	//变速器
+            	var gearbox = rowData.gearbox;
+            	//车体结构
+            	var carType = rowData.carType;
+            	vm.getuser(shopid);
+            	this.getRoleList();
+            	getschoolList(fvcid,secid,carEngine,gearbox,carType);
+        	}
         },
         del: function () {
             var userIds = getSelectedRows();
