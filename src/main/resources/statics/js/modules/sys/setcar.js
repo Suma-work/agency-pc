@@ -11,7 +11,7 @@ $(function () {
         datatype: "json",
         colModel: [			
             { label: '汽车主键', name: 'carId', index: "cusId", width: 35, key: true },
-            { label: '店铺编号', name: 'shopId',index: "shopId", width: 50,hidden:true},
+            { label: '店铺编号', name: 'shopid',index: "shopid", width: 50,hidden:true},
             { label: '所属店铺', name: 'shopName',sortable:false, width: 80 },
             { label: '汽车编号', name: 'fvcid', index: "fvcid",width: 50,hidden:true},
             { label: '汽车品牌', name: 'bandName', index: "carName",width: 50 },
@@ -107,7 +107,7 @@ function isPoneAvailable() {
         return true;  
     }  
 } 
-function getschoolList(fid,secid) {//获取下拉列表
+function getschoolList(fid,secid,ceid,gbid,ctid) {//获取下拉列表
 	var shopid=JSON.parse(localStorage.getItem("user")).shopid;
 	$("#bandName").selectpicker({  
         noneSelectedText : '请选择'  
@@ -126,6 +126,7 @@ function getschoolList(fid,secid) {//获取下拉列表
     });
     $.ajax({
         url: baseURL + "vehi/getBanList?shopid="+shopid,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+        async: false,
         type: "get",//数据发送方式
         dataType: "json",//接受数据格式
         data: 'data',//要传递的数据
@@ -148,15 +149,15 @@ function getschoolList(fid,secid) {//获取下拉列表
             alert("查询失败" + data);
         }
     });
-    var bandName=undefined;
+    var banname = document.getElementById("bandNames").value;
     if(fid==undefined){//如果是新增的时候默认为第一个	
-    	bandName="";
-    	carName="东风本田-思域Civic";
+    	bandName=banname;
     }else{//修改的时候默认获取传递进来的值
     	bandName=fid;
     }
     $.ajax({
-        url: baseURL + "vehi/getCarList?bandName="+bandName+"&shopId="+shopid,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+        url: baseURL + "vehi/getCarList?bandName="+bandName+"&shopid="+shopid,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+        async: false,
         type: "get",//数据发送方式
         dataType: "json",//接受数据格式
         data: 'data',//要传递的数据
@@ -165,41 +166,36 @@ function getschoolList(fid,secid) {//获取下拉列表
         		alert("暂无汽车车型！");
         	}else{
         		$.each(data.data, function (i) {
-        			console.log(data.data)
         			$('#carName.selectpicker').append("<option id='clvl' value=" + data.data[i].id + ">" + data.data[i].name + "</option>");
-        			console.log(secid)
         			if(secid==undefined){
         				document.getElementById("carNames").value=data.data[0].name;
         				carName=document.getElementById("carNames").value;
-        				console.log(carName);
         			}else if(secid==data.data[i].id){
         				$('#carName').selectpicker('val',secid);
         				document.getElementById("carNames").value=data.data[i].name;
         			}
         		});
         		$('#carName').selectpicker('refresh');
-        		$('#carEngine').selectpicker('refresh');
-        		$('#gearbox').selectpicker('refresh');
-        		$('#carType').selectpicker('refresh');
         	}
         },
         error: function (data) {
             alert("查询失败" + data);
         }
     });
+    var carName = document.getElementById("carNames").value;
     $.ajax({//获取发动机
         url: baseURL + "vehi/getCarEnList?shopid="+shopid+"&bandName="+bandName+"&carName="+carName,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+        async: false,
         type: "get",//数据发送方式
         dataType: "json",//接受数据格式
         data: 'data',//要传递的数据
         success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
         	$.each(data.data,function(j){
-        		console.log(data.data)
         		$('#carEngine.selectpicker').append("<option id='clvl' value=" + data.data[j].id + ">" + data.data[j].name + "</option>");
-        		if(secid==undefined){
+        		if(ceid==undefined){
         			document.getElementById("carEngines").value=data.data[0].name;
-        		}else if(secid==data.data[j].id){
-    				$('#carEngine').selectpicker('val',secid);
+        		}else if(ceid==data.data[j].id){
+    				$('#carEngine').selectpicker('val',ceid);
     				document.getElementById("carEngines").value=data.data[j].name;
     			}
         	})
@@ -209,19 +205,20 @@ function getschoolList(fid,secid) {//获取下拉列表
             alert("查询失败" + data);
         }
     });
+    
     $.ajax({//获取变速箱
         url: baseURL + "vehi/getCarGearList?shopid="+shopid+"&bandName="+bandName+"&carName="+carName,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+        async: false,
         type: "get",//数据发送方式
         dataType: "json",//接受数据格式
         data: 'data',//要传递的数据
         success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
         	$.each(data.data,function(k){
-        		console.log(data.data)
         		$('#gearbox.selectpicker').append("<option id='clvl' value=" + data.data[k].id + ">" + data.data[k].name + "</option>");
-        		if(secid==undefined){
+        		if(gbid==undefined){
         			document.getElementById("gearboxs").value=data.data[0].name;
-        		}else if(secid==data.data[j].id){
-    				$('#gearbox').selectpicker('val',secid);
+        		}else if(gbid==data.data[j].id){
+    				$('#gearbox').selectpicker('val',gbid);
     				document.getElementById("gearboxs").value=data.data[j].name;
     			}
         	})
@@ -233,17 +230,17 @@ function getschoolList(fid,secid) {//获取下拉列表
     });
     $.ajax({// 获取车型结构
         url: baseURL + "vehi/getCarTypeList?shopid="+shopid+"&bandName="+bandName+"&carName="+carName,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+        async: false,
         type: "get",//数据发送方式
         dataType: "json",//接受数据格式
         data: 'data',//要传递的数据
         success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
         	$.each(data.data,function(h){
-        		console.log(data.data)
         		$('#carType.selectpicker').append("<option id='clvl' value=" + data.data[h].id + ">" + data.data[h].name + "</option>");
-        		if(secid==undefined){
+        		if(ctid==undefined){
         			document.getElementById("carTypes").value=data.data[0].name;
-        		}else if(secid==data.data[h].id){
-    				$('#carType').selectpicker('val',secid);
+        		}else if(ctid==data.data[h].id){
+    				$('#carType').selectpicker('val',ctid);
     				document.getElementById("carTypes").value=data.data[h].name;
     			}
         	})
@@ -257,18 +254,19 @@ function getschoolList(fid,secid) {//获取下拉列表
 
 //选择汽车品牌
 function selectBandName(obj){
-	console.log(obj.options[obj.selectedIndex].text);
 	document.getElementById("bandNames").value=obj.options[obj.selectedIndex].text;
 	var bandName = obj.options[obj.selectedIndex].text;
 	var shopid=JSON.parse(localStorage.getItem("user")).shopid;
-	$("#carName").find("option").remove(); 
+	console.log
+	$("#carName").find("option").remove();
 	$.ajax({
-        url: baseURL + "vehi/getCarList?bandName="+bandName+"&shopId="+shopid,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+        url: baseURL + "vehi/getCarList?shopid="+shopid+"&bandName="+bandName,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
         type: "get",//数据发送方式
         dataType: "json",//接受数据格式
+        async: false,
         data: 'data',//要传递的数据
         success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
-        	console.log(data);
+        	console.log(data.data);
         	if(data.data.length == 0){
         		alert("暂无汽车车型！");
         	}else{
@@ -286,13 +284,39 @@ function selectBandName(obj){
 	document.getElementById("bandNames").value=obj.options[obj.selectedIndex].text;
 }
 //选择汽车车型
-function selectCarName(obj){ 
-	var value = obj.options[obj.selectedIndex].value;
+function selectCarName(obj){
+	var bandName = document.getElementById("bandNames").value;
 	document.getElementById("carNames").value=obj.options[obj.selectedIndex].text;
 	var carName = obj.options[obj.selectedIndex].text;
-//	console.log(value);
-//	document.getElementById("bandNames").value=obj.options[obj.selectedIndex].text;
-	document.getElementById("carNames").value=obj.options[obj.selectedIndex].text;
+	console.log(carName)
+	var shopid=JSON.parse(localStorage.getItem("user")).shopid;
+	$("#carEngine").find("option").remove();
+	$("#gearbox").find("option").remove();
+	$("#carType").find("option").remove();
+	$.ajax({
+        url: baseURL + "vehi/getCarEnList?shopid="+shopid+"&bandName="+bandName+"&carName="+carName,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+        type: "get",//数据发送方式
+        dataType: "json",//接受数据格式
+        async: false,
+        data: 'data',//要传递的数据
+        success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
+        	if(data.data = []){
+        		alert("暂无发动机型号！");
+        		$('#carEngine').selectpicker('refresh');
+        		$("#gearbox").selectpicker('refresh');
+        		$("#carType").selectpicker('refresh');
+        	}else{
+        		$.each(data.data, function (j) {
+        			$('#carEngine.selectpicker').append("<option id='clvl' value=" + data.data[j].id + ">" + data.data[j].name + "</option>");
+        		});
+        		document.getElementById("carEngines").value=data.data[0].name;
+        		$('#carEngine').selectpicker('refresh');
+        	}
+        },
+        error: function (data) {
+            alert("查询失败" + data);
+        }
+    });
 }
 //选择发动机
 function selectcarEngine(obj){
@@ -301,9 +325,9 @@ function selectcarEngine(obj){
 	var carEngine = obj.options[obj.selectedIndex].text;
 	document.getElementById("carEngines").value=obj.options[obj.selectedIndex].text;
 }
+//只能输入数字
 function intOnly(){
 	  var codeNum=event.keyCode;
-	  console.log(codeNum);
 	  if(codeNum==8||codeNum==37||codeNum==39||(codeNum>=48&&codeNum<=57)||codeNum==110){
 	    event.returnValue=codeNum;
 	  }else{
@@ -336,22 +360,26 @@ var vm = new Vue({
             vm.showList = false;
         	vm.title = "新增";
         	getschoolList();
-        	console.log($('#bandName').selectpicker('val')+"-----------");
         	vehicaledet:{imgs:[]};
         },
         update: function () {
         	var id = getSelectedRow();//根据点击行获得点击行的id（id为jsonReader: {id: "id" },)
         	var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
-        	console.log(rowData);
-        	var shopId = getSelectedRow();
-//        	console.log(shopId);
+        	var shopid = getSelectedRow();
+//        	console.log(shopid);
         	vm.showList = false;
         	vm.title = "修改";
         	//品牌编号
         	var fvcid=rowData.fvcid;
         	//车型编号
         	var secid=rowData.secid;
-        	vm.getuser(shopId);
+        	//发动机
+        	var ceid = rowData.ceid;
+        	//变速器
+        	var gbid = rowData.gbid;
+        	//车体结构
+        	var ctid = rowData.ctid;
+        	vm.getuser(shopid);
 //        	console.log(fvcid+"-------"+secid);
         	this.getRoleList();
         	getschoolList(fvcid,secid);
@@ -395,8 +423,6 @@ var vm = new Vue({
             vm.vehicaledet.carName=document.getElementById("carNames").value;
             
             var imgs=vm.vehicaledet.imgs;
-            console.log(imgs);
-            console.log("imgs->>>>>>>>>>>"+imgs);
             var idsel=$("#idsel").find("option:selected").text();
             //追加发动机
             vm.vehicaledet.carEngine=vm.vehicaledet.carEngine+idsel;
@@ -435,9 +461,8 @@ var vm = new Vue({
             		});
             }
         },
-        getuser: function(shopId){
-            $.get(baseURL + "vehi/getVehi?carId="+shopId, function(r){
-            	console.log(r);
+        getuser: function(shopid){
+            $.get(baseURL + "vehi/getVehi?carId="+shopid, function(r){
                 vm.vehicaledet = r.data;
                 imgslength = vm.vehicaledet.imgs.length;
                 if(imgslength>0){
