@@ -85,15 +85,15 @@ var setting = {
     }
 };
 var ztree;
+//限制只能输入小数
+function num(obj) {  
+    obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符  
+    obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字而不是  
+    obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的  
+    obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
+    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数  
 
-function intOnly(){
-	  var codeNum=event.keyCode;
-	  if(codeNum==8||codeNum==37||codeNum==39||(codeNum>=48&&codeNum<=57)){
-	    event.returnValue=codeNum;
-	  }else{
-	    event.returnValue=false;
-	  }
-}
+}  
 function checkseralize()
 {
 	isPoneAvailable();
@@ -198,7 +198,6 @@ function getschoolList(fvcid,secid,ceid,gbid,ctid) {//获取下拉列表
         dataType: "json",//接受数据格式
         data: 'data',//要传递的数据
         success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
-       	 console.log(data.data)
         	$.each(data.data,function(j){
         		$('#carEngine.selectpicker').append("<option id='clvl' value=" + data.data[j].id + ">" + data.data[j].name + "</option>");
         		if(gbid==undefined){
@@ -293,7 +292,6 @@ function selectBandName(obj){
                 async: false,
                 data: 'data',//要传递的数据
                 success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
-                	console.log(data.data)
                 	if(data.data.length == 0){
                 		alert("暂无发动机型号！");
                 		$('#carEngine').selectpicker('refresh');
@@ -313,7 +311,6 @@ function selectBandName(obj){
                         async: false,
                         data: 'data',//要传递的数据
                         success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
-                        	console.log(data.data)
                         	if(data.data.length == 0){
                         		alert("暂无变速箱型号！");
                         		$("#gearbox").selectpicker('refresh');
@@ -332,7 +329,6 @@ function selectBandName(obj){
                                 async: false,
                                 data: 'data',//要传递的数据
                                 success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
-                                	console.log(data.data)
                                 	if(data.data.length == 0){
                                 		alert("暂无车体结构型号！");
                                 		$("#carType").selectpicker('refresh');
@@ -408,6 +404,20 @@ function selectcarEngine(obj){
 	var carEngine = obj.options[obj.selectedIndex].text;
 	document.getElementById("carEngines").value=obj.options[obj.selectedIndex].text;
 }
+//选择变速箱
+function selectgearbox(obj){
+	var value = obj.options[obj.selectedIndex].value;
+	document.getElementById("gearboxs").value=obj.options[obj.selectedIndex].text;
+	var carEngine = obj.options[obj.selectedIndex].text;
+	document.getElementById("gearboxs").value=obj.options[obj.selectedIndex].text;
+}
+//选择车体结构
+function selectcarType(obj){
+	var value = obj.options[obj.selectedIndex].value;
+	document.getElementById("carTypes").value=obj.options[obj.selectedIndex].text;
+	var carEngine = obj.options[obj.selectedIndex].text;
+	document.getElementById("carTypes").value=obj.options[obj.selectedIndex].text;
+}
 //只能输入数字
 function intOnly(){
 	  var codeNum=event.keyCode;
@@ -449,7 +459,6 @@ var vm = new Vue({
         	var id = getSelectedRow();//根据点击行获得点击行的id（id为jsonReader: {id: "id" },)
         	var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
         	var shopid = getSelectedRow();
-//        	console.log(shopid);
         	vm.showList = false;
         	vm.title = "修改";
         	//品牌编号
@@ -463,7 +472,6 @@ var vm = new Vue({
         	//车体结构
         	var ctid = rowData.ctid;
         	vm.getuser(shopid);
-//        	console.log(fvcid+"-------"+secid);
         	this.getRoleList();
         	getschoolList(fvcid,secid,ceid,gbid,ctid);
         },
@@ -499,33 +507,46 @@ var vm = new Vue({
         },
         saveOrUpdate: function () {
             var url = vm.vehicaledet.carId == null ? "vehi/setVehi" : "vehi/modiVehi?carId="+vm.vehicaledet.carId;
-//            console.log("carId:"+vm.vehicaledet.carId+"----url:"+url);
             //取值汽车品牌
             vm.vehicaledet.bandName=document.getElementById("bandNames").value;
             //取值汽车车型
             vm.vehicaledet.carName=document.getElementById("carNames").value;
-
-            if(vm.vehicaledet.sellPrice==null){
-            	alert("当前售价不能为空！");
+            //取值发动机
+            vm.vehicaledet.carEngine=document.getElementById("carEngines").value;
+            //取值变速箱
+            vm.vehicaledet.gearbox=document.getElementById("gearboxs").value;
+            //取值车型结构
+            vm.vehicaledet.carType=document.getElementById("carTypes").value;
+            if(vm.vehicaledet.shopid==null){
+            	alert("所属店铺不能为空！");
+            }else
+        	if(vm.vehicaledet.carDetName==null){
+            	alert("车型名称不能为空！");
+            }else
+        	if(vm.vehicaledet.sellPrice==null){
+             	alert("当前售价不能为空！");
+            }else
+        	if(vm.vehicaledet.orginPrice==null){
+            	alert("原始价格不能为空！");
             }else{
-            		$.ajax({
-            			type: "POST",
-            			url: baseURL + url,
-            			cache: false,  
-            		    contentType: false,  
-            		    processData: false,
-            			contentType: "application/json",
-            			data: JSON.stringify(vm.vehicaledet),
-            			success: function(r){
-            				if(r.messageCode === "0"){
-            					alert('操作成功', function(){
-            						vm.reload();
-            					});
-            				}else{
-            					alert(r.msg);
-            				}
-            			}
-            		});
+        		$.ajax({
+        			type: "POST",
+        			url: baseURL + url,
+        			cache: false,  
+        		    contentType: false,  
+        		    processData: false,
+        			contentType: "application/json",
+        			data: JSON.stringify(vm.vehicaledet),
+        			success: function(r){
+        				if(r.messageCode === "0"){
+        					alert('操作成功', function(){
+        						vm.reload();
+        					});
+        				}else{
+        					alert(r.msg);
+        				}
+        			}
+        		});
             }
         },
         getuser: function(shopid){
