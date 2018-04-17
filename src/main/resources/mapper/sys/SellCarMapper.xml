@@ -4,7 +4,7 @@
 <mapper namespace="com.sumainfo.modules.sys.dao.sellCarMapper">
 	
 	<select id="getSellCarList" resultType="java.util.Map">
-		SELECT h.hotid,h.hotcar,h.hottype,h.createTime,h.deflg,v.sellPrice FROM 
+		SELECT h.hotid,h.hotcarid,h.hotcar,h.hottype,h.createTime,h.deflg,v.sellPrice FROM 
 		`hotvehicle` h LEFT JOIN(SELECT carName,sellPrice FROM `vehicledet` GROUP BY carName ORDER BY carId) v
 		on h.hotcar=v.carName
 		<trim prefix="where" prefixOverrides="and|or">
@@ -50,7 +50,7 @@
 	</select>
 	
 	<select id="getSellCarMap" resultType="java.util.Map">
-		SELECT hotid,hotcar,hottype FROM `hotvehicle`
+		SELECT hotid,hotcarid,hotcar,hottype,deflg FROM `hotvehicle`
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="hotid !=null">
 				and hotid=#{hotid}
@@ -58,23 +58,6 @@
 		</trim>
 		limit 1
 	</select>
-	
-	<!-- <update id="updaBanner" parameterType="java.util.Map">
-		update platbanner
-		<trim prefix="set" suffixOverrides=",">
-			<if test="bannerid !=null">bannerid=#{bannerid},</if>
-			<if test="title !=null">title=#{title},</if>
-			<if test="picUrl !=null">picUrl=#{picUrl},</if>
-			<if test="netUrl !=null">netUrl=#{netUrl},</if>
-			<if test="modifyTime !=null">modifyTime=#{modifyTime},</if>
-			<if test="deflg !=null">deflg=#{deflg},</if>
-		</trim>
-		<trim prefix="where" prefixOverrides="and|or">
-			<if test="bannerid !=null">
-				and bannerid=#{bannerid}
-			</if>
-		</trim>
-	</update> -->
 	
 	<select id="getVehiBan" resultType="java.util.Map">
 		SELECT vehId,carName,classify FROM `vehiclebanner` 
@@ -100,5 +83,26 @@
 			</if>
 		</trim>
 		GROUP BY vehId LIMIT 1
+	</select>                                                                                                                                                                                        
+	
+	<select id="getVehiCarList" resultType="java.util.Map">
+		SELECT carid,carName FROM `vehiclemain` GROUP BY carid,carName
 	</select>
+	
+	<update id="updateHote" parameterType="java.util.Map">
+		update hotvehicle
+		<trim prefix="set" suffixOverrides=",">
+			<if test="hotid !=null">hotid=#{hotid},</if>
+			<if test="hotcarid !=null">hotcarid=#{hotcarid},</if>
+			<if test="hotcar !=null">hotcar=#{hotcar},</if>
+			<if test="hottype !=null">hottype=#{hottype},</if>
+			<if test="modifyTime !=null">modifyTime=#{modifyTime},</if>
+			<if test="deflg !=null">deflg=#{deflg},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="hotid !=null">
+				and hotid=#{hotid}
+			</if>
+		</trim>
+	</update>
 </mapper>

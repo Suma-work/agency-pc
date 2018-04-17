@@ -47,4 +47,20 @@ public interface sellCarMapper {
 	* @date 2018年4月16日
 	 */
 	Map<String,Object>getveBanPic(Map<String,Object>params);
+	
+	/**
+	 * 获取所有车型
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月17日
+	 */
+	List<Map<String,Object>>getVehiCarList(Map<String,Object>params);
+	
+	/**
+	 * 修改热销车型
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月17日
+	 */
+	Integer updateHote(Map<String,Object>params);
 }

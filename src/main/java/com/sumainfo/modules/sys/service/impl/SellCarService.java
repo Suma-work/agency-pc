@@ -42,6 +42,7 @@ public class SellCarService implements Serializable{
 			
 			Map<String,Object>resu=new HashMap<String,Object>();
 			resu.put("hotid", map.get("hotid"));
+			resu.put("hotcarid", map.get("hotcarid"));
 			resu.put("hotcar", map.get("hotcar"));
 			resu.put("hottype", map.get("hottype"));
 			resu.put("createTime", map.get("createTime"));
@@ -62,5 +63,45 @@ public class SellCarService implements Serializable{
 	public int getSellCarCout(Map<String,Object>params){
 		int sellcar=sellCarMapper.getSellCarCout(params);
 		return sellcar;
+	}
+	
+	/**
+	 * 根据编号获取热销车型
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月17日
+	 */
+	public Map<String,Object>getSellCarMap(Map<String,Object>params){
+		Map<String,Object>result=sellCarMapper.getSellCarMap(params);
+		return result;
+	}
+	
+	/**
+	 * 获取所有车型
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月17日
+	 */
+	public List<Map<String,Object>>getVehiCarList(Map<String,Object>params){
+		List<Map<String,Object>>result=new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>>vehiCarList=sellCarMapper.getVehiCarList(params);
+		for (Map<String, Object> map : vehiCarList) {
+			Map<String,Object> vhciCar=new HashMap<String,Object>();
+			vhciCar.put("id", map.get("carid"));
+			vhciCar.put("value", map.get("carName"));
+			result.add(vhciCar);
+		}
+		return result;
+	}
+	
+	/**
+	 * 修改热销车型
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月17日
+	 */
+	public int updateHote(Map<String,Object>params){
+		int boole=sellCarMapper.updateHote(params);
+		return boole;
 	}
 }
