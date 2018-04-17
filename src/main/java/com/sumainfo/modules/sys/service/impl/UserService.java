@@ -60,4 +60,13 @@ public class UserService implements Serializable{
 	public Integer getUserListCout(Map<String,Object>params){
 		return userMapper.getUserListCout(params);
 	}
+	
+	public boolean getIsPhone(Map<String,Object>params){
+		boolean result=false;
+		int count=userMapper.getIsPhone(params);
+		if(count>0){
+			result=true;
+		}
+		return result;
+	}
 }

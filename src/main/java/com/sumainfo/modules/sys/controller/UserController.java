@@ -29,6 +29,12 @@ public class UserController implements Serializable{
 	@Autowired
 	UserService userService;
 	
+	/**
+	 * 查询所有用户，可以根据部门编号
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月17日
+	 */
 	@ResponseBody
 	@RequestMapping(value="/getUserList",method=RequestMethod.GET)
 	public JsonResult getUserList(@RequestParam Map<String,Object>params,Pager pager){
@@ -45,4 +51,21 @@ public class UserController implements Serializable{
 		return result;
 	}
 	
+	/**
+	 * 验证手机号是否存在
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月17日
+	 */
+	@ResponseBody
+	@RequestMapping(value="/getIsPhone",method=RequestMethod.GET)
+	public JsonResult getIsPhone(@RequestParam Map<String,Object>params){
+		JsonResult result=new JsonResult();
+		if(userService.getIsPhone(params)){
+			result.putFailed("手机号码已存在，请重新输入！");
+		}else{
+			result.putSuccess();
+		}
+		return result;
+	}
 }

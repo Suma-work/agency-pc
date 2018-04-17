@@ -78,4 +78,14 @@
 			</if>
 		</trim>
 	</select>
+	
+	<select id="getIsPhone" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT count(1) FROM `sys_user`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="mobile !=null">
+				and mobile=#{mobile}
+			</if>
+		</trim>
+		LIMIT 1
+	</select>
 </mapper>

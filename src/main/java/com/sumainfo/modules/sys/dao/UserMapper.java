@@ -44,4 +44,12 @@ public interface UserMapper {
 	 */
 	List<Map<String,Object>> getDeptList(Map<String,Object>params);
 	
+	/**
+	 * 判断手机号是否存在
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月17日
+	 */
+	Integer getIsPhone(Map<String,Object>params);
+	
 }

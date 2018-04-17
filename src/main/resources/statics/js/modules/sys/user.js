@@ -5,7 +5,6 @@ $(function () {
 	}else if(deptid=="1"||deptid=="2"){
 		deptid="";
 	}
-//	console.log("------------"+deptid);
     $("#jqGrid").jqGrid({
         url: baseURL + 'user/getUserList?deptid='+deptid,
         datatype: "json",
@@ -100,12 +99,10 @@ function getschoolList(fid,shopn) {//获取下拉列表
 		    	document.getElementById("shopnames").value=data.data[0].shopname;
 		    }else{
 		    	$('#shopname').selectpicker('val',fids);
-//		    	console.log(fids);
 		    	document.getElementById("shopids").value=fids;
 		    	document.getElementById("shopnames").value=shopn;
 		    }
 		    $("#shopname").selectpicker('refresh');
-//		    console.log($("#shopnames").val());
         },
         error: function (data) {
             alert("查询失败" + data);
@@ -131,12 +128,26 @@ function isPoneAvailable() {
     	alert("手机号码不正确！");
         return false;  
     } else {  
+    	$.ajax({
+            url: baseURL + "user/getIsPhone?mobile="+$("#mobile").val(),//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+            type: "get",//数据发送方式
+            dataType: "json",//接受数据格式
+            data: 'data',//要传递的数据
+            success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
+            	if(data.messageCode=="400"){
+            		$("#mobile").val("");  
+            		alert(data.messageStr);
+            	}
+            },
+            error: function (data) {
+                alert("查询失败" + data);
+            }
+        });
         return true;  
     }  
 } 
 function selectOnchang(obj){ 
 //	var value = obj.options[obj.selectedIndex].value;
-//	console.log(value);
 	document.getElementById("shopids").value=obj.options[obj.selectedIndex].value;
 	document.getElementById("shopnames").value=obj.options[obj.selectedIndex].text;
 }
@@ -196,7 +207,6 @@ var vm = new Vue({
         	var fcvid= rowData.shopid;
         	var udeptid= rowData.udeptid;
         	var roleid= rowData.roleid;
-        	console.log(roleid);
         	var shopname= rowData.shopname;
         	var deptid=JSON.parse(localStorage.getItem("user")).deptId;
         	if(udeptid==1||udeptid==2){
@@ -228,7 +238,6 @@ var vm = new Vue({
         	var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
         	var deptid=JSON.parse(localStorage.getItem("user")).deptId;//自己的级别
         	var udeptid= rowData.udeptid;
-        	console.log(udeptid);
         	if(udeptid==1||udeptid==2){
         		alert("只能删除商家资料");
         	}else if(udeptid==deptid){
@@ -259,7 +268,6 @@ var vm = new Vue({
         },
         saveOrUpdate: function () {
             var url = vm.user.userId == null ? "sys/user/save" : "sys/user/update";
-//            console.log(vm.user.deptName);
             if(vm.user.uname==null){
             	alert("真实姓名不能为空");
             }else if(vm.user.deptName==null){
@@ -274,7 +282,6 @@ var vm = new Vue({
             	var myreg=/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/;  
             	if(!myreg.test($("#mobile").val())){
             	}else{
-            		console.log(vm.user.deptName.substring(0,4));
             		if(vm.user.deptName=='上海苏马信息科技有限公司'||vm.user.deptName=='平台管理员'||vm.user.deptName.substring(0,4)=='集团老总'||vm.user.deptName.substring(0,4)=='大区经理'){
             			vm.user.shopid='';
             			vm.user.shopname='';
@@ -334,12 +341,10 @@ var vm = new Vue({
                     vm.user.deptName = node[0].name;
                     if(vm.user.deptName=='上海苏马信息科技有限公司'||vm.user.deptName=='平台管理员'||vm.user.deptName.substring(0,4)=='集团老总'||vm.user.deptName.substring(0,4)=='大区经理'){
                     	$("#shop").hide();
-//                    	console.log(vm.user+"-----------");
                     	$("#shopname").find("option").remove();
                     }else{
                     	$("#shop").show();
                     	getschoolList();
-//                    	console.log(vm.user);
                     }
                     
                     layer.close(index);
