@@ -50,7 +50,7 @@ $(function () {
              page: "data.currPage",//当前页
 //             page: 1,
              total: "data.totalPage",//总的页数
-             records: "data.totalCount"//总的记录数（查出来的总条数）
+             records: "data.totalCount"//总的记录数（查出来的总条数）1
         },
         prmNames : {
             page:"pageno", 
