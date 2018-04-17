@@ -12,13 +12,13 @@
 				<input type="text" class="form-control" id="keyword" v-model="q.shopname" @keyup.enter="query" placeholder="店铺名称、店铺类型">
 			</div>
 			<a class="btn btn-default" @click="query">查询</a>
-			<#if shiro.hasPermission("sys:shop:save")>
+			<#if shiro.hasPermission("sys:sellCar:save")>
 			<a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
 			</#if>
-			<#if shiro.hasPermission("sys:shop:update")>
+			<#if shiro.hasPermission("sys:sellCar:update")>
 			<a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
 			</#if>
-			<#if shiro.hasPermission("sys:shop:delete")>
+			<#if shiro.hasPermission("sys:sellCar:delete")>
 			<a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
 			</#if>
 		</div>

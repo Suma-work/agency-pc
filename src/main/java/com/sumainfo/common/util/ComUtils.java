@@ -147,6 +147,6 @@ public class ComUtils {
     }
     
 //    public static void main(String[] args) {
-//    	System.err.println(ComUtils.randomUID("re"));
+//    	System.err.println(ComUtils.randomUID("hot"));
 //	}
 }

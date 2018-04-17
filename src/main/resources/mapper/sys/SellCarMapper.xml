@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sumainfo.modules.sys.dao.sellCarMapper">
+	
+	<select id="getSellCarList" resultType="java.util.Map">
+		SELECT h.hotid,h.hotcar,h.hottype,h.createTime,h.deflg,v.sellPrice FROM 
+		`hotvehicle` h LEFT JOIN(SELECT carName,sellPrice FROM `vehicledet` GROUP BY carName ORDER BY carId) v
+		on h.hotcar=v.carName
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="hotid !=null">
+				and h.hotid=#{hotid}
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				and h.hotid like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or h.hotcar like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or v.sellPrice like '%${keyword}%'
+			</if>
+		</trim>
+		<if test="sidx != null and sidx != '' and order!='' and order != null ">
+			ORDER BY ${sidx} ${order}
+		</if>
+		<if test="start != null and limit != '' ">
+				limit #{start},#{limit}
+		</if>
+	</select>
+	
+	<select id="getSellCarCout" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT count(1) FROM 
+		`hotvehicle` h LEFT JOIN(SELECT carName,sellPrice FROM `vehicledet` GROUP BY carName ORDER BY carId) v
+		on h.hotcar=v.carName
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="hotid !=null">
+				and h.hotid=#{hotid}
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				and h.hotid like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or h.hotcar like '%${keyword}%'
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or v.sellPrice like '%${keyword}%'
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getSellCarMap" resultType="java.util.Map">
+		SELECT hotid,hotcar,hottype FROM `hotvehicle`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="hotid !=null">
+				and hotid=#{hotid}
+			</if>
+		</trim>
+		limit 1
+	</select>
+	
+	<!-- <update id="updaBanner" parameterType="java.util.Map">
+		update platbanner
+		<trim prefix="set" suffixOverrides=",">
+			<if test="bannerid !=null">bannerid=#{bannerid},</if>
+			<if test="title !=null">title=#{title},</if>
+			<if test="picUrl !=null">picUrl=#{picUrl},</if>
+			<if test="netUrl !=null">netUrl=#{netUrl},</if>
+			<if test="modifyTime !=null">modifyTime=#{modifyTime},</if>
+			<if test="deflg !=null">deflg=#{deflg},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="bannerid !=null">
+				and bannerid=#{bannerid}
+			</if>
+		</trim>
+	</update> -->
+	
+	<select id="getVehiBan" resultType="java.util.Map">
+		SELECT vehId,carName,classify FROM `vehiclebanner` 
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="carName !=null">
+				and carName=#{carName}
+			</if>
+			<if test="classify !=null">
+				and classify=#{classify}
+			</if>
+		</trim>
+		GROUP BY carName ORDER BY vehId
+	</select>
+	
+	<select id="getveBanPic" resultType="java.util.Map">
+		SELECT vehId,picAddress,isShow FROM `vehbannerpic`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="vehId !=null">
+				and vehId=#{vehId}
+			</if>
+			<if test="isShow !=null">
+				and isShow=#{isShow}
+			</if>
+		</trim>
+		GROUP BY vehId LIMIT 1
+	</select>
+</mapper>

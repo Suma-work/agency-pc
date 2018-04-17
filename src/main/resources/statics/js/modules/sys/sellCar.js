@@ -1,27 +1,26 @@
 $(function () {//加载数据
-	var deptid=JSON.parse(localStorage.getItem("user")).deptId;
-	if(deptid==null){
-		deptid="";
-	}else if(deptid=="1"||deptid=="2"){
-		deptid="";
-	}
     $("#jqGrid").jqGrid({
-        url: baseURL + 'shop/getShopList?loginDeptid='+deptid,
+        url: baseURL + 'selcar/getSellCarList',
         datatype: "json",
         colModel: [			
-            { label: '店铺编号', name: 'shopId',index: "shopId", width: 150,key: true,height:500,align:"center"},
-            { label: '店铺名称', name: 'shopName', index: "shopName",width: 80,height:500},
-            { label: '大区编号', name: 'dept',sortable:false, width: 50,hidden:true,height:500},
-            { label: '所属大区', name: 'name',sortable:false, width: 80,height:500},
-            { label: '店铺电话', name: 'shopPhone', index: "shopPhone",width: 50,height:500},
-            { label: '店铺地址', name: 'address', index: "address",width: 120,height:500},
-            { label: '经度', name: 'lon', index: "lon", width: 50,hidden:true,height:500},
-            { label: '纬度', name: 'lat', index: 'lat', width:50,hidden:true,height:500}
+            { label: '热销编号', name: 'hotid',index: "hotid", width: 110,key: true},
+            { label: '车型名称', name: 'hotcar', index: "hotcar",width: 50},
+            { label: '车型类型', name: 'hottype',sortable:false, width: 50,hidden:true},
+            { label: '起始售价', name: 'sellPrice',sortable:false, width: 80},
+            { label: '创建时间', name: 'createTime',sortable:false, width: 80},
+            { label: '废弃标志', name: 'deflg', width: 20, formatter: function(value, options, row){
+        		return value ===0 ?
+        			'<span class="label label-success">正常</span>':
+            		'<span class="label label-danger">废弃</span>';
+            }},
+            { label: '轮播图片', name: 'picAddress', width:60,align:"center", formatter: function(value, options, row){
+        		return '<img class="img-responsive"style="width:130px;height:100px" src="'+value+'">';
+			}}
         ],
 		viewrecords: true,
-        height: 800,
+        height: 600,
         rowNum: 5,
-		rowList : [5,30,50],
+//		rowList : [5,30,50],
         rownumbers: true, 
         rownumWidth: 25, 
         autowidth:true,
@@ -51,7 +50,7 @@ $(function () {//加载数据
             var grid = $("#jqGrid");
             var ids = grid.getDataIDs();
             for (var i = 0; i < ids.length; i++) {
-                grid.setRowData ( ids[i], false, {height:135+i*2} );
+                grid.setRowData ( ids[i], false, {height:67+i*2} );
             }}
     });
 });

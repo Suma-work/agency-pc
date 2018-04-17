@@ -40,8 +40,8 @@
 	<select id="getShop" resultType="java.util.Map">
 		SELECT shopId,shopName FROM `shop`
 		<trim prefix="where" prefixOverrides="and|or">
-			<if test="shopId !=null and shopId !='' ">
-				and shopId=#{shopId}
+			<if test="shopid !=null and shopid !='' ">
+				and shopId=#{shopid}
 			</if>
 		</trim>
 		LIMIT 1
@@ -92,8 +92,8 @@
 			<if test="carName !=null and carName !='' ">
 				and carName=#{carName}
 			</if>
-			<if test="shopId !=null and shopId !='' ">
-				and shopId=#{shopId}
+			<if test="shopid !=null and shopid !='' ">
+				and shopId=#{shopid}
 			</if>
 		</trim>
 		)ve LEFT JOIN vehbannerpic vep on ve.vehId=vep.vehId
@@ -169,7 +169,7 @@
 			<if test="carType !=null">carType,</if>
 			<if test="isLicence !=null">isLicence,</if>
 			<if test="createTime !=null">createTime,</if>
-			<if test="shopId !=null">shopId,</if>
+			<if test="shopid !=null">shopid,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="bandName !=null">#{bandName},</if>
@@ -182,7 +182,7 @@
 			<if test="carType !=null">#{carType},</if>
 			<if test="isLicence !=null">#{isLicence},</if>
 			<if test="createTime !=null">#{createTime},</if>
-			<if test="shopId !=null">#{shopId},</if>
+			<if test="shopid !=null">#{shopid},</if>
 		</trim>
 	</insert>
 	
@@ -190,12 +190,12 @@
 		INSERT INTO vehiclebanner
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="carName !=null">carName,</if>
-			<if test="shopId !=null">shopId,</if>
+			<if test="shopid !=null">shopid,</if>
 			<if test="classify !=null">classify,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="carName !=null">#{carName},</if>
-			<if test="shopId !=null">#{shopId},</if>
+			<if test="shopid !=null">#{shopid},</if>
 			<if test="classify !=null">#{classify},</if>
 		</trim>
 	</insert>
@@ -206,8 +206,8 @@
 			<if test="carName !=null and carName !='' ">
 				and carName=#{carName}
 			</if>
-			<if test="shopId !=null and shopId !='' ">
-				and shopId=#{shopId}
+			<if test="shopid !=null and shopid !='' ">
+				and shopId=#{shopid}
 			</if>
 		</trim>
 	</select>
@@ -264,8 +264,8 @@
 			<if test="bandName !=null">
 				and bandName=#{bandName}
 			</if>
-			<if test="shopId !=null">
-				and shopId=#{shopId}
+			<if test="shopid !=null">
+				and shopId=#{shopid}
 			</if>
 		</trim>
 	</select>
