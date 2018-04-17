@@ -51,6 +51,12 @@ public class VehicaledetService implements Serializable {
 		return newList;
 	}
 
+	/**
+	 * 根据店铺查看新车列表
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月17日
+	 */
 	public List<Map<String, Object>> getVehiList(Map<String, Object> params) {
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();// loginDeptid
 		// 如果是管理员或者公司admin，直接查询全部
@@ -210,27 +216,17 @@ public class VehicaledetService implements Serializable {
 					.toString());
 			params.put("shopidList", shoplist);
 		}
-		// //获取登录用户下的子部门
-		// List<Menu>deptList=vehicledetMapper.getDept(params);
-		// int dept=Integer.valueOf(params.get("deptid").toString());
-		// List<Menu> tree=MenuRecursion.treeMenuList(deptList, dept);
-		// List<String> deptidList =new ArrayList<String>();//子部门编号
-		// for(Menu m:tree){
-		// deptidList.add(m.getId());
-		// }
-		//
-		// List<String> newList = new ArrayList<String>();
-		// for (String cd:deptidList) {
-		// if(!newList.contains(cd)){
-		// newList.add(cd);
-		// }
-		// }
-		// params.put("deptidList", newList);
 		 return vehicledetMapper.getVehiCout(params);
 
 //		return 1;
 	}
 
+	/**
+	 * 根据新车编号获取新车资料
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月17日
+	 */
 	public Map<String, Object> getVehiMap(Map<String, Object> params) {
 		Map<String, Object> VehiMap = vehicledetMapper.getVehiMap(params);
 		if (VehiMap == null || VehiMap.size() < 1) {
@@ -240,26 +236,6 @@ public class VehicaledetService implements Serializable {
 		params.put("shopId", VehiMap.get("shopId"));
 		params.put("bandName", VehiMap.get("bandName"));
 		params.put("carName", VehiMap.get("carName"));
-		List<Map<String, Object>> vehiPicList = vehicledetMapper
-				.getVePic(params);
-//		StringBuilder str = new StringBuilder();
-//		for (int i = 0; i < vehiPicList.size(); i++) {
-//			if(i==vehiPicList.size()){
-//				str.append(vehiPicList.get(i).get("picAddress"));
-//			}else{
-//				str.append(vehiPicList.get(i).get("picAddress")+";");
-//			}
-//		}
-		List<String> vepics = new ArrayList<String>();
-		for (Map<String, Object> map : vehiPicList) {
-//			Map<String, Object> vepic = new HashMap<String, Object>();
-////			vepic.put("isShow", map.get("isShow"));
-			if(map.get("picAddress")!=null){
-				vepics.add(map.get("picAddress").toString());
-			}
-//			log.info("picAddress"+map.get("picAddress"));
-		}
-		VehiMap.put("imgs",vepics);
 		// 获取品牌编号
 		VehiMap.put("fvcid", vehicledetMapper.getFcv(params).get("id"));
 		// 获取车型编号
@@ -274,34 +250,13 @@ public class VehicaledetService implements Serializable {
 	* @date 2018年4月12日
 	 */
 	public boolean addVehi(Map<String, Object> params) {
-		boolean result = false;
 		log.info("params->>>>>>>>>>>" + params);
 		params.put("createTime", ConvertDateTime.getCurrentTime());
-		List<String>pic=(List<String>) params.get("imgs");//获取图片数组
-		
-		try {
-			int bole = vehicledetMapper.addVehi(params);//新车信息主表
-			params.put("classify", 1);
-			bole=vehicledetMapper.addVhiBan(params);//新车和图片中间表
-		} catch (Exception e) {
-			e.printStackTrace();
+		boolean result=false;
+		int boolen=vehicledetMapper.addVehi(params);
+		if(boolen>0){
+			result=true;
 		}
-		
-		Map<String,Object>vehiPic=vehicledetMapper.getVhiBan(params);
-		for (int i = 0; i < pic.size(); i++) {
-			Map<String, Object>picMap=new HashMap<String, Object>();
-			if(i==0){
-				picMap.put("isShow",1);
-			}else{
-				picMap.put("isShow",0);
-			}
-			picMap.put("vehId", vehiPic.get("vehId"));
-			picMap.put("picAddress", pic.get(i));
-			picMap.put("createTime",params.get("createTime"));
-			vehicledetMapper.addVhiPic(picMap);
-		}
-		
-		result = true;
 		return result;
 	}
 
@@ -312,48 +267,12 @@ public class VehicaledetService implements Serializable {
 	* @date 2018年4月12日
 	 */
 	public boolean updateVehi(Map<String, Object> params) {
-		boolean result = false;
-		log.info("params->>>>>>>>>>>>" + params);
+		boolean result=false;
 		params.put("modifyTime", ConvertDateTime.getCurrentTime());
-		try {
-			Map<String,Object>vhiBan=vehicledetMapper.getVhiBan(params);//获取新车和图片中间表
-			Map<String,Object>vepic=new HashMap<String,Object>();
-			vepic.put("vehId", vhiBan.get("vehId"));
-			List<Map<String,Object>>vhiPic=vehicledetMapper.getVePics(vepic);//获取新车的图片
-			int bo=0;
-			for (Map<String, Object> map : vhiPic) {//循环删除现有新车的图片，然后新增
-				vepic.put("vbId", map.get("vbId"));
-				vepic.put("createTime", map.get("createTime"));
-				if(vehicledetMapper.deltctVhiPic(vepic)>0){
-					bo=1;
-				}else{
-					bo=0;
-				}
-			}
-			List<String>pic=(List<String>) params.get("imgs");
-			for (int i = 0; i < pic.size(); i++) {
-				Map<String, Object>picMap=new HashMap<String, Object>();
-				if(i==0){
-					picMap.put("isShow",1);
-				}else{
-					picMap.put("isShow",0);
-				}
-				picMap.put("vehId", vhiBan.get("vehId"));
-				picMap.put("picAddress", pic.get(i));
-				picMap.put("modifyTime",params.get("modifyTime"));
-				picMap.put("createTime",vepic.get("createTime"));
-				vehicledetMapper.addVhiPic(picMap);
-			}
-			if(bo>0){//说明删除了新车的图片
-				int bole = vehicledetMapper.updateVehi(params);
-				if (bole > 0) {//修改新车主信息
-					result = true;
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		int boolen=vehicledetMapper.updateVehi(params);
+		if(boolen>0){
+			result=true;
 		}
-		
 		return result;
 	}
 	

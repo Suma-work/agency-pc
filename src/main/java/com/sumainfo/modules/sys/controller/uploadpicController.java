@@ -43,9 +43,9 @@ public class uploadpicController implements Serializable{
 	
 	@RequestMapping(value="/getUplo",method=RequestMethod.POST)
 	public void getUpload(HttpServletRequest request,HttpServletResponse response,MultipartFile[] files){
-		log.info("request->>>>>>>>>>>>>>>>>"+request);
-		log.info("request->>>>>>>>>>>>>>>>>"+files);
-		MessageUntil<String> res = uploadpicService.updateVehi(request, files);
+//		log.info("request->>>>>>>>>>>>>>>>>"+request);
+//		log.info("request->>>>>>>>>>>>>>>>>"+files);
+//		MessageUntil<String> res = uploadpicService.updateVehi(request, files);
 		/*try {
 			String resu = ObjectToJsonUntil.toJson(res);
 			log.info("resu:" + resu);

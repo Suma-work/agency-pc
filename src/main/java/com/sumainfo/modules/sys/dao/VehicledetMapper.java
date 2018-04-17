@@ -47,25 +47,6 @@ public interface VehicledetMapper {
 	Map<String,Object>getVehiMap(Map<String,Object>params);
 	
 	/**
-	 * 获取新车的图片
-	 * @author:zhlu
-	 * @date: 2018年3月27日
-	 * @param params
-	 * @return
-	 */
-	List<Map<String,Object>>getVePic(Map<String,Object>params);
-	
-	/**
-	 * 获取新车的图片
-	 * @author:zhlu
-	 * @date: 2018年3月27日
-	 * @param params
-	 * @return
-	 */
-	List<Map<String,Object>>getVePics(Map<String,Object>params);
-	
-	
-	/**
 	 * 根据品牌名称获取品牌编号
 	 * @author:zhlu
 	 * @date: 2018年3月27日
@@ -101,49 +82,6 @@ public interface VehicledetMapper {
 	 */
 	Integer addVehi(Map<String,Object>params);
 	
-	/**
-	 * 新增新车和图片的中间表
-	 * @author:zhlu
-	 * @date: 2018年3月31日
-	 * @param params
-	 * @return
-	 */
-	Integer addVhiBan(Map<String,Object>params);
-	
-	/**
-	 * 获取新车和图片中间表的主键
-	 * @author:zhlu
-	 * @date: 2018年3月31日
-	 * @param params
-	 * @return
-	 */
-	Map<String,Object> getVhiBan(Map<String,Object>params);
-	
-	/**
-	 * 新车的图片信息表
-	 * @author:zhlu
-	 * @date: 2018年3月31日
-	 * @param params
-	 * @return
-	 */
-	Integer addVhiPic(Map<String,Object>params);
-	
-	/**
-	 * 删除新车的图片信息表，修改的时候先删除
-	* @Description: TODO(这里用一句话描述这个方法的作用) 
-	* @author zhlu
-	* @date 2018年4月12日
-	 */
-	Integer deltctVhiPic(Map<String,Object>params);
-	
-//	/**
-//	 * 删除新车
-//	 * @author:zhlu
-//	 * @date: 2018年3月31日
-//	 * @param params
-//	 * @return
-//	 */
-//	Integer deteleVehi(Map<String,Object>params);
 	
 	/**
 	 * 获取子部门

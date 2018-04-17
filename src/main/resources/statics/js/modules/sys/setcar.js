@@ -10,19 +10,19 @@ $(function () {
         url: baseURL + 'vehi/getVehiList?loginDeptid='+deptid+"&username="+username,
         datatype: "json",
         colModel: [			
-            { label: '汽车主键', name: 'carId', index: "cusId", width: 35, key: true },
-            { label: '店铺编号', name: 'shopid',index: "shopid", width: 50,hidden:true},
+            { label: '汽车主键', name: 'carId', index: "carId", width: 35, key: true },
+            { label: '店铺编号', name: 'shopId',index: "shopId", width: 50,hidden:true},
             { label: '所属店铺', name: 'shopName',sortable:false, width: 80 },
-            { label: '汽车编号', name: 'fvcid', index: "fvcid",width: 50,hidden:true},
-            { label: '汽车品牌', name: 'bandName', index: "carName",width: 50 },
-            { label: '车型编号', name: 'secid', index: "secid",width: 50,hidden:true },
+            { label: '汽车编号', name: 'fvcid', index: "fvcid",sortable:false,width: 50,hidden:true},
+            { label: '汽车品牌', name: 'bandName', index: "bandName",width: 50 },
+            { label: '车型编号', name: 'secid', index: "secid",sortable:false,width: 50,hidden:true },
 			{ label: '汽车车型', name: 'carName', index: "carName",width: 120 },
             { label: '车型名称', name: 'carDetName', index: "carDetName", width: 50 },
             { label: '当前售价', name: 'sellPrice', index: 'sellPrice', width:50},
             { label: '原始售价', name: 'orginPrice', index: 'orginPrice', width:50},
-			{ label: '发动机', name: 'ceid', index: "ceid",width: 50 },
-			{ label: '变速箱', name: 'gbid',index: "gbid", width: 50 },
-			{ label: '车体结构', name: 'ctid',index: "ctid", width: 50 },
+			{ label: '发动机', name: 'carEngine', index: "carEngine",width: 50 },
+			{ label: '变速箱', name: 'gearbox',index: "gearbox", width: 50 },
+			{ label: '车体结构', name: 'carType',index: "carType", width: 50 },
 			{ label: '是否上牌', name: 'isLicence', width: 35, formatter: function(value, options, row){
             	if(value==""){
             		return value;
@@ -107,8 +107,14 @@ function isPoneAvailable() {
         return true;  
     }  
 } 
-function getschoolList(fvcid,secid,ceid,gbid,ctid) {//获取下拉列表
+function getschoolList(fvcid,secid,carEngine,gearbox,carType) {//获取下拉列表
 	var shopid=JSON.parse(localStorage.getItem("user")).shopid;
+	$("#bandName").find("option").remove();
+//	$("#carName").find("option").remove(); 
+//	$("#gearbox").find("option").remove(); 
+//	$("#carEngine").find("option").remove(); 
+//	$("#carType").find("option").remove(); 
+	
 	$("#bandName").selectpicker({  
         noneSelectedText : '请选择'  
     }); 
@@ -137,10 +143,13 @@ function getschoolList(fvcid,secid,ceid,gbid,ctid) {//获取下拉列表
         		$.each(data.data, function (i) {
         			$('#bandName.selectpicker').append("<option id='fcv' value=" + data.data[i].id + ">" + data.data[i].name + "</option>");
         			if(fvcid==undefined){
-        				
+        				$('#bandName').selectpicker('val',data.data[0].id);
+        		    	document.getElementById("bandNames").value=data.data[0].name;
+        			}else if(fvcid==data.data[i].id){
+        				$('#bandName').selectpicker('val',fvcid);
+        				document.getElementById("bandNames").value=data.data[i].name;
+        				carName = document.getElementById("bandNames").value;
         			}
-        			$('#bandName').selectpicker('val',data.data[0].id);
-    		    	document.getElementById("bandNames").value=data.data[0].name;
         		});
         		$("#bandName").selectpicker('refresh');
         	}
@@ -149,14 +158,9 @@ function getschoolList(fvcid,secid,ceid,gbid,ctid) {//获取下拉列表
             alert("查询失败" + data); 
         }
     });
-    var banname = document.getElementById("bandNames").value;
-    if(fvcid==undefined){//如果是新增的时候默认为第一个	
-    	bandName=banname;
-    }else{//修改的时候默认获取传递进来的值
-    	bandName=fvcid;
-    }
+    var bandName = document.getElementById("bandNames").value;
     $.ajax({
-        url: baseURL + "vehi/getCarList?bandName="+bandName+"&shopid="+shopid+"&carName="+carName,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+        url: baseURL + "vehi/getCarList?bandName="+bandName+"&shopid="+shopid,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
         async: false,
         type: "get",//数据发送方式
         dataType: "json",//接受数据格式
@@ -167,11 +171,11 @@ function getschoolList(fvcid,secid,ceid,gbid,ctid) {//获取下拉列表
         	}else{
         		$.each(data.data, function (i) {
         			$('#carName.selectpicker').append("<option id='clvl' value=" + data.data[i].id + ">" + data.data[i].name + "</option>");
-        			if(secid==undefined){
+        			if(carName==undefined){
         				document.getElementById("carNames").value=data.data[0].name;
         				carName=document.getElementById("carNames").value;
-        			}else if(secid==data.data[i].id){
-        				$('#carName').selectpicker('val',secid);
+        			}else if(carName==data.data[i].id){
+        				$('#carName').selectpicker('val',carName);
         				document.getElementById("carNames").value=data.data[i].name;
         				carName = document.getElementById("carNames").value;
         			}
@@ -185,12 +189,8 @@ function getschoolList(fvcid,secid,ceid,gbid,ctid) {//获取下拉列表
             alert("查询失败" + data);
         }
     });
-    var carrname = document.getElementById("carNames").value;
-    if(secid==undefined){//如果是新增的时候默认为第一个	
-    	carName=carrname;
-    }else{//修改的时候默认获取传递进来的值
-    	carName=secid;
-    }
+    var carName = document.getElementById("carNames").value;
+    console.log(carName)
     $.ajax({//获取发动机
    	 url: baseURL + "vehi/getCarEnList?shopid="+shopid+"&bandName="+bandName+"&carName="+carName,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
         async: false,
@@ -199,11 +199,11 @@ function getschoolList(fvcid,secid,ceid,gbid,ctid) {//获取下拉列表
         data: 'data',//要传递的数据
         success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
         	$.each(data.data,function(j){
-        		$('#carEngine.selectpicker').append("<option id='clvl' value=" + data.data[j].id + ">" + data.data[j].name + "</option>");
-        		if(gbid==undefined){
+        		$('#carEngine.selectpicker').append("<option id='clvl' value=" + data.data[j].name + ">" + data.data[j].name + "</option>");
+        		if(carEngine==undefined){
         			document.getElementById("carEngines").value=data.data[0].name;
-        		}else if(ceid==data.data[j].id){
-    				$('#carEngine').selectpicker('val',ceid);
+        		}else if(carEngine==data.data[j].name){
+    				$('#carEngine').selectpicker('val',carEngine);
     				document.getElementById("carEngines").value=data.data[j].name;
     			}
         	})
@@ -221,12 +221,12 @@ function getschoolList(fvcid,secid,ceid,gbid,ctid) {//获取下拉列表
         data: 'data',//要传递的数据
         success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
         	$.each(data.data,function(k){
-        		$('#gearbox.selectpicker').append("<option id='clvl' value=" + data.data[k].id + ">" + data.data[k].name + "</option>");
-        		if(gbid==undefined){
+        		$('#gearbox.selectpicker').append("<option id='clvl' value=" + data.data[k].name + ">" + data.data[k].name + "</option>");
+        		if(gearbox==undefined){
         			document.getElementById("gearboxs").value=data.data[0].name;
-        		}else if(gbid==data.data[j].id){
-    				$('#gearbox').selectpicker('val',gbid);
-    				document.getElementById("gearboxs").value=data.data[j].name;
+        		}else if(gearbox==data.data[k].name){
+    				$('#gearbox').selectpicker('val',gearbox);
+    				document.getElementById("gearboxs").value=data.data[k].name;
     			}
         	})
         	$('#gearbox').selectpicker('refresh');
@@ -243,11 +243,11 @@ function getschoolList(fvcid,secid,ceid,gbid,ctid) {//获取下拉列表
         data: 'data',//要传递的数据
         success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
         	$.each(data.data,function(h){
-        		$('#carType.selectpicker').append("<option id='clvl' value=" + data.data[h].id + ">" + data.data[h].name + "</option>");
-        		if(ctid==undefined){
+        		$('#carType.selectpicker').append("<option id='clvl' value=" + data.data[h].name + ">" + data.data[h].name + "</option>");
+        		if(carType==undefined){
         			document.getElementById("carTypes").value=data.data[0].name;
-        		}else if(ctid==data.data[h].id){
-    				$('#carType').selectpicker('val',ctid);
+        		}else if(carType==data.data[h].name){
+    				$('#carType').selectpicker('val',carType);
     				document.getElementById("carTypes").value=data.data[h].name;
     			}
         	})
@@ -442,7 +442,6 @@ var vm = new Vue({
             roleIdList:[]
         },
         vehicaledet:{
-        	imgs:[]
         }
     },
     methods: {
@@ -453,7 +452,9 @@ var vm = new Vue({
             vm.showList = false;
         	vm.title = "新增";
         	getschoolList();
-        	vehicaledet:{imgs:[]};
+        	var shopId=JSON.parse(localStorage.getItem("user")).shopid;
+        	console.log(shopId);
+        	vm.vehicaledet.shopId=shopId;
         },
         update: function () {
         	var id = getSelectedRow();//根据点击行获得点击行的id（id为jsonReader: {id: "id" },)
@@ -463,17 +464,17 @@ var vm = new Vue({
         	vm.title = "修改";
         	//品牌编号
         	var fvcid=rowData.fvcid;
-        	//车型编号
+        	//车型
         	var secid=rowData.secid;
         	//发动机
-        	var ceid = rowData.ceid;
+        	var carEngine = rowData.carEngine;
         	//变速器
-        	var gbid = rowData.gbid;
+        	var gearbox = rowData.gearbox;
         	//车体结构
-        	var ctid = rowData.ctid;
+        	var carType = rowData.carType;
         	vm.getuser(shopid);
         	this.getRoleList();
-        	getschoolList(fvcid,secid,ceid,gbid,ctid);
+        	getschoolList(fvcid,secid,carEngine,gearbox,carType);
         },
         del: function () {
             var userIds = getSelectedRows();
@@ -517,7 +518,7 @@ var vm = new Vue({
             vm.vehicaledet.gearbox=document.getElementById("gearboxs").value;
             //取值车型结构
             vm.vehicaledet.carType=document.getElementById("carTypes").value;
-            if(vm.vehicaledet.shopid==null){
+            if(vm.vehicaledet.shopId==null){
             	alert("所属店铺不能为空！");
             }else
         	if(vm.vehicaledet.carDetName==null){
