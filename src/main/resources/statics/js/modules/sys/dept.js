@@ -81,21 +81,26 @@ var vm = new Vue({
         },
         saveOrUpdate: function (event) {
             var url = vm.dept.deptId == null ? "sys/dept/save" : "sys/dept/update";
-            $.ajax({
-                type: "POST",
-                url: baseURL + url,
-                contentType: "application/json",
-                data: JSON.stringify(vm.dept),
-                success: function(r){
-                    if(r.code === 0){
-                        alert('操作成功', function(){
-                            vm.reload();
-                        });
-                    }else{
-                        alert(r.msg);
-                    }
-                }
-            });
+            if(vm.dept.deptId == null){
+            	var name=vm.dept.name;
+            	vm.dept.name=document.getElementById("names").value+name;//追加前前缀，部门加部门名称
+            }
+            console.log(vm.dept.name);
+//            $.ajax({
+//                type: "POST",
+//                url: baseURL + url,
+//                contentType: "application/json",
+//                data: JSON.stringify(vm.dept),
+//                success: function(r){
+//                    if(r.code === 0){
+//                        alert('操作成功', function(){
+//                            vm.reload();
+//                        });
+//                    }else{
+//                        alert(r.msg);
+//                    }
+//                }
+//            });
         },
         deptTree: function(){
             layer.open({
@@ -121,13 +126,22 @@ var vm = new Vue({
                         dataType: "json",//接受数据格式
                         data: 'data',//要传递的数据
                         success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
-                            console.log(data.data.parentid+"-------------------------");
-                            if(data.data.parentid=="1"){//获取当前选择的部门的上级部门，如果上级部门的父节点是1就说明，当前选择的部门是大区经理
+                            console.log(JSON.stringify(data.data)+"-------------------------");
+                            var name=data.data.name;
+                            if(name.substring(-1,4)=="集团老总"){//如果上级部门是集团老总，说明当前部门是大区经理
+                            	document.getElementById("names").value="大区经理-";
                             	vm.dept.isregion=1;
-                            }else{
+                            }else if(name.substring(-1,4)=="大区经理"){//如果上级部门是大区经理，说明当前部门是店长
+                            	document.getElementById("names").value="商家店长-";
+                            	vm.dept.isregion=0;
+                            }else if(name.substring(-1,4)=="商家店长"){//如果上级部门是商家店长，说明当前部门是店员
+                            	document.getElementById("names").value="商家店员-";
+                            	vm.dept.isregion=0;
+                            }else if(data.data.parentid=="0"){
+                            	document.getElementById("names").value="集团老总-";
                             	vm.dept.isregion=0;
                             }
-                            console.log(vm.dept.isregion);
+                            
                         },
                         error: function (data) {
                             alert("查询失败" + data);

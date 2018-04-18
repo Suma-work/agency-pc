@@ -21,4 +21,20 @@ public interface DeptMapper {
 	 * @date 2018年4月10日
 	  */
 	 Map<String,Object>getDeptMap(Map<String,Object>params);
+	 
+	 /**
+	  * 新增部门
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @author zhlu
+	 * @date 2018年4月18日
+	  */
+	 Integer addDept(Map<String,Object>params);
+	 
+	 /**
+	  * 修改部门
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @author zhlu
+	 * @date 2018年4月18日
+	  */
+	 Integer updateDept(Map<String,Object>params);
 }
