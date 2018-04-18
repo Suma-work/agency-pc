@@ -15,6 +15,9 @@
                		#{item}
           		</foreach>
 			</if>
+			<if test="shopId !=null and shopId != ''">
+				and s.shopId=#{shopId}
+			</if>
  			<if test="keyword !=null and keyword != ''">
 				and s.shopId like '%${keyword}%'
 			</if>
@@ -44,6 +47,9 @@
 				<foreach collection="deptidList" index="index" item="item" open="(" separator="," close=")">
                		#{item}
           		</foreach>
+			</if>
+			<if test="shopId !=null and shopId != ''">
+				and s.shopId=#{shopId}
 			</if>
  			<if test="keyword !=null and keyword != ''">
 				and s.shopId like '%${keyword}%'
@@ -260,5 +266,15 @@
         	</if>
         </trim>
     </delete> 
+    
+    <select id="getUserShopId" resultType="java.util.Map">
+   	 SELECT shopid,username FROM `sys_user`
+    	<trim prefix="where" prefixOverrides="and|or">
+    		<if test="username !=null">
+    			and username=#{username}
+    		</if>
+    	</trim>
+    	LIMIT 1
+    </select>
     
 </mapper>

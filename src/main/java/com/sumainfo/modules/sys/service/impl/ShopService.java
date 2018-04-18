@@ -64,11 +64,12 @@ public class ShopService implements Serializable {
 		}else if(deptName.equals("大区经理")){//大区经理，直接找当前的大区
 			newList.add(getDeptMap.get("deptid").toString());
 			params.put("deptidList", newList);
-		}else if(deptName.equals("商家店长")){//商家店长，就要按照父节点查所在大区
-			newList.add(getDeptMap.get("parentid").toString());
-			params.put("deptidList", newList);
-		}else if(deptName.equals("商家店员")){//商家店员，就不查询
-			return result;
+		}else if(deptName.equals("商家店长")){//商家店长，就获取登录店长的店铺编号直接按店铺编号查询
+			Map<String,Object>userShopId=shopMapper.getUserShopId(params);
+			params.put("shopId", userShopId.get("shopid"));
+		}else if(deptName.equals("商家店员")){//商家店员，就获取登录店员的店铺编号直接按店铺编号查询
+			Map<String,Object>userShopId=shopMapper.getUserShopId(params);
+			params.put("shopId", userShopId.get("shopid"));
 		}
 		List<Map<String, Object>> shopList = shopMapper.getShopList(params);
 		return shopList;
@@ -104,11 +105,12 @@ public class ShopService implements Serializable {
 		}else if(deptName.equals("大区经理")){//大区经理，直接找当前的大区
 			newList.add(getDeptMap.get("deptid").toString());
 			params.put("deptidList", newList);
-		}else if(deptName.equals("商家店长")){//商家店长，就要按照父节点查所在大区
-			newList.add(getDeptMap.get("parentid").toString());
-			params.put("deptidList", newList);
-		}else if(deptName.equals("商家店员")){//商家店员，就不查询
-			return 0;
+		}else if(deptName.equals("商家店长")){//商家店长，就获取登录店长的店铺编号直接按店铺编号查询
+			Map<String,Object>userShopId=shopMapper.getUserShopId(params);
+			params.put("shopId", userShopId.get("shopid"));
+		}else if(deptName.equals("商家店员")){//商家店员，就获取登录店员的店铺编号直接按店铺编号查询
+			Map<String,Object>userShopId=shopMapper.getUserShopId(params);
+			params.put("shopId", userShopId.get("shopid"));
 		}
 		return shopMapper.getShopListCout(params);
 	}

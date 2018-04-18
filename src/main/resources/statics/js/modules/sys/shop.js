@@ -1,12 +1,14 @@
 $(function () {//加载数据
 	var deptid=JSON.parse(localStorage.getItem("user")).deptId;
+	var username=JSON.parse(localStorage.getItem("user")).username;
+	console.log(username);
 	if(deptid==null){
 		deptid="";
 	}else if(deptid=="1"||deptid=="2"){
 		deptid="";
 	}
     $("#jqGrid").jqGrid({
-        url: baseURL + 'shop/getShopList?loginDeptid='+deptid,
+        url: baseURL + 'shop/getShopList?loginDeptid='+deptid+'&username='+username,
         datatype: "json",
         colModel: [			
             { label: '店铺编号', name: 'shopId',index: "shopId", width: 150,key: true},

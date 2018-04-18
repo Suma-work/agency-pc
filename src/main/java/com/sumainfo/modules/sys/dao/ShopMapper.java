@@ -117,4 +117,12 @@ public interface ShopMapper {
 	 * @date 2018年4月18日
 	  */
 	 Integer delectShop(Map<String,Object>params);
+	 
+	 /**
+	  * 获取登录的店铺编号
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @author zhlu
+	 * @date 2018年4月18日
+	  */
+	 Map<String,Object>getUserShopId(Map<String,Object>params);
 }
