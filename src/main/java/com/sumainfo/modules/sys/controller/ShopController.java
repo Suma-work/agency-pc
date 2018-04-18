@@ -123,12 +123,37 @@ public class ShopController implements Serializable{
 		return result;
 	}
 	
+	/**
+	 * 修改店铺资料
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月18日
+	 */
 	@RequestMapping(value="/update",method=RequestMethod.POST)
 	public JsonResult update(@RequestBody Map<String,Object>params){
 		JsonResult result=new JsonResult();
 		log.info("params->>>>>>"+params);
 		if(shopService.updateShop(params)){
 			result.putSuccess("修改成功！");
+		}else{
+			result.putFailed("服务器繁忙,请稍后重试!");
+		}
+		return result;
+	}
+	
+	/**
+	 * 删除店铺
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月18日
+	 */
+	@ResponseBody
+	@RequestMapping(value="/delectShop",method=RequestMethod.GET)
+	public JsonResult delectShop(@RequestParam Map<String,Object>params){
+		JsonResult result=new JsonResult();
+		log.info("params->>>>"+params);
+		if(shopService.delectShop(params)){
+			result.putSuccess("删除成功！");
 		}else{
 			result.putFailed("服务器繁忙,请稍后重试!");
 		}

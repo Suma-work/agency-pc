@@ -252,4 +252,13 @@
         </trim>
     </delete> 
 	
+	<delete id="delectShop" parameterType="java.util.Map">  
+        delete from shop
+        <trim prefix="where" prefixOverrides="and|or">
+        	<if test="shopId !=null">
+        		and shopId=#{shopId}
+        	</if>
+        </trim>
+    </delete> 
+    
 </mapper>

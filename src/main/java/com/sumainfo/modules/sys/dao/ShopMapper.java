@@ -110,5 +110,11 @@ public interface ShopMapper {
 	  */
 	 Integer delectShopPic(Map<String,Object>params);
 	 
-	 
+	 /**
+	  * 删除店铺
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @author zhlu
+	 * @date 2018年4月18日
+	  */
+	 Integer delectShop(Map<String,Object>params);
 }

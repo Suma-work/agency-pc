@@ -131,13 +131,13 @@ public class UploadDownloadController {
     public JsonResult getDelete(@RequestParam Map<String,Object>params){
 		JsonResult result=new JsonResult();
 		log.info("params->>>>>>>>>>"+params);
-		File file=new File(ToolsUntil.PATH_URL+params.get("picName").toString());
-        if (file.exists()) {
-           file.delete();//如果文件存在 则删除该文件
-           result.putSuccess("删除图片成功！");
-        }else{
-           result.putFailed("删除失败，不存在图片！");
-        }
+//		File file=new File(ToolsUntil.PATH_URL+params.get("picName").toString());
+//        if (file.exists()) {
+//           file.delete();//如果文件存在 则删除该文件
+//           result.putSuccess("删除图片成功！");
+//        }else{
+//           result.putFailed("删除失败，不存在图片！");
+//        }
 		return result;
     }
 	

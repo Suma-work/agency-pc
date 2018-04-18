@@ -291,4 +291,23 @@ public class ShopService implements Serializable {
 		}
 		return result;
 	}
+	
+	/**
+	 * 删除店铺
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月18日
+	 */
+	public boolean delectShop(Map<String,Object>params){
+		boolean result=false;
+		try {
+			int deleshop=shopMapper.delectShop(params);
+			if(deleshop>0){
+				result=true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

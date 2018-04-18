@@ -236,31 +236,27 @@ var vm = new Vue({//vue 初始值
             var userIds = getSelectedRows();
             var id = getSelectedRow();//根据点击行获得点击行的id（id为jsonReader: {id: "id" },）
         	var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
-        	var deptName= rowData.deptName;
-        	if(deptName!="商家"){
-        		alert("只能删除商家资料");
-        	}else{
-        		if(userIds == null){
-        			return ;
-        		}
-        		confirm('确定要删除选中的记录？', function(){
-        			$.ajax({
-        				type: "POST",
-        				url: baseURL + "sys/user/delete",
-        				contentType: "application/json",
-        				data: JSON.stringify(userIds),
-        				success: function(r){
-        					if(r.code == 0){
-        						alert('操作成功', function(){
-        							vm.reload();
-        						});
-        					}else{
-        						alert(r.msg);
-        					}
-        				}
-        			});
-        		});
-        	}
+        	var shopId= rowData.shopId;
+    		if(userIds == null){
+    			return ;
+    		}
+    		confirm('确定要删除选中的记录？', function(){
+    			$.ajax({
+    				type: "GET",
+    				url: baseURL + "shop/delectShop?shopId="+shopId,
+    				contentType: "application/json",
+//    				data: JSON.stringify(userIds),
+    				success: function(r){
+    					if(r.messageCode == 0){
+    						alert('操作成功', function(){
+    							vm.reload();
+    						});
+    					}else{
+    						alert(r.messageStr);
+    					}
+    				}
+    			});
+    		});
         },
         saveOrUpdate: function () {
             var url = vm.vehicaledet.shopId == null ? "shop/setShop" : "shop/update?shopId="+vm.vehicaledet.shopId;
