@@ -32,7 +32,7 @@ public class BannerController implements Serializable{
 	BannerService bannerService;
 	
 	/**
-	 * 获取轮播图列表
+	 * 获取轮播图列表1
 	* @Description: TODO(这里用一句话描述这个方法的作用) 
 	* @author zhlu
 	* @date 2018年4月14日
