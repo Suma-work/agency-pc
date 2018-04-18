@@ -221,13 +221,17 @@ var vm = new Vue({//vue 初始值
         },
         update: function () {
         	var id = getSelectedRow();//根据点击行获得点击行的id（id为jsonReader: {id: "id" },)
-        	var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
-        	var shopId = getSelectedRow();
-        	vm.showList = false;
-        	vm.title = "修改";
-        	var deptid = rowData.dept;
-        	selectDeptList(deptid);
-        	vm.getuser(shopId);
+        	if(id == null){
+        		return false;
+        	}else{
+        		var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
+            	var shopId = getSelectedRow();
+            	vm.showList = false;
+            	vm.title = "修改";
+            	var deptid = rowData.dept;
+            	selectDeptList(deptid);
+            	vm.getuser(shopId);
+        	}
         },
         del: function () {
             var userIds = getSelectedRows();
