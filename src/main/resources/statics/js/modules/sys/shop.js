@@ -329,6 +329,26 @@ var vm = new Vue({//vue 初始值
                 postData:{'keyword':document.getElementById("keyword").value},
                 page:page
             }).trigger("reloadGrid");
+        },
+        DelectImg: function (index,ObjDom){
+        	this.i = index;
+        	var i = this.i;
+        	//反向截取最后一个/后的图片
+        	var index = ObjDom .lastIndexOf("\/");
+    		ObjDom  = ObjDom .substring(index + 1, ObjDom .length);
+    		console.log(ObjDom)
+        	$.ajax({
+    			type:"get",
+    			url: baseURL + "uplo/deleteImages",
+    			cache: false,  
+    		    contentType: false,  
+    		    processData: false,
+    			contentType: "application/json",
+    			data: ObjDom,
+    			success:function(data){
+    				console.log(data)
+    			}
+    		});
         }
     }
 });

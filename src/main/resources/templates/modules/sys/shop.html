@@ -138,9 +138,9 @@
 			<div class="form-group"> 
 				<div class="col-sm-2 control-label">图片</div>
 				<div class="z_photo upimg-div clear col-sm-10" >
-					<section class="up-section fl" style="float:left;" v-for="img in vehicaledet.imgs" >
+					<section class="up-section fl" style="float:left;" v-for="(img,index) in vehicaledet.imgs">
 						<span class="up-span"></span>
-							<img class="close-upimg" src="../../statics/img/a7.png">
+							<img class="close-upimg" src="../../statics/img/a7.png" @click="DelectImg(index,img)">
 							<img class="up-img" :src="img">
 							<input id="taglocation" name="taglocation" value="" type="hidden">
 							<input id="tags" name="tags" value="" type="hidden">
@@ -151,12 +151,12 @@
 					 </div>
 				 </div>
 			</div>
-			<aside class="mask works-mask">
+			<!-- <aside class="mask works-mask">
 				<div class="mask-content">
 					<p class="del-p">您确定要删除作品图片吗？</p>
 					<p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
 				</div>
-			</aside>
+			</aside> -->
 			<div class="form-group">
 				<div class="col-sm-2 control-label"></div>
 				<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>

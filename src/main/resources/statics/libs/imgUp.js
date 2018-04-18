@@ -12,9 +12,9 @@ $(function(){
 		var fileList = file.files; //获取的图片文件
 		var input = $(this).parent();//文本框的父亲元素
 		var pic = $('#file')[0].files[0];
-	     var fd = new FormData();
-	     fd.append('file', pic);
-	     $.ajax({  
+	    var fd = new FormData();
+	    fd.append('file', pic);
+	    $.ajax({  
 	 	    url: baseURL + "uplo/uploadImages",  
 	 	    type:"post",  
 	 	    // Form数据  
@@ -39,26 +39,6 @@ $(function(){
 			 fileList = validateUp(fileList);
 			 for(var i = 0;i < fileList.length; ++i){
 			     var imgUrl = window.URL.createObjectURL(fileList[i]);
-				/* var $section = $("<section class='up-section fl loading'>");
-				     imgContainer.prepend($section);
-				 var $span = $("<span class='up-span'>");
-				     $span.appendTo($section);
-			     var $img0 = $("<img class='close-upimg'>").on("click",function(event){
-					    event.preventDefault();
-						event.stopPropagation(); 
-						$(".works-mask").show();
-						delParent = $(this).parent();
-					});   
-					$img0.attr("src","../../statics/img/a7.png").appendTo($section);
-			     var $img = $("<img class='up-img up-opcity'>");
-			         $img.attr("src",imgUrl);
-			         $img.appendTo($section);
-			     var $p = $("<p class='img-name-p'>");
-			         $p.html(fileList[i].name).appendTo($section);
-			     var $input = $("<input id='taglocation' name='taglocation' value='' type='hidden'>");
-			         $input.appendTo($section);
-			     var $input2 = $("<input id='tags' name='tags' value='' type='hidden'/>");
-			         $input2.appendTo($section);*/
 			 }
 		}
 		setTimeout(function(){
@@ -73,39 +53,42 @@ $(function(){
 		//input内容清空
 		$(this).val("");
 	});
-	
-	
+
    
-    $(".z_photo").delegate(".close-upimg","click",function(){
-     	  $(".works-mask").show();
-     	  delParent = $(this).parent();
-	});
+//    $(".z_photo").delegate(".close-upimg","click",function(){
+//    	 var ind = $('section').index(this)+1;//获取当前点击的section下标
+//		 console.log(ind)
+//     	  $(".works-mask").show();
+//     	  delParent = $(this).parent();
+//	});
 		
-	$(".wsdel-ok").click(function(){
-		$(".works-mask").hide();
-		var numUp = delParent.siblings().length;
-		if(numUp <6){
-			delParent.parent().find(".z_file").show();
-		}
-		 delParent.remove();
-		 var FormObj = new FormData();
-		$.ajax({
-			type:"post",
-			url: baseURL + "uplo/deleteImages",
-			cache: false,  
-		    contentType: false,  
-		    processData: false,
-			contentType: "application/json",
-			data: JSON.stringify(vm.vehicaledet),
-			success:function(data){
-				
-			}
-		});
-	});
-	
-	$(".wsdel-no").click(function(){
-		$(".works-mask").hide();
-	});
+//	$(".wsdel-ok").click(function(){
+//		$(".works-mask").hide();
+//		var numUp = delParent.siblings().length;
+//		if(numUp <6){
+//			delParent.parent().find(".z_file").show();
+//		}
+//		var data = vm.vehicaledet.imgs;
+//		$.ajax({
+//			type:"post",
+//			url: baseURL + "uplo/deleteImages",
+//			cache: false,  
+//		    contentType: false,  
+//		    processData: false,
+//			contentType: "application/json",
+//			data: JSON.stringify(data),
+//			success:function(data){
+//				 var ind = $('section').index(this)+1;//获取当前点击的section下标
+//				 console.log(ind)
+//				delParent.remove();
+//				console.log("the data is : {}",data.data);
+//			}
+//		});
+//	});
+//	
+//	$(".wsdel-no").click(function(){
+//		$(".works-mask").hide();
+//	});
 		
 		function validateUp(files){
 			var arrFiles = [];//替换的文件数组
