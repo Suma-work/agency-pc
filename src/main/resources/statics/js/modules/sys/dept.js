@@ -52,7 +52,9 @@ var vm = new Vue({
                 vm.showList = false;
                 vm.title = "修改";
                 vm.dept = r.dept;
-
+                if(vm.dept.name !== null){
+                	$('input[name=name]').attr("readonly","readonly")
+                }
                 vm.getDept();
             });
         },
@@ -86,21 +88,21 @@ var vm = new Vue({
             	vm.dept.name=document.getElementById("names").value+name;//追加前前缀，部门加部门名称
             }
             console.log(vm.dept.name);
-//            $.ajax({
-//                type: "POST",
-//                url: baseURL + url,
-//                contentType: "application/json",
-//                data: JSON.stringify(vm.dept),
-//                success: function(r){
-//                    if(r.code === 0){
-//                        alert('操作成功', function(){
-//                            vm.reload();
-//                        });
-//                    }else{
-//                        alert(r.msg);
-//                    }
-//                }
-//            });
+            $.ajax({
+                type: "POST",
+                url: baseURL + url,
+                contentType: "application/json",
+                data: JSON.stringify(vm.dept),
+                success: function(r){
+                    if(r.code === 0){
+                        alert('操作成功', function(){
+                            vm.reload();
+                        });
+                    }else{
+                        alert(r.msg);
+                    }
+                }
+            });
         },
         deptTree: function(){
             layer.open({
