@@ -31,7 +31,6 @@ var vm = new Vue({
                 ztree = $.fn.zTree.init($("#deptTree"), setting, r.deptList);
                 var node = ztree.getNodeByParam("deptId", vm.dept.parentId);
                 ztree.selectNode(node);
-                console.log(node);
                 vm.dept.parentName = node.name;
             })
         },
@@ -87,7 +86,6 @@ var vm = new Vue({
             	var name=vm.dept.name;
             	vm.dept.name=document.getElementById("names").value+name;//追加前前缀，部门加部门名称
             }
-            console.log(vm.dept.name);
             $.ajax({
                 type: "POST",
                 url: baseURL + url,
@@ -120,7 +118,6 @@ var vm = new Vue({
                     //选择上级部门
                     vm.dept.parentId = node[0].deptId;
                     vm.dept.parentName = node[0].name;
-                    console.log(node[0].deptId);
                     var parentId=vm.dept.parentId;
                     $.ajax({
                         url: baseURL + "dept/getDept?parentId="+parentId,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
@@ -128,7 +125,6 @@ var vm = new Vue({
                         dataType: "json",//接受数据格式
                         data: 'data',//要传递的数据
                         success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
-                            console.log(JSON.stringify(data.data)+"-------------------------");
                             var name=data.data.name;
                             if(name.substring(-1,4)=="集团老总"){//如果上级部门是集团老总，说明当前部门是大区经理
                             	document.getElementById("names").value="大区经理-";

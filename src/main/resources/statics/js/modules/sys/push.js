@@ -43,16 +43,11 @@ function send(){
 	if(insterm == "" ){
 		alert("请选择发送目标")
 	}
-	console.log("推送标题："+pushTitle);
-	console.log("推送文章标题："+pushAtitle);
-	console.log("推送内容:"+pushMsg);
-	console.log("推送类型："+insterm);
 	var push={};
 	push.pushTitle=pushTitle;
 	push.pushAtitle=pushAtitle;
 	push.pushMsg=pushMsg;
 	push.insterm=insterm;
-	console.log(push);
 	$.ajax({
 		type: "POST",
 		url: baseURL + 'push/getPush',

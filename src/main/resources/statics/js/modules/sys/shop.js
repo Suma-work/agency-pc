@@ -149,7 +149,6 @@ function selectDeptList(deptid){//所属大区
         			}
         			$('#dept.selectpicker').append("<option value=" + data.data[i].id + ">" + data.data[i].value + "</option>");
         		});
-        		console.log(deptid);
         		if(deptid==1||deptid==2){//说明是管理员登录
         			$('#dept').selectpicker('val',id);
         			document.getElementById("depts").value=id;
@@ -295,7 +294,6 @@ var vm = new Vue({//vue 初始值
             }else if(imgs.length<0){
             	alert("至少上传一张展示图片！");
             }else{
-            	console.log(vm.vehicaledet);
             		$.ajax({
             			type: "POST",
             			url: baseURL + url,

@@ -95,7 +95,6 @@ function isPoneAvailable() {
 } 
 function selectOnchang(obj){ 
 //	var value = obj.options[obj.selectedIndex].value;
-//	console.log(value);
 	document.getElementById("shopids").value=obj.options[obj.selectedIndex].value;
 	document.getElementById("shopnames").value=obj.options[obj.selectedIndex].text;
 }
@@ -152,12 +151,10 @@ var vm = new Vue({
 	        		return ;
 	        	}
 	        	
-//	        	console.log(userId);
 	        	vm.showList = false;
 	        	vm.title = "修改";
 	        	
 	        	vm.getUser(userId);
-//	        	console.log("update->>>>>>>>"+rowData);
         },
         del: function () {
             var userIds = getSelectedRows();
@@ -192,7 +189,6 @@ var vm = new Vue({
         },
         saveOrUpdate: function () {
             var url = vm.user.userId == null ? "sys/user/save" : "cust/setCust?cusId="+vm.user.userId;
-//            console.log(vm.user.userId);
             if(vm.user.cellPhone==null){
             	alert("手机号不能为空！");
             }else if(vm.user.passWord==null){
@@ -201,7 +197,6 @@ var vm = new Vue({
             	var myreg=/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/;  
             	if(!myreg.test($("#mobile").val())){
             	}else{
-            		console.log(vm.user);
             		$.ajax({
             			type: "POST",
             			url: baseURL + "cust/setCust?cusId="+vm.user.userId,
