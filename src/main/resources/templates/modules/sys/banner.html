@@ -27,97 +27,43 @@
 		</div>
 	    <table id="jqGrid"></table>
 	    <div id="jqGridPager"></div>
-	    
-	    <section class="examples">
-		<div class="container">
-			<div class="carousel-example">
-				<!-- FLEXIBLE BOOTSTRAP CAROUSEL -->
-				<div id="simple-content-carousel" class="carousel flexible slide"
-					data-ride="carousel" data-interval="5000" data-wrap="true">
-
-					<div class="items" v-for="img in bannerImg">
-						<div class="flex-item" >
-							<img class="img-responsive" v-bind:src="img.picUrl">
-						</div>
- <!--
-						<div class="flex-item">
-							<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153613060303906321413.jpg">
-						</div>
-
-						<div class="flex-item">
-							<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153618611569567974587.jpg">
-						</div>
-
-						<div class="flex-item">
-							<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153616820266735594116.jpg">
-						</div>
-
-						<div class="flex-item">
-							<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153615436982289003101.jpg">
-						</div>
-
-						<div class="flex-item">
-							<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153611701692589232638.jpg">
-						</div>
- -->					</div>
-
-					<div class="carousel-inner" role="listbox">
-						<div class="item next left">
-							<div class="row" v-for="img in bannerImg">
-								<div class="col-xs-4 left">
-									<div class="flex-item">
-										<img class="img-responsive" v-bind:src="img.picUrl">
-									</div>
-								</div>
-								<!-- <div class="col-xs-4 center">
-									<div class="flex-item">
-										<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153613060303906321413.jpg">
-									</div>
-								</div>
-								<div class="col-xs-4 right">
-									<div class="flex-item">
-										<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153618611569567974587.jpg">
-									</div>
-								</div> -->
+	    <section class="examples" style="overflow:hidden">
+			<div class="container">
+				<div class="carousel-example">
+					<div id="simple-content-carousel" class="carousel flexible slide"
+						data-ride="carousel" data-interval="5000" data-wrap="true">
+						<div class="items" v-for="img in bannerImg">
+							<div class="flex-item" >
+								<img class="img-responsive" v-bind:src="img.picUrl">
 							</div>
 						</div>
-						<!-- <div class="item active left">
-							<div class="row">
-								<div class="col-xs-4 left">
-									<div class="flex-item">
-										<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153616820266735594116.jpg">
-									</div>
-								</div>
-								<div class="col-xs-4 center">
-									<div class="flex-item">
-										<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153615436982289003101.jpg">
-									</div>
-								</div>
-								<div class="col-xs-4 right">
-									<div class="flex-item">
-										<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153611701692589232638.jpg">
+						<div class="carousel-inner" role="listbox">
+							<div class="item next left">
+								<div class="row" v-for="img in bannerImg">
+									<div class="col-xs-4 left">
+										<div class="flex-item">
+											<img class="img-responsive" v-bind:src="img.picUrl">
+										</div>
 									</div>
 								</div>
 							</div>
-						</div> -->
+						</div>
+						<a class="left carousel-control" href="#simple-content-carousel"
+							role="button" data-slide="prev"> <span
+							class="fa fa-angle-left" aria-hidden="true"></span> <span
+							class="sr-only">Previous</span>
+						</a> 
+						<a class="right carousel-control" href="#simple-content-carousel"
+							role="button" data-slide="next"> <span
+							class="fa fa-angle-right" aria-hidden="true"></span> <span
+							class="sr-only">Next</span>
+						</a>
 					</div>
-
-					<a class="left carousel-control" href="#simple-content-carousel"
-						role="button" data-slide="prev"> <span
-						class="fa fa-angle-left" aria-hidden="true"></span> <span
-						class="sr-only">Previous</span>
-					</a> <a class="right carousel-control" href="#simple-content-carousel"
-						role="button" data-slide="next"> <span
-						class="fa fa-angle-right" aria-hidden="true"></span> <span
-						class="sr-only">Next</span>
-					</a>
 				</div>
 			</div>
-
-		</div>
-	</section>
+		</section>
+	    
     </div>
-
 	<div v-show="!showList" class="panel panel-default">
 		<div class="panel-heading">{{title}}</div>
 		<form class="form-horizontal" id="form-horizontal" >
@@ -155,7 +101,7 @@
 			<div class="form-group"> 
 				<div class="col-sm-2 control-label">图片</div>
 				<div class="z_photo upimg-div clear col-sm-10" >
-					<section class="up-section fl" style="float:left;display:block;" >
+					<section class="up-section fl" style="float:left;" >
 						<span class="up-span"></span>
 							<img class="close-upimg" src="../../statics/img/a7.png"  @click="DelectImg(vehicaledet.picUrl)">
 							<img class="up-img" :src="vehicaledet.picUrl">

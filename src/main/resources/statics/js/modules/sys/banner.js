@@ -1,4 +1,5 @@
-$(function () {//加载数据
+$(function () {//加载数据	
+	bannerImg();
     $("#jqGrid").jqGrid({
         url: baseURL + 'banner/getBanList',
         datatype: "json",
@@ -54,7 +55,7 @@ $(function () {//加载数据
                 grid.setRowData ( ids[i], false, {height:67+i*2} );
             }}
     });
-    bannerImg();
+    
 });
 function bannerImg(){
 	$.ajax({
@@ -64,6 +65,7 @@ function bannerImg(){
 //        data: 'data',//要传递的数据
         success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
         	vm.bannerImg=data.data.dataList;
+        	return(true)
         },
         error: function (data) {
             alert("查询失败" + data);
