@@ -50,8 +50,8 @@ public class UploadDownloadController {
         // 文件上传后的路径  
         InputStream is;
         System.err.println();
-        String filePath = "D:\\"; 
-//        String filePath = ToolsUntil.PATH_URL;
+//        String filePath = "D:\\"; 
+        String filePath = ToolsUntil.PATH_URL;
 //        String filePath = "C://Users//Administrator//Desktop//tomcat//apache-tomcat-8.5.24-windows-x64//apache-tomcat-8.5.24//webapps//image//";
         // 解决中文问题，liunx下中文路径，图片显示问题  
         // fileName = UUID.randomUUID() + suffixName;  
@@ -95,8 +95,8 @@ public class UploadDownloadController {
 			String newFileName = String.valueOf(ComUtils.randomUID("img"))
 					 + suffixName;
 			// 文件上传后的路径  
-            String filePath = "D:\\";  
-//			String filePath = ToolsUntil.PATH_URL;
+//            String filePath = "D:\\";  
+			String filePath = ToolsUntil.PATH_URL;
 			// 解决中文问题，liunx下中文路径，图片显示问题  
 			// fileName = UUID.randomUUID() + suffixName;  
 //        File dest = new File(filePath + fileName);  
@@ -132,13 +132,13 @@ public class UploadDownloadController {
     public JsonResult getDelete(@RequestParam Map<String,Object>params){
 		JsonResult result=new JsonResult();
 		log.info("params->>>>>>>>>>"+params);
-//		File file=new File(ToolsUntil.PATH_URL+params.get("imgName").toString());
-//        if (file.exists()) {
-//           file.delete();//如果文件存在 则删除该文件
-//           result.putSuccess("删除图片成功！");
-//        }else{
-//           result.putFailed("删除失败，不存在图片！");
-//        }
+		File file=new File(ToolsUntil.PATH_URL+params.get("imgName").toString());
+        if (file.exists()) {
+           file.delete();//如果文件存在 则删除该文件
+           result.putSuccess("删除图片成功！");
+        }else{
+           result.putFailed("删除失败，不存在图片！");
+        }
 		return result;
     }
 	
