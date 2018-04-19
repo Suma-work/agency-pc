@@ -182,7 +182,7 @@ var vm = new Vue({//vue 初始值
         	vm.title = "新增";
         	var deptid=JSON.parse(localStorage.getItem("user")).deptId;
         	selectDeptList(deptid);
-        	vm.vehicaledet = {imgs:[]};
+        	vm.vehicaledet = {imgs:{}};
         },
         update: function () {
         	var id = getSelectedRow();//根据点击行获得点击行的id（id为jsonReader: {id: "id" },)
@@ -254,10 +254,13 @@ var vm = new Vue({//vue 初始值
         getuser: function(bannerid){
             $.get(baseURL + "banner/getBanMap?bannerid="+bannerid, function(r){
                 vm.vehicaledet = r.data;
+                console.log(vm.vehicaledet)
                 var imgContainer = $(".Bannerfile").parents(".z_photo"); //存放图片的父亲元素
                 var input = $(".Bannerfile").parent();//文本框的父亲元素
             	numUp = imgContainer.find(".up-section").length;
-                if(numUp>=0){
+                if(numUp>0){
+                	$(".z_photo ").show();
+                	$(".up-section ").show();
                 	$(".bannerfl").hide();
                 }
             });
@@ -269,6 +272,27 @@ var vm = new Vue({//vue 初始值
                 postData:{'keyword':document.getElementById("keyword").value},
                 page:page
             }).trigger("reloadGrid");
+        },
+        DelectImg: function (ObjDom){
+        	//反向截取最后一个/后的图片
+        	var index = ObjDom .lastIndexOf("\/");
+    		ObjDom  = ObjDom .substring(index + 1, ObjDom .length);
+//    		console.log(ObjDom)
+    		var img = vm.vehicaledet.picUrl;
+//    		console.log(img)
+        	$.ajax({
+    			type:"get",
+    			url: baseURL + "uplo/deleteImages?imgName="+ObjDom,
+    			cache: false,  
+    		    contentType: false,  
+    		    processData: false,
+    			contentType: "application/json",
+    			success:function(data){
+    				vm.vehicaledet.picUrl= img.replace(img,"");
+    				$(".up-section").hide();
+    				$(".bannerfl").show();
+    			}
+    		});
         }
     }
 });
