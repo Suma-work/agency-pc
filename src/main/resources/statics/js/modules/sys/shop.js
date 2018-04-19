@@ -336,7 +336,7 @@ var vm = new Vue({//vue 初始值
         	//反向截取最后一个/后的图片
         	var index = ObjDom .lastIndexOf("\/");
     		ObjDom  = ObjDom .substring(index + 1, ObjDom .length);
-    		console.log(ObjDom)
+    		var imgArr = vm.vehicaledet.imgs;
         	$.ajax({
     			type:"get",
     			url: baseURL + "uplo/deleteImages",
@@ -346,7 +346,9 @@ var vm = new Vue({//vue 初始值
     			contentType: "application/json",
     			data: ObjDom,
     			success:function(data){
-    				console.log(data)
+    				imgArr.splice($.inArray(index,imgArr),1);
+    				vm.vehicaledet.imgs = imgArr;
+    				console.log(vm.vehicaledet.imgs)
     			}
     		});
         }
