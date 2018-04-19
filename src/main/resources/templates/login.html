@@ -20,7 +20,10 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-<body class="hold-transition login-page" style="background:url(${request.contextPath}/statics/img/bg.jpg) repeat;margin:0;padding:0;">
+<body class="hold-transition login-page">
+<div style="position:absolute; left:0px; top:0px; width:100%; height:100%;z-index:-1">
+	<img src="${request.contextPath}/statics/img/bg.jpg" width="100%" height="100%"/>  
+</div>
 <div class="login-box" id="rrapp" v-cloak style="width:500px;">
   <div class="login-logo" style="color:#fff;">
     <b>汽车权限系统</b>
