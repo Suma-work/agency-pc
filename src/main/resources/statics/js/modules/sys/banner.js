@@ -18,11 +18,11 @@ $(function () {//加载数据
 			}}/*,
             { label: '平台首页的展示图片', name: 'picUrl',sortable:false, width:100},*/
         ],
-		viewrecords: true,
+		viewrecords: true,//是否要显示总记录数
         height: 450,
         rowNum: 6,
 //		rowList : [6,30,50],
-        rownumbers: true, 
+        rownumbers: true, //如果为ture则会在表格左边新增一列
         rownumWidth: 25, 
         autowidth:true,
         multiselect: true,
@@ -54,7 +54,23 @@ $(function () {//加载数据
                 grid.setRowData ( ids[i], false, {height:67+i*2} );
             }}
     });
+    bannerImg();
 });
+function bannerImg(){
+	$.ajax({
+        url: baseURL + 'banner/getBanList?pagesize=6&pageno=1&order=asc',//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+        type: "get",//数据发送方式
+        dataType: "json",//接受数据格式
+//        data: 'data',//要传递的数据
+        success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
+        	vm.bannerImg=data.data.dataList;
+        },
+        error: function (data) {
+            alert("查询失败" + data);
+        }
+    });
+}
+
 function hideSelectAll() {  
     $("#jqGrid").hide();  
     return(true);  
@@ -169,9 +185,10 @@ var vm = new Vue({//vue 初始值
             deptName:null,
             roleIdList:[]
         },
-        vehicaledet:{
+        vehicaledet:{//轮播图对象
         	picUrl: ""  	
-        }
+        },
+        bannerImg:[]//轮播图集合
     },
     methods: {
         query: function () {

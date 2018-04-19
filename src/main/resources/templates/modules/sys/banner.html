@@ -35,11 +35,11 @@
 				<div id="simple-content-carousel" class="carousel flexible slide"
 					data-ride="carousel" data-interval="5000" data-wrap="true">
 
-					<div class="items">
-						<div class="flex-item">
-							<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153614331732265800925.jpg">
+					<div class="items" v-for="img in bannerImg">
+						<div class="flex-item" >
+							<img class="img-responsive" v-bind:src="img.picUrl">
 						</div>
-
+ <!--
 						<div class="flex-item">
 							<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153613060303906321413.jpg">
 						</div>
@@ -59,17 +59,17 @@
 						<div class="flex-item">
 							<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153611701692589232638.jpg">
 						</div>
-					</div>
+ -->					</div>
 
 					<div class="carousel-inner" role="listbox">
 						<div class="item next left">
-							<div class="row">
+							<div class="row" v-for="img in bannerImg">
 								<div class="col-xs-4 left">
 									<div class="flex-item">
-										<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153614331732265800925.jpg">
+										<img class="img-responsive" v-bind:src="img.picUrl">
 									</div>
 								</div>
-								<div class="col-xs-4 center">
+								<!-- <div class="col-xs-4 center">
 									<div class="flex-item">
 										<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153613060303906321413.jpg">
 									</div>
@@ -78,10 +78,10 @@
 									<div class="flex-item">
 										<img class="img-responsive" src="http://img1.xcarimg.com/b98/s8272/c_20170505153618611569567974587.jpg">
 									</div>
-								</div>
+								</div> -->
 							</div>
 						</div>
-						<div class="item active left">
+						<!-- <div class="item active left">
 							<div class="row">
 								<div class="col-xs-4 left">
 									<div class="flex-item">
@@ -99,7 +99,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
 					</div>
 
 					<a class="left carousel-control" href="#simple-content-carousel"
