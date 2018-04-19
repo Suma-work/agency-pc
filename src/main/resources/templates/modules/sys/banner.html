@@ -6,6 +6,8 @@
 <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
 <link rel="stylesheet" type="text/css" href="${request.contextPath}/statics/css/flexible-bootstrap-carousel.css" />
 <link rel="stylesheet" type="text/css" href="${request.contextPath}/statics/css/styles.css">
+<script type="text/javascript" src="${request.contextPath}/statics/libs/flexible-bootstrap-carousel.js"></script>
+<script type="text/javascript" src="${request.contextPath}/statics/libs/script.js"></script>
 </head>
 <body>
 <div id="rrapp" v-cloak>
@@ -32,17 +34,18 @@
 				<div class="carousel-example">
 					<div id="simple-content-carousel" class="carousel flexible slide"
 						data-ride="carousel" data-interval="5000" data-wrap="true">
-						<div class="items" v-for="img in bannerImg">
-							<div class="flex-item" >
-								<img class="img-responsive" v-bind:src="img.picUrl">
+						<div class="items" >
+							<div class="flex-item" v-for="(img,index) in bannerImg">
+								{{img}}
+								<img class="img-responsive" style="width:300px;height:225px;" :src="img">
 							</div>
 						</div>
 						<div class="carousel-inner" role="listbox">
 							<div class="item next left">
-								<div class="row" v-for="img in bannerImg">
+								<div class="row" >
 									<div class="col-xs-4 left">
-										<div class="flex-item">
-											<img class="img-responsive" v-bind:src="img.picUrl">
+										<div class="flex-item" v-for="(img,index) in bannerImg">
+											<img class="img-responsive" :src="img">
 										</div>
 									</div>
 								</div>
@@ -123,7 +126,5 @@
 	</div>
 </div>
 <script src="${request.contextPath}/statics/js/modules/sys/banner.js?_${.now?long}"></script>
-<script type="text/javascript" src="${request.contextPath}/statics/libs/flexible-bootstrap-carousel.js"></script>
-<script type="text/javascript" src="${request.contextPath}/statics/libs/script.js"></script>
 </body>
 </html>

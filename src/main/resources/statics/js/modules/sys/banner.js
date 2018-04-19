@@ -64,8 +64,11 @@ function bannerImg(){
         dataType: "json",//接受数据格式
 //        data: 'data',//要传递的数据
         success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
-        	vm.bannerImg=data.data.dataList;
-        	return(true)
+//        	vm.bannerImg=data.data.dataList;
+        	$.each(data.data.dataList, function (i) {
+        		vm.bannerImg.push(data.data.dataList[i].picUrl);
+        	});
+        	console.log(vm.bannerImg);
         },
         error: function (data) {
             alert("查询失败" + data);
