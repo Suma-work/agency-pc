@@ -50,7 +50,8 @@ public class UploadDownloadController {
         // 文件上传后的路径  
         InputStream is;
         System.err.println();
-        String filePath = "D:\\";  
+//        String filePath = "D:\\"; 
+        String filePath = ToolsUntil.PATH_URL;
 //        String filePath = "C://Users//Administrator//Desktop//tomcat//apache-tomcat-8.5.24-windows-x64//apache-tomcat-8.5.24//webapps//image//";
         // 解决中文问题，liunx下中文路径，图片显示问题  
         // fileName = UUID.randomUUID() + suffixName;  
@@ -94,8 +95,8 @@ public class UploadDownloadController {
 			String newFileName = String.valueOf(ComUtils.randomUID("img"))
 					 + suffixName;
 			// 文件上传后的路径  
-            String filePath = "D:\\";  
-//			String filePath = ToolsUntil.PATH_URL;
+//            String filePath = "D:\\";  
+			String filePath = ToolsUntil.PATH_URL;
 			// 解决中文问题，liunx下中文路径，图片显示问题  
 			// fileName = UUID.randomUUID() + suffixName;  
 //        File dest = new File(filePath + fileName);  
