@@ -339,12 +339,12 @@ var vm = new Vue({//vue 初始值
     		var imgArr = vm.vehicaledet.imgs;
         	$.ajax({
     			type:"get",
-    			url: baseURL + "uplo/deleteImages",
+    			url: baseURL + "uplo/deleteImages?imgName="+ObjDom,
     			cache: false,  
     		    contentType: false,  
     		    processData: false,
     			contentType: "application/json",
-    			data: ObjDom,
+//    			data: ObjDom,
     			success:function(data){
     				imgArr.splice($.inArray(index,imgArr),1);
     				vm.vehicaledet.imgs = imgArr;
