@@ -3,11 +3,7 @@
 <head>
 <title>发布轮播图</title>
 <#include "/header.html">
-<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
-<link rel="stylesheet" type="text/css" href="${request.contextPath}/statics/css/flexible-bootstrap-carousel.css" />
 <link rel="stylesheet" type="text/css" href="${request.contextPath}/statics/css/styles.css">
-<script type="text/javascript" src="${request.contextPath}/statics/libs/flexible-bootstrap-carousel.js"></script>
-<script type="text/javascript" src="${request.contextPath}/statics/libs/script.js"></script>
 </head>
 <body>
 <div id="rrapp" v-cloak>
@@ -30,27 +26,22 @@
 	    <table id="jqGrid"></table>
 	    <div id="jqGridPager"></div>
 	    
-	    <div id="myCarousel" class="carousel slide">
-			<!-- 轮播（Carousel）指标 -->
-			<!-- <ol class="carousel-indicators">
-				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-				<li data-target="#myCarousel" data-slide-to="1"></li>
-				<li data-target="#myCarousel" data-slide-to="2"></li>
-			</ol> -->
-			<!-- 轮播（Carousel）项目 -->
-			<div class="carousel-inner" id="inner">
-			</div>
-			<!-- 轮播（Carousel）导航 -->
-			<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-				<span class="sr-only">Previous</span>
-			</a>
-			<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-				<span class="sr-only">Next</span>
-			</a>
-		</div> 	
-		    
+	    <div id="full" class="carousel slide" data-ride="carousel">
+		    <div class="carousel-inner">
+		      <ul class="row item active">
+		        <li class="col-xs-4" style="list-style:none;" v-for="(img,index) in bannerImg">
+		          <img v-if="index <=2" style="width:100% !important;height:225px !important;" :src="img"  class="img-responsive">
+		        </li>
+		      </ul>
+		      <ul class="row item">
+		        <li class="col-xs-4 " style="list-style:none;height:100% !important" v-for="(img,index) in bannerImg">
+		          <img v-if="index>2" style="width:100% !important;height:225px !important;" :src="img" class="img-responsive">
+		        </li>
+		      </ul>
+		    </div>
+		    <a class="carousel-control left" href="#full" data-slide="prev">Previous</a>
+		    <a class="carousel-control right" href="#full" data-slide="next">Next</a>
+		  </div>    
     </div>
 	<div v-show="!showList" class="panel panel-default">
 		<div class="panel-heading">{{title}}</div>
