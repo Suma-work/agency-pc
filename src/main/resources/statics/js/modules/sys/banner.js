@@ -67,8 +67,15 @@ function bannerImg(){
 //        	vm.bannerImg=data.data.dataList;
         	$.each(data.data.dataList, function (i) {
         		vm.bannerImg.push(data.data.dataList[i].picUrl);
+        		//<img class="img-responsive" style="width:300px;height:225px;" src="http://52.80.16.16:8080/image/IMG_TGn7Gx8QsGqy6pw24gRIpCCLwVBY.jpg">
+//        		console.log(data.data.dataList[i].picUrl);
+        		if(i==0){
+        			$('#inner').append("<div class='item active'><img src='"+data.data.dataList[i].picUrl+"'></div>");
+        		}else{
+        			$('#inner').append("<div class='item'><img src='"+data.data.dataList[i].picUrl+"'></div>");
+        		}
         	});
-        	console.log(vm.bannerImg);
+//        	console.log(vm.bannerImg);
         },
         error: function (data) {
             alert("查询失败" + data);
