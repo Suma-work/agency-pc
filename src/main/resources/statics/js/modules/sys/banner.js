@@ -70,9 +70,9 @@ function bannerImg(){
         		//<img class="img-responsive" style="width:300px;height:225px;" src="http://52.80.16.16:8080/image/IMG_TGn7Gx8QsGqy6pw24gRIpCCLwVBY.jpg">
 //        		console.log(data.data.dataList[i].picUrl);
         		if(i==0){
-        			$('#inner').append("<div class='item active'><img src='"+data.data.dataList[i].picUrl+"'></div>");
+        			$('#inner').append("<div class='item active'><img style='width:200px;height:150px;margin:0 auto;' src='"+data.data.dataList[i].picUrl+"'></div>");
         		}else{
-        			$('#inner').append("<div class='item'><img src='"+data.data.dataList[i].picUrl+"'></div>");
+        			$('#inner').append("<div class='item'><img style='width:200px;height:150px;margin:0 auto;' src='"+data.data.dataList[i].picUrl+"'></div>");
         		}
         	});
 //        	console.log(vm.bannerImg);
