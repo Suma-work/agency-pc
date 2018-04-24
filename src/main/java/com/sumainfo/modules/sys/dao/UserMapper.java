@@ -52,4 +52,60 @@ public interface UserMapper {
 	 */
 	Integer getIsPhone(Map<String,Object>params);
 	
+//	/**
+//	 * 新增商家用户
+//	* @Description: TODO(这里用一句话描述这个方法的作用) 
+//	* @author zhlu
+//	* @date 2018年4月24日
+//	 */
+//	Integer setUser(Map<String,Object>params);
+//	
+	/**
+	 * 新增商家和角色中间表
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月24日
+	 */
+	Integer setUserRole(Map<String,Object>params);
+	
+	/**
+	 * 获取角色信息
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月24日
+	 */
+	Map<String,Object>getRole(Map<String,Object>params);
+	
+	/**
+	 * 获取用户资料
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月24日
+	 */
+	Map<String,Object>getUser(Map<String,Object>params);
+	
+	/**
+	 * 获取用户和角色中间表
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月24日
+	 */
+	Integer getUserRole(Map<String,Object>params);
+	
+	/**
+	 * 删除用户和角色中间表
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月24日
+	 */
+	Integer delectUserRole(Map<String,Object>params);
+//	
+//	/**
+//	 * 新增商家用户日志表
+//	* @Description: TODO(这里用一句话描述这个方法的作用) 
+//	* @author zhlu
+//	* @date 2018年4月24日
+//	 */
+//	Integer setLog(Map<String,Object>params);
+	
 }

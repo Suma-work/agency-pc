@@ -31,7 +31,6 @@ var vm = new Vue({
                 ztree = $.fn.zTree.init($("#deptTree"), setting, r.deptList);
                 var node = ztree.getNodeByParam("deptId", vm.dept.parentId);
                 ztree.selectNode(node);
-
                 vm.dept.parentName = node.name;
             })
         },
@@ -43,6 +42,7 @@ var vm = new Vue({
         },
         update: function () {
             var deptId = getDeptId();
+            
             if(deptId == null){
                 return ;
             }
@@ -51,7 +51,9 @@ var vm = new Vue({
                 vm.showList = false;
                 vm.title = "修改";
                 vm.dept = r.dept;
-
+                if(vm.dept.name !== null){
+                	$('input[name=name]').attr("readonly","readonly")
+                }
                 vm.getDept();
             });
         },
@@ -80,6 +82,10 @@ var vm = new Vue({
         },
         saveOrUpdate: function (event) {
             var url = vm.dept.deptId == null ? "sys/dept/save" : "sys/dept/update";
+            if(vm.dept.deptId == null){
+            	var name=vm.dept.name;
+            	vm.dept.name=document.getElementById("names").value+name;//追加前前缀，部门加部门名称
+            }
             $.ajax({
                 type: "POST",
                 url: baseURL + url,
@@ -112,7 +118,34 @@ var vm = new Vue({
                     //选择上级部门
                     vm.dept.parentId = node[0].deptId;
                     vm.dept.parentName = node[0].name;
-
+                    var parentId=vm.dept.parentId;
+                    $.ajax({
+                        url: baseURL + "dept/getDept?parentId="+parentId,//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+                        type: "get",//数据发送方式
+                        dataType: "json",//接受数据格式
+                        data: 'data',//要传递的数据
+                        success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
+                            var name=data.data.name;
+                            if(name.substring(-1,4)=="集团老总"){//如果上级部门是集团老总，说明当前部门是大区经理
+                            	document.getElementById("names").value="大区经理-";
+                            	vm.dept.isregion=1;
+                            }else if(name.substring(-1,4)=="大区经理"){//如果上级部门是大区经理，说明当前部门是店长
+                            	document.getElementById("names").value="商家店长-";
+                            	vm.dept.isregion=0;
+                            }else if(name.substring(-1,4)=="商家店长"){//如果上级部门是商家店长，说明当前部门是店员
+                            	document.getElementById("names").value="商家店员-";
+                            	vm.dept.isregion=0;
+                            }else if(data.data.parentid=="0"){
+                            	document.getElementById("names").value="集团老总-";
+                            	vm.dept.isregion=0;
+                            }
+                            
+                        },
+                        error: function (data) {
+                            alert("查询失败" + data);
+                        }
+                    });
+                    
                     layer.close(index);
                 }
             });

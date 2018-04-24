@@ -209,11 +209,11 @@ var vm = new Vue({
         	var roleid= rowData.roleid;
         	var shopname= rowData.shopname;
         	var deptid=JSON.parse(localStorage.getItem("user")).deptId;
-        	if(udeptid==1||udeptid==2){
-        		alert("不能修改公司信息和管理员信息！");
-        	}else if(udeptid==deptid){
-        		alert("不能修改自己同级的资料！");
-        	}else{
+//        	if(udeptid==1||udeptid==2){
+//        		alert("不能修改公司信息和管理员信息！");
+//        	}else if(udeptid==deptid){
+//        		alert("不能修改自己同级的资料！");
+//        	}else{
         		if(roleid==1||roleid==2||roleid==3){
         			$("#shop").hide();
         			$("#shopname").find("option").remove();
@@ -230,7 +230,7 @@ var vm = new Vue({
         		vm.getUser(userId);
         		//获取角色信息
         		this.getRoleList();
-        	}
+//        	}
         },
         del: function () {
             var userIds = getSelectedRows();
@@ -238,11 +238,11 @@ var vm = new Vue({
         	var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
         	var deptid=JSON.parse(localStorage.getItem("user")).deptId;//自己的级别
         	var udeptid= rowData.udeptid;
-        	if(udeptid==1||udeptid==2){
-        		alert("只能删除商家资料");
-        	}else if(udeptid==deptid){
-        		alert("不能修改自己同级的资料！");
-        	}else{
+//        	if(udeptid==1||udeptid==2){
+//        		alert("只能删除商家资料");
+//        	}else if(udeptid==deptid){
+//        		alert("不能修改自己同级的资料！");
+//        	}else{
         		if(userIds == null){
         			return ;
         		}
@@ -264,7 +264,7 @@ var vm = new Vue({
         				}
         			});
         		});
-        	}
+//        	}
         },
         saveOrUpdate: function () {
             var url = vm.user.userId == null ? "sys/user/save" : "sys/user/update";
@@ -289,8 +289,9 @@ var vm = new Vue({
             			vm.user.shopid=$("#shopids").val();
             			vm.user.shopname=$("#shopnames").val();
             		}
-//            		vm.user.deptId=vm.user.deptIds;
-//            		vm.user.deptIds='';
+            		console.log(vm.user);
+            		/*vm.user.deptId=vm.user.deptIds;
+            		vm.user.deptIds='';*/
             		$.ajax({
             			type: "POST",
             			url: baseURL + url,
@@ -298,6 +299,14 @@ var vm = new Vue({
             			data: JSON.stringify(vm.user),
             			success: function(r){
             				if(r.code === 0){
+            		    			$.ajax({
+            		        			type: "POST",
+            		        			url: baseURL + "user/setUserRole",
+            		        			contentType: "application/json",
+            		        			data: JSON.stringify(vm.user),
+            		        			success: function(r){
+            		        			}
+            		        		});
             					alert('操作成功', function(){
             						vm.reload();
             					});
@@ -308,6 +317,7 @@ var vm = new Vue({
             		});
             	}
             }
+            
         },
         getUser: function(userId){
             $.get(baseURL + "sys/user/info/"+userId, function(r){

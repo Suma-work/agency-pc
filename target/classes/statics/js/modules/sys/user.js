@@ -5,7 +5,6 @@ $(function () {
 	}else if(deptid=="1"||deptid=="2"){
 		deptid="";
 	}
-//	console.log("------------"+deptid);
     $("#jqGrid").jqGrid({
         url: baseURL + 'user/getUserList?deptid='+deptid,
         datatype: "json",
@@ -14,6 +13,8 @@ $(function () {
 			{ label: '登录账户', name: 'username', width: 50 },
 			{ label: '用户名', name: 'uname', width: 50 },
 			{ label: '所属部门编号', name: 'udeptid', sortable: false, width: 45,hidden:true},
+			{ label: '角色编号', name: 'roleid', sortable: false, width: 35 },
+			{ label: '所属角色', name: 'rolename', sortable: false, width: 75 },
             { label: '所属部门', name: 'deptname', sortable: false, width: 75 },
             { label: '店铺编号', name: 'shopid', index: 'shopid', width: 60,hidden:true},
             { label: '所属店铺', name: 'shopname', width: 75 },
@@ -98,12 +99,10 @@ function getschoolList(fid,shopn) {//获取下拉列表
 		    	document.getElementById("shopnames").value=data.data[0].shopname;
 		    }else{
 		    	$('#shopname').selectpicker('val',fids);
-//		    	console.log(fids);
 		    	document.getElementById("shopids").value=fids;
 		    	document.getElementById("shopnames").value=shopn;
 		    }
 		    $("#shopname").selectpicker('refresh');
-//		    console.log($("#shopnames").val());
         },
         error: function (data) {
             alert("查询失败" + data);
@@ -129,12 +128,26 @@ function isPoneAvailable() {
     	alert("手机号码不正确！");
         return false;  
     } else {  
+    	$.ajax({
+            url: baseURL + "user/getIsPhone?mobile="+$("#mobile").val(),//写你自己的方法，返回map，我返回的map包含了两个属性：data：集合，total：集合记录数量，所以后边会有data.data的写法。。。
+            type: "get",//数据发送方式
+            dataType: "json",//接受数据格式
+            data: 'data',//要传递的数据
+            success: function (data) {//回调函数，接受服务器端返回给客户端的值，即result值
+            	if(data.messageCode=="400"){
+            		$("#mobile").val("");  
+            		alert(data.messageStr);
+            	}
+            },
+            error: function (data) {
+                alert("查询失败" + data);
+            }
+        });
         return true;  
     }  
 } 
 function selectOnchang(obj){ 
 //	var value = obj.options[obj.selectedIndex].value;
-//	console.log(value);
 	document.getElementById("shopids").value=obj.options[obj.selectedIndex].value;
 	document.getElementById("shopnames").value=obj.options[obj.selectedIndex].text;
 }
@@ -193,14 +206,15 @@ var vm = new Vue({
         	var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
         	var fcvid= rowData.shopid;
         	var udeptid= rowData.udeptid;
+        	var roleid= rowData.roleid;
         	var shopname= rowData.shopname;
         	var deptid=JSON.parse(localStorage.getItem("user")).deptId;
-        	if(udeptid==1||udeptid==2){
-        		alert("不能修改公司信息和管理员信息！");
-        	}else if(udeptid==deptid){
-        		alert("不能修改自己同级的资料！");
-        	}else{
-        		if(udeptid==6||udeptid==3){
+//        	if(udeptid==1||udeptid==2){
+//        		alert("不能修改公司信息和管理员信息！");
+//        	}else if(udeptid==deptid){
+//        		alert("不能修改自己同级的资料！");
+//        	}else{
+        		if(roleid==1||roleid==2||roleid==3){
         			$("#shop").hide();
         			$("#shopname").find("option").remove();
         		}else{
@@ -216,7 +230,7 @@ var vm = new Vue({
         		vm.getUser(userId);
         		//获取角色信息
         		this.getRoleList();
-        	}
+//        	}
         },
         del: function () {
             var userIds = getSelectedRows();
@@ -224,12 +238,11 @@ var vm = new Vue({
         	var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
         	var deptid=JSON.parse(localStorage.getItem("user")).deptId;//自己的级别
         	var udeptid= rowData.udeptid;
-        	console.log(udeptid);
-        	if(udeptid==1||udeptid==2){
-        		alert("只能删除商家资料");
-        	}else if(udeptid==deptid){
-        		alert("不能修改自己同级的资料！");
-        	}else{
+//        	if(udeptid==1||udeptid==2){
+//        		alert("只能删除商家资料");
+//        	}else if(udeptid==deptid){
+//        		alert("不能修改自己同级的资料！");
+//        	}else{
         		if(userIds == null){
         			return ;
         		}
@@ -251,30 +264,34 @@ var vm = new Vue({
         				}
         			});
         		});
-        	}
+//        	}
         },
         saveOrUpdate: function () {
             var url = vm.user.userId == null ? "sys/user/save" : "sys/user/update";
-//            console.log(vm.user.deptName);
-            if(vm.user.deptName==null){
+            if(vm.user.uname==null){
+            	alert("真实姓名不能为空");
+            }else if(vm.user.deptName==null){
             	alert("请选择所属部门");
             }else if(vm.user.mobile==null){
             	alert("手机号不能为空！");
             }else if(vm.user.username==null){
-            	alert("用户名不能为空！");
+            	alert("登录账号不能为空！");
             }else if(vm.user.password==null){
             	alert("密码不能为空！");
             }else{
             	var myreg=/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/;  
             	if(!myreg.test($("#mobile").val())){
             	}else{
-            		if(vm.user.deptName=='上海苏马信息科技有限公司'||vm.user.deptName=='平台管理员'||vm.user.deptName=='集团老总'||vm.user.deptName=='大区经理'){
+            		if(vm.user.deptName=='上海苏马信息科技有限公司'||vm.user.deptName=='平台管理员'||vm.user.deptName.substring(0,4)=='集团老总'||vm.user.deptName.substring(0,4)=='大区经理'){
             			vm.user.shopid='';
             			vm.user.shopname='';
             		}else{
             			vm.user.shopid=$("#shopids").val();
             			vm.user.shopname=$("#shopnames").val();
             		}
+            		console.log(vm.user);
+            		/*vm.user.deptId=vm.user.deptIds;
+            		vm.user.deptIds='';*/
             		$.ajax({
             			type: "POST",
             			url: baseURL + url,
@@ -282,6 +299,14 @@ var vm = new Vue({
             			data: JSON.stringify(vm.user),
             			success: function(r){
             				if(r.code === 0){
+            		    			$.ajax({
+            		        			type: "POST",
+            		        			url: baseURL + "user/setUserRole",
+            		        			contentType: "application/json",
+            		        			data: JSON.stringify(vm.user),
+            		        			success: function(r){
+            		        			}
+            		        		});
             					alert('操作成功', function(){
             						vm.reload();
             					});
@@ -292,6 +317,7 @@ var vm = new Vue({
             		});
             	}
             }
+            
         },
         getUser: function(userId){
             $.get(baseURL + "sys/user/info/"+userId, function(r){
@@ -321,16 +347,16 @@ var vm = new Vue({
                     var node = ztree.getSelectedNodes();
                     //选择上级部门
                     vm.user.deptId = node[0].deptId;
+//                    vm.user.deptIds= node[0].deptId;
                     vm.user.deptName = node[0].name;
-                    if(vm.user.deptName=='上海苏马信息科技有限公司'||vm.user.deptName=='平台管理员'||vm.user.deptName=='集团老总'||vm.user.deptName=='大区经理'){
+                    if(vm.user.deptName=='上海苏马信息科技有限公司'||vm.user.deptName=='平台管理员'||vm.user.deptName.substring(0,4)=='集团老总'||vm.user.deptName.substring(0,4)=='大区经理'){
                     	$("#shop").hide();
-//                    	console.log(vm.user+"-----------");
                     	$("#shopname").find("option").remove();
                     }else{
                     	$("#shop").show();
                     	getschoolList();
-//                    	console.log(vm.user);
                     }
+                    
                     layer.close(index);
                 }
             });

@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,4 +69,23 @@ public class UserController implements Serializable{
 		}
 		return result;
 	}
+	
+	/**
+	 * 新增用户和角色中间表
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月24日
+	 */
+	@RequestMapping(value="setUserRole",method=RequestMethod.POST)
+	public JsonResult setUserRole(@RequestBody Map<String,Object>params){
+		log.info("params->>>>>>>>"+params);
+		JsonResult result=new JsonResult();
+		if(userService.setUserRole(params)){
+			result.putSuccess();
+		}else{
+			result.putFailed("新增失败");
+		}
+		return result;
+	}
+	
 }

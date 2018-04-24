@@ -2,6 +2,7 @@ package com.sumainfo.modules.sys.service.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class UserService implements Serializable{
 				}
 				deptidList.add(params.get("deptid").toString());
 				params.put("deptidList", deptidList);
-				log.info("deptidList:->>>>>>>>"+deptidList.size());
+				log.info("deptidList:->>>>>>>>"+deptidList);
 			}
 		}
 		List<Map<String,Object>>userList=userMapper.getUserList(params);
@@ -66,6 +67,42 @@ public class UserService implements Serializable{
 		int count=userMapper.getIsPhone(params);
 		if(count>0){
 			result=true;
+		}
+		return result;
+	}
+	
+	/**
+	 * 新增商家用户和角色中间表
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月24日
+	 */
+	public boolean setUserRole(Map<String,Object>params){
+		boolean result=false;
+		//获取用户资料
+		Map<String,Object>user=userMapper.getUser(params);
+		//获取角色的信息
+		log.info("准备Map->>>>>user"+user);
+		Map<String,Object>role=userMapper.getRole(params);
+		log.info("准备Map->>>>>role"+role);
+		//准备新增商家用户和角色的中间表
+		
+		//如果存在就先删除他，然后在去新增
+		Map<String,Object>userRole=new HashMap<String,Object>();
+		userRole.put("userid", user.get("userid"));
+		userRole.put("roleid", role.get("roleid"));
+		try {
+			int usercout=userMapper.getUserRole(userRole);
+			if(usercout>0){
+				userMapper.delectUserRole(userRole);
+			}
+			log.info("准备Map->>>>>userRole"+userRole);
+				int cout=userMapper.setUserRole(userRole);
+				if(cout>0){
+					result=true;
+				}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return result;
 	}

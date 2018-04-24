@@ -4,11 +4,13 @@
 <mapper namespace="com.sumainfo.modules.sys.dao.UserMapper">
 	
 	<select id="getUserList" resultType="java.util.Map">
-		SELECT sr.role_id roleid,sr.role_name rolename,
-		su.user_id userid,su.shopid,su.shopname,su.username,su.uname,su.portait,su.email,
-		su.mobile,su.`status`,su.dept_id udeptid,su.create_time createtime
- 		FROM `sys_role` sr LEFT JOIN sys_user su on sr.dept_id=su.dept_id
+		select sr.role_id roleid,sr.role_name rolename,su.user_id userid,su.shopid,
+		su.shopname,su.username,su.uname,su.portait,su.email,su.mobile,su.`status`,
+		su.dept_id udeptid,su.create_time createtime from sys_user su LEFT JOIN 
+		sys_role_dept srd on su.dept_id=srd.dept_id
+		LEFT JOIN sys_role sr on srd.role_id=sr.role_id
 		<trim prefix="where" prefixOverrides="and|or">
+			and su.user_id not in (1)
 			<if test="deptidList !=null and deptidList.size>0 ">
 				and su.dept_id in 
 				<foreach collection="deptidList" index="index" item="item" open="(" separator="," close=")">
@@ -88,4 +90,53 @@
 		</trim>
 		LIMIT 1
 	</select>
+	
+	<insert id="setUserRole" parameterType="java.util.Map">
+		INSERT INTO sys_user_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userid !=null">user_id,</if>
+			<if test="roleid !=null">role_id,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userid !=null">#{userid},</if>
+			<if test="roleid !=null">#{roleid},</if>
+		</trim>
+	</insert>
+	
+	<select id="getRole" resultType="java.util.Map">
+		SELECT role_id roleid,role_name rolename,dept_id deptid FROM `sys_role` 
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="deptId!=null">
+				and dept_id=#{deptId}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getUser" resultType="java.util.Map">
+		SELECT user_id userid,username FROM `sys_user`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="username !=null">
+				and username=#{username}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getUserRole" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT count(1) FROM `sys_user_role`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="userid !=null">
+				and user_id=#{userid}
+			</if>
+		</trim>
+	</select>
+	
+	<delete id="delectUserRole" parameterType="java.util.Map">  
+        delete from sys_user_role
+        <trim prefix="where" prefixOverrides="and|or">
+        	<if test="userid !=null">
+				and user_id=#{userid}
+			</if>
+        </trim>
+    </delete> 
+	
 </mapper>
