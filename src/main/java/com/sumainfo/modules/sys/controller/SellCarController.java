@@ -107,4 +107,18 @@ public class SellCarController implements Serializable{
 		}
 		return result;
 	}
+	
+	/**
+	 * 获取所有的店铺
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @author zhlu
+	* @date 2018年4月17日
+	 */
+	@ResponseBody
+	@RequestMapping(value="/getShopList",method=RequestMethod.GET)
+	public JsonResult getShopList(@RequestParam Map<String,Object>params){
+		JsonResult result=new JsonResult();
+		result.put(sellCarService.getShopList(params));
+		return result;
+	}
 }

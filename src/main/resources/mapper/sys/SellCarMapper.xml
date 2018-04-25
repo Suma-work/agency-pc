@@ -4,9 +4,11 @@
 <mapper namespace="com.sumainfo.modules.sys.dao.sellCarMapper">
 	
 	<select id="getSellCarList" resultType="java.util.Map">
-		SELECT h.hotid,h.hotcarid,h.hotcar,h.hottype,h.createTime,h.deflg,v.sellPrice FROM 
-		`hotvehicle` h LEFT JOIN(SELECT carName,sellPrice FROM `vehicledet` GROUP BY carName ORDER BY carId) v
-		on h.hotcar=v.carName
+		SELECT h.hotid,h.shopId,s.shopName,h.hotcarid,h.hotcar,h.hottype,h.createTime,h.deflg,v.sellPrice FROM 
+		`hotvehicle` h 
+		LEFT JOIN(SELECT det.carId,det.carName,det.sellPrice,det.shopId FROM 
+		(SELECT * FROM vehicledet ORDER BY sellPrice asc )det GROUP BY carName,shopId) v
+		on h.shopId=v.shopId and h.hotcar=v.carName LEFT JOIN shop s on h.shopId=s.shopId
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="hotid !=null">
 				and h.hotid=#{hotid}
@@ -31,8 +33,10 @@
 	
 	<select id="getSellCarCout" resultType="java.lang.Integer" parameterType="java.util.Map">
 		SELECT count(1) FROM 
-		`hotvehicle` h LEFT JOIN(SELECT carName,sellPrice FROM `vehicledet` GROUP BY carName ORDER BY carId) v
-		on h.hotcar=v.carName
+		`hotvehicle` h 
+		LEFT JOIN(SELECT det.carId,det.carName,det.sellPrice,det.shopId FROM 
+		(SELECT * FROM vehicledet ORDER BY sellPrice asc )det GROUP BY carName,shopId) v
+		on h.shopId=v.shopId and h.hotcar=v.carName LEFT JOIN shop s on h.shopId=s.shopId
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="hotid !=null">
 				and h.hotid=#{hotid}
@@ -68,6 +72,9 @@
 			<if test="classify !=null">
 				and classify=#{classify}
 			</if>
+			<if test="shopId !=null">
+				and shopId=#{shopId}
+			</if>
 		</trim>
 		GROUP BY carName ORDER BY vehId
 	</select>
@@ -85,14 +92,11 @@
 		GROUP BY vehId LIMIT 1
 	</select>                                                                                                                                                                                        
 	
-	<select id="getVehiCarList" resultType="java.util.Map">
-		SELECT carid,carName FROM `vehiclemain` GROUP BY carid,carName
-	</select>
-	
 	<update id="updateHote" parameterType="java.util.Map">
 		update hotvehicle
 		<trim prefix="set" suffixOverrides=",">
 			<if test="hotid !=null">hotid=#{hotid},</if>
+			<if test="shopId !=null">shopId=#{shopId},</if>
 			<if test="hotcarid !=null">hotcarid=#{hotcarid},</if>
 			<if test="hotcar !=null">hotcar=#{hotcar},</if>
 			<if test="hottype !=null">hottype=#{hottype},</if>
@@ -105,4 +109,24 @@
 			</if>
 		</trim>
 	</update>
+	
+	<select id="getShopList" resultType="java.util.Map">
+		SELECT shopId,shopName FROM `shop`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="shopId !=null">
+				and shopId=#{shopId}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getVehiCarList" resultType="java.util.Map">
+		SELECT carid,carName FROM `vehiclemain` 
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="shopId !=null">
+				and shopId=#{shopId}
+			</if>
+		</trim>
+		GROUP BY carid,carName
+	</select>
+	
 </mapper>

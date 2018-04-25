@@ -524,14 +524,11 @@ var vm = new Vue({
             vm.vehicaledet.carType=document.getElementById("carTypes").value;
             if(vm.vehicaledet.shopId==null){
             	alert("所属店铺不能为空！");
-            }else
-        	if(vm.vehicaledet.carDetName==null){
+            }else if(vm.vehicaledet.carDetName==null){
             	alert("车型名称不能为空！");
-            }else
-        	if(vm.vehicaledet.sellPrice==null){
+            }else if(vm.vehicaledet.sellPrice==null){
              	alert("当前售价不能为空！");
-            }else
-        	if(vm.vehicaledet.orginPrice==null){
+            }else if(vm.vehicaledet.orginPrice==null){
             	alert("原始价格不能为空！");
             }else{
         		$.ajax({
