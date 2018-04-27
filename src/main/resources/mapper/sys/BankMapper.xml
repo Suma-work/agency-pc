@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sumainfo.modules.sys.dao.BankMapper">
+	
+	<select id="getBankList" resultType="java.util.Map">
+		SELECT bankId,bankName,bankRatio,createTime FROM `bank_service`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="bankId !=null">
+				and bankId=#{bankId}
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or bankName like '%${keyword}%'
+			</if>
+		</trim>
+		<if test="sidx != null and sidx != '' and order!='' and order != null ">
+			ORDER BY ${sidx} ${order}
+		</if>
+		<if test="start != null and limit != '' ">
+				limit #{start},#{limit}
+		</if>
+	</select>
+	
+	<select id="getBankLitCout" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT count(1) FROM `bank_service`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="bankId !=null">
+				and bankId=#{bankId}
+			</if>
+			<if test="keyword !=null and keyword != ''">
+				or bankName like '%${keyword}%'
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getBankMap" resultType="java.util.Map">
+		SELECT bankId,bankName,bankRatio,createTime FROM `bank_service`
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="bankId !=null">
+				and bankId=#{bankId}
+			</if>
+		</trim>
+		limit 1
+	</select>
+	
+	<insert id="addBank" parameterType="java.util.Map">
+		INSERT INTO bank_service
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="bankId !=null">bankId,</if>
+			<if test="bankName !=null">bankName,</if>
+			<if test="bankRatio !=null">bankRatio,</if>
+			<if test="createTime !=null">createTime,</if>
+			<if test="delfg !=null">delfg,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="bankId !=null">#{bankId},</if>
+			<if test="bankName !=null">#{bankName},</if>
+			<if test="bankRatio !=null">#{bankRatio},</if>
+			<if test="createTime !=null">#{createTime},</if>
+			<if test="delfg !=null">#{delfg},</if>
+		</trim>
+	</insert>
+	
+	<update id="updateBank" parameterType="java.util.Map">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="bankName !=null">bankName=#{bankName},</if>
+			<if test="bankRatio !=null">bankRatio=#{bankRatio},</if>
+			<if test="modifyTime !=null">modifyTime=#{modifyTime},</if>
+			<if test="delfg !=null">delfg=#{delfg},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="bankId !=null">
+				and bankId=#{bankId}
+			</if>
+		</trim>
+	</update>
+	
+	<delete id="delectBank" parameterType="java.util.Map">  
+        delete from bank_service
+        <trim prefix="where" prefixOverrides="and|or">
+        	<if test="bankId !=null">
+        		and bankId=#{bankId}
+        	</if>
+        </trim>
+    </delete> 
+	
+</mapper>

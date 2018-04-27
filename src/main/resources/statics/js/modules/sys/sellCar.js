@@ -24,7 +24,7 @@ $(function () {//加载数据
 			}}
         ],
 		viewrecords: true,
-        height: 600,
+        height: 700,
         rowNum: 5,
 //		rowList : [5,30,50],
         rownumbers: true, 

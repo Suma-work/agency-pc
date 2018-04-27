@@ -33,9 +33,9 @@ $(function () {
 			{ label: '创建时间', name: 'createTime', index: "createTime", width: 85}
         ],
 		viewrecords: true,
-        height: 385,
-        rowNum: 10,
-		rowList : [10,30,50],
+        height: 700,
+        rowNum: 20,
+		rowList : [20,30,50],
         rownumbers: true, 
         rownumWidth: 25, 
         autowidth:true,
