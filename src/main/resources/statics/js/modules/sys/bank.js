@@ -53,11 +53,16 @@ function clearNoNum(obj){
     obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
     obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的  
     obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$","."); 
-    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数  
-//    obj.value = obj.value.replace(/^(\d?\d(\.\d*)?|100)$/g,"");//禁止录入整数部分两位以上，但首位为0
+    obj.value = obj.value.replace(/^([1-9]\d{0,1}(\.\d{1,2})|100)$/,"");//只能输入两个小数  
     if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额 
         obj.value= parseFloat(obj.value); 
     } 
+//	var reg=/^([1-9]\d{0,1}(\.\d{1,2})|100)$/;
+//	if(reg.test(obj.value)){
+//	   	console.log("success");
+//	}else{
+//	   	console.log("fail");
+//	}
 } 
 
 var setting = {
@@ -88,7 +93,6 @@ var vm = new Vue({//vue 初始值
             roleIdList:[]
         },
         vehicaledet:{
-        	imgs:[]
         }
     },
     methods: {
@@ -98,9 +102,7 @@ var vm = new Vue({//vue 初始值
         add: function(){
             vm.showList = false;
         	vm.title = "新增";
-        	var deptid=JSON.parse(localStorage.getItem("user")).deptId;
-        	selectDeptList(deptid);
-        	vm.vehicaledet = {imgs:[]};
+        	vm.vehicaledet = {};
         },
         update: function () {
         	var id = getSelectedRow();//根据点击行获得点击行的id（id为jsonReader: {id: "id" },)
@@ -111,7 +113,6 @@ var vm = new Vue({//vue 初始值
             	var bankId = getSelectedRow();
             	vm.showList = false;
             	vm.title = "修改";
-            	console.log(bankId);
             	vm.getuser(bankId);
         	}
         },
@@ -119,14 +120,14 @@ var vm = new Vue({//vue 初始值
             var userIds = getSelectedRows();
             var id = getSelectedRow();//根据点击行获得点击行的id（id为jsonReader: {id: "id" },）
         	var rowData = $("#jqGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
-        	var shopId= rowData.shopId;
+        	var bankId= rowData.bankId;
     		if(userIds == null){
     			return ;
     		}
     		confirm('确定要删除选中的记录？', function(){
     			$.ajax({
     				type: "GET",
-    				url: baseURL + "shop/delectShop?shopId="+shopId,
+    				url: baseURL + "bank/delectBank?bankId="+bankId,
     				contentType: "application/json",
 //    				data: JSON.stringify(userIds),
     				success: function(r){
@@ -142,36 +143,11 @@ var vm = new Vue({//vue 初始值
     		});
         },
         saveOrUpdate: function () {
-            var url = vm.vehicaledet.shopId == null ? "shop/setShop" : "shop/update?shopId="+vm.vehicaledet.shopId;
-            var imgs=vm.vehicaledet.imgs;
-          //取值汽车品牌
-            vm.vehicaledet.dept=document.getElementById("depts").value;
-            /*if(vm.vehicaledet.depts==null){
-            	alert("所属大区不能为空！");
-            }else */if(vm.vehicaledet.shopName==null){
-            	alert("店铺名称不能为空！");
-            }else if(vm.vehicaledet.shopPhone==null){
-            	alert("店铺电话不能为空！");
-            }else if(vm.vehicaledet.address==null){
-            	alert("店铺地址不能为空！");
-            }else if(vm.vehicaledet.lon==null){
-            	alert("经度不能为空！");
-            }else if(vm.vehicaledet.lat==null){
-            	alert("纬度不能为空！");
-            }else if(vm.vehicaledet.classify==null){
-            	alert("请选择店铺类型！");
-            }else if(vm.vehicaledet.refEl==null){
-            	alert("请选择精品商品服务！");
-            }else if(vm.vehicaledet.upkeepEl==null){
-            	alert("请选择保养服务！");
-            }else if(vm.vehicaledet.tyreEl==null){
-            	alert("请选择轮胎服务！");
-            }else if(vm.vehicaledet.installEl==null){
-            	alert("请选择安装服务！");
-            }else if(vm.vehicaledet.delfg==null){
-            	alert("请选择废弃标志！");
-            }else if(imgs.length<0){
-            	alert("至少上传一张展示图片！");
+            var url = vm.vehicaledet.bankId == null ? "bank/addBank" : "bank/updateBank?bankId="+vm.vehicaledet.bankId;
+            if(vm.vehicaledet.bankName==null){
+            	alert("首付银行不能为空！");
+            }else if(vm.vehicaledet.bankRatio==null){
+            	alert("首付比率不能为空！");
             }else{
             		$.ajax({
             			type: "POST",
@@ -202,28 +178,6 @@ var vm = new Vue({//vue 初始值
                 postData:{'keyword':document.getElementById("keyword").value},
                 page:page
             }).trigger("reloadGrid");
-        },
-        DelectImg: function (index,ObjDom){
-        	this.i = index;
-        	var i = this.i;
-        	//反向截取最后一个/后的图片
-        	var index = ObjDom .lastIndexOf("\/");
-    		ObjDom  = ObjDom .substring(index + 1, ObjDom .length);
-    		var imgArr = vm.vehicaledet.imgs;
-        	$.ajax({
-    			type:"get",
-    			url: baseURL + "uplo/deleteImages?imgName="+ObjDom,
-    			cache: false,  
-    		    contentType: false,  
-    		    processData: false,
-    			contentType: "application/json",
-//    			data: ObjDom,
-    			success:function(data){
-    				imgArr.splice($.inArray(index,imgArr),1);
-    				vm.vehicaledet.imgs = imgArr;
-    				console.log(vm.vehicaledet.imgs)
-    			}
-    		});
         }
     }
 });

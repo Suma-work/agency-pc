@@ -62,6 +62,7 @@
 	</insert>
 	
 	<update id="updateBank" parameterType="java.util.Map">
+		update bank_service
 		<trim prefix="set" suffixOverrides=",">
 			<if test="bankName !=null">bankName=#{bankName},</if>
 			<if test="bankRatio !=null">bankRatio=#{bankRatio},</if>

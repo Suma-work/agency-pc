@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sumainfo.common.util.ComUtils;
+import com.sumainfo.common.util.ConvertDateTime;
 import com.sumainfo.modules.sys.dao.BankMapper;
 
 @Service
@@ -61,6 +63,8 @@ public class BankService implements Serializable{
 	 */
 	public boolean addBank(Map<String,Object>params){
 		boolean result=false;
+		params.put("bankId", ComUtils.randomUID("bank"));
+		params.put("createTime", ConvertDateTime.getCurrentTime());
 		try {
 			int cout=bankMapper.addBank(params);
 			if(cout>0){
@@ -80,6 +84,7 @@ public class BankService implements Serializable{
 	 */
 	public boolean updateBank(Map<String,Object>params){
 		boolean result=false;
+		params.put("modifyTime", ConvertDateTime.getCurrentTime());
 		try {
 			int cout=bankMapper.updateBank(params);
 			if(cout>0){
