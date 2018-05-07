@@ -44,6 +44,7 @@ E:\work\agency-pc\src\main\java\com\sumainfo\common\util\ComUtils.java
 E:\work\agency-pc\src\main\java\com\sumainfo\modules\oss\cloud\CloudStorageConfig.java
 E:\work\agency-pc\src\main\java\com\sumainfo\modules\sys\dao\UserMapper.java
 E:\work\agency-pc\src\main\java\com\sumainfo\modules\sys\service\impl\SysMenuServiceImpl.java
+E:\work\agency-pc\src\main\java\com\sumainfo\modules\sys\controller\BankController.java
 E:\work\agency-pc\src\main\java\com\sumainfo\common\validator\group\AddGroup.java
 E:\work\agency-pc\src\main\java\com\sumainfo\modules\sys\controller\StatisticsController.java
 E:\work\agency-pc\src\main\java\com\sumainfo\modules\sys\service\impl\UserService.java
@@ -118,6 +119,7 @@ E:\work\agency-pc\src\main\java\com\sumainfo\modules\sys\controller\pushControll
 E:\work\agency-pc\src\main\java\com\sumainfo\modules\sys\entity\SysUserRoleEntity.java
 E:\work\agency-pc\src\main\java\com\sumainfo\modules\oss\cloud\OSSFactory.java
 E:\work\agency-pc\src\main\java\com\sumainfo\common\util\UploadPicUntil.java
+E:\work\agency-pc\src\main\java\com\sumainfo\modules\sys\service\impl\BankService.java
 E:\work\agency-pc\src\main\java\com\sumainfo\modules\sys\service\SysDeptService.java
 E:\work\agency-pc\src\main\java\com\sumainfo\common\exception\RRException.java
 E:\work\agency-pc\src\main\java\com\sumainfo\common\util\JsonResult.java
@@ -148,6 +150,7 @@ E:\work\agency-pc\src\main\java\com\sumainfo\datasources\DynamicDataSource.java
 E:\work\agency-pc\src\main\java\com\sumainfo\modules\sys\dao\SysLogDao.java
 E:\work\agency-pc\src\main\java\com\sumainfo\modules\sys\service\impl\VehicaledetService.java
 E:\work\agency-pc\src\main\java\com\sumainfo\modules\sys\controller\SysConfigController.java
+E:\work\agency-pc\src\main\java\com\sumainfo\modules\sys\dao\BankMapper.java
 E:\work\agency-pc\src\main\java\com\sumainfo\modules\sys\service\impl\VehiclemainService.java
 E:\work\agency-pc\src\main\java\com\sumainfo\common\exception\RRExceptionHandler.java
 E:\work\agency-pc\src\main\java\com\sumainfo\modules\sys\controller\VehiclemainController.java
